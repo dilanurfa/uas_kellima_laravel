@@ -6,7 +6,7 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title mb-0">Manajemen Users</h3>
             <a href="{{ route('users.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah orang
+                <i class="fas fa-plus"></i> Tambah Users
             </a>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
