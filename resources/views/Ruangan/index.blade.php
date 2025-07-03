@@ -7,7 +7,7 @@
 <div class="container my-4">
     <div class="card shadow">
         <div class="card-header d-flex justify-content-between align-items-center bg-dark text-white">
-            <h4 class="mb-0">Daftar Ruangan Studio</h4>
+            <h4 class="mb-0">Daftar Ruangan Studio Cihuy</h4>
             <a href="{{ route('Ruangan.create') }}" class="btn btn-light">
                 <i class="fas fa-plus"></i> Tambah Ruangan
             </a>
