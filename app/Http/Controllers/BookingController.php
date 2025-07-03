@@ -11,17 +11,14 @@ use App\Http\Requests\StoreBookingRequest;
 
 class BookingController extends Controller
 {
-    // Form booking untuk klien
     public function create(Ruangan $Ruangan)
     {
         return view('klien.booking', compact('Ruangan'));
     }
 
-    // Simpan booking oleh klien
     public function store(StoreBookingRequest $request)
 {
     $validated = $request->validated();
-     //dd($validated); 
 
     Booking::create([
         'user_id'      => Auth::id(),
@@ -37,20 +34,17 @@ class BookingController extends Controller
     return redirect()->route('booking.thanks');
 }
 
-    // Halaman thanks setelah booking
     public function thanks()
     {
         return view('klien.thanks');
     }
 
-    // Tampilkan semua booking ke admin (bukan index, method nama booking)
     public function booking()
     {
         $bookings = Booking::with(['user', 'ruangan'])->orderBy('created_at', 'desc')->get();
         return view('admin.booking', compact('bookings'));
     }
 
-    // Konfirmasi booking oleh admin
     public function confirm($id)
     {
         $booking = Booking::findOrFail($id);
@@ -60,7 +54,6 @@ class BookingController extends Controller
         return back()->with('success', 'Booking telah dikonfirmasi.');
     }
 
-    // Tolak booking oleh admin
     public function reject($id)
     {
         $booking = Booking::findOrFail($id);

@@ -1,12 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-<!-- ... -->
-
-<!-- Bootstrap JS dan Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <div class="container mt-4">
@@ -35,7 +31,6 @@
         @csrf
         <input type="hidden" name="ruangan_id" value="{{ $Ruangan->id }}">
 
-        <!-- Form fields ... -->
         <div class="mb-3">
             <label>Harga per Jam</label>
             <input type="text" class="form-control" id="harga_per_jam" value="Rp {{ number_format($Ruangan->harga, 0, ',', '.') }}" disabled>
@@ -79,7 +74,6 @@
     </form>
 </div>
 
-<!-- Modal Konfirmasi -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

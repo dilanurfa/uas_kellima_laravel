@@ -8,20 +8,17 @@ use Illuminate\Support\Facades\Storage;
 
 class RuanganController extends Controller
 {
-    // Tampilkan semua ruangan
     public function index()
     {
         $Ruangan = Ruangan::all();
         return view('Ruangan.index', compact('Ruangan'));
     }
 
-    // Tampilkan form tambah ruangan
     public function create()
     {
         return view('Ruangan.create');
     }
 
-    // Simpan ruangan baru
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -51,14 +48,12 @@ class RuanganController extends Controller
         return redirect()->route('Ruangan.index')->with('success', 'Ruangan berhasil ditambahkan.');
     }
 
-    // Tampilkan form edit
     public function edit($id)
     {
         $Ruangan = Ruangan::findOrFail($id);
         return view('Ruangan.edit', compact('ruangan'));
     }
 
-    // Update data ruangan
     public function update(Request $request, $id)
     {
         $Ruangan = Ruangan::findOrFail($id);
@@ -81,7 +76,6 @@ class RuanganController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            // Hapus foto lama
             if ($Ruangan->foto) {
                 Storage::disk('public')->delete($Ruangan->foto);
             }
@@ -93,12 +87,10 @@ class RuanganController extends Controller
         return redirect()->route('Ruangan.index')->with('success', 'Ruangan berhasil diperbarui.');
     }
 
-    // Hapus ruangan
     public function destroy($id)
     {
         $Ruangan = Ruangan::findOrFail($id);
 
-        // Hapus foto
         if ($Ruangan->foto) {
             Storage::disk('public')->delete($Ruangan->foto);
         }
@@ -108,14 +100,12 @@ class RuanganController extends Controller
         return redirect()->route('Ruangan.index')->with('success', 'Ruangan berhasil dihapus.');
     }
 
-// Tampilkan detail ruangan
 public function show($id)
 {
     $Ruangan = Ruangan::findOrFail($id);
     return view('Ruangan.show', compact('ruangan'));
 }
 
-// Tampilkan daftar ruangan untuk klien
 public function daftarUntukKlien()
 {
     $Ruangan = Ruangan::all();

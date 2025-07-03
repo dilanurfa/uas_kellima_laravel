@@ -11,7 +11,6 @@
             <form action="{{ route('Ruangan.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                {{-- Nama Ruangan --}}
                 <div class="form-group my-2">
                     <label for="nama_ruangan">Nama Ruangan <span class="text-danger">*</span></label>
                     <input type="text" 
@@ -26,7 +25,6 @@
                     @enderror
                 </div>
 
-                {{-- Harga --}}
                 <div class="form-group my-2">
                     <label for="harga">Harga (Rp) <span class="text-danger">*</span></label>
                     <input type="number" 
@@ -40,7 +38,6 @@
                     @enderror
                 </div>
 
-                {{-- Durasi --}}
                 <div class="form-group my-2">
                     <label for="durasi">Durasi <span class="text-danger">*</span></label>
                     <input type="text" 
@@ -54,7 +51,6 @@
                     @enderror
                 </div>
 
-                {{-- Deskripsi --}}
                 <div class="form-group my-2">
                     <label for="deskripsi">Deskripsi <span class="text-danger">*</span></label>
                     <textarea name="deskripsi" 
@@ -67,7 +63,6 @@
                     @enderror
                 </div>
 
-                {{-- Foto --}}
                 <div class="form-group my-2">
                     <label for="foto">Foto Ruangan <span class="text-danger">*</span></label>
                     <input type="file" 
@@ -80,7 +75,6 @@
                     <small class="text-muted">Format: JPG, PNG | Maks: 2MB</small>
                 </div>
 
-                {{-- Tombol --}}
                 <div class="d-flex justify-content-between mt-4">
                     <a href="{{ route('Ruangan.index') }}" class="btn btn-secondary">Batal</a>
                     <button type="submit" class="btn btn-primary">

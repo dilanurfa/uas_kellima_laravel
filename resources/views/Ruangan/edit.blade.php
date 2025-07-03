@@ -12,7 +12,6 @@
                 @csrf
                 @method('PUT')
 
-                {{-- Nama Ruangan --}}
                 <div class="form-group my-2">
                     <label for="nama_ruangan">Nama Ruangan <span class="text-danger">*</span></label>
                     <input type="text" 
@@ -26,7 +25,6 @@
                     @enderror
                 </div>
 
-                {{-- Harga --}}
                 <div class="form-group my-2">
                     <label for="harga">Harga <span class="text-danger">*</span></label>
                     <input type="number" 
@@ -40,7 +38,6 @@
                     @enderror
                 </div>
 
-                {{-- Durasi --}}
                 <div class="form-group my-2">
                     <label for="durasi">Durasi <span class="text-danger">*</span></label>
                     <input type="text" 
@@ -54,7 +51,6 @@
                     @enderror
                 </div>
 
-                {{-- Deskripsi --}}
                 <div class="form-group my-2">
                     <label for="deskripsi">Deskripsi <span class="text-danger">*</span></label>
                     <textarea name="deskripsi" 
@@ -66,7 +62,6 @@
                     @enderror
                 </div>
 
-                {{-- Foto Lama --}}
                 <div class="form-group my-3">
                     <label>Foto Lama</label><br>
                     @if($ruangan->foto)
@@ -76,7 +71,6 @@
                     @endif
                 </div>
 
-                {{-- Ganti Foto --}}
                 <div class="form-group my-2">
                     <label for="foto">Ganti Foto (opsional)</label>
                     <input type="file" 

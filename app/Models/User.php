@@ -47,25 +47,17 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Relasi ke Role (admin, client, dll).
-     */
+
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
-    /**
-     * Cek apakah user adalah admin.
-     */
     public function isAdmin()
     {
         return $this->role && $this->role->name === 'admin';
     }
 
-    /**
-     * Cek apakah user punya role tertentu.
-     */
     public function hasRole($roleName)
     {
         return $this->role && $this->role->name === $roleName;

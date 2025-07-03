@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ruangan extends Model
 {
-    protected $table = 'Ruangan'; // WAJIB: nama tabel case-sensitive (jika SQLite)
+    protected $table = 'Ruangan'; 
 
     protected $fillable = [
         'nama_ruangan',
@@ -16,8 +16,8 @@ class Ruangan extends Model
         'foto',
     ];
 
-    // Relasi ke Booking
-    public function bookings() // nama method bebas, best practice: lowercase jamak
+   
+    public function bookings() 
     {
         return $this->hasMany(Booking::class, 'ruangan_id', 'id');
     }

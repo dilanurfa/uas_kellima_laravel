@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-    protected $table = 'Booking'; // Sesuai tabel migrasi dan DB
+    protected $table = 'Booking'; 
 
     protected $fillable = [
         'user_id',
