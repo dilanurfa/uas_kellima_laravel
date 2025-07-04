@@ -30,11 +30,11 @@
                     <td>{{ $booking->jam }}</td>
                     <td>
                         @if($booking->status == 'pending')
-                            <span class="badge bg-warning text-dark">Pending</span>
+                            <span class="badge bg-warning text-dark">Tertunda</span>
                         @elseif($booking->status == 'approved')
-                            <span class="badge bg-success">Approved</span>
+                            <span class="badge bg-success">Disetujui</span>
                         @else
-                            <span class="badge bg-danger">Rejected</span>
+                            <span class="badge bg-danger">Ditolak</span>
                         @endif
                     </td>
                     <td>
