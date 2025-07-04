@@ -65,7 +65,7 @@
             <select name="pembayaran" id="pembayaran" class="form-select" required>
                 <option value="" selected disabled>-- Pilih Metode Pembayaran --</option>
                 <option value="transfer_bank">Transfer Bank</option>
-                <option value="cod">Cash on Delivery (COD)</option>
+                <option value="tunai">Tunai</option>
                 <option value="e_wallet">E-Wallet</option>
             </select>
         </div>
