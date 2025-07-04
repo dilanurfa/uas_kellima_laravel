@@ -67,7 +67,7 @@
             </table>
         </div>
        <div class="mt-4">
-            <a href="{{ route('dashboard') }}" class="btn btn-dark rounded-pill px-4">
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-dark rounded-pill px-4">
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
         </div>
