@@ -44,9 +44,14 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="mt-4">
+            <a href="{{ route('dashboard') }}" class="btn btn-dark rounded-pill px-4">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
     </div>
 </div>
-
 
 <style>
     body {
@@ -70,6 +75,14 @@
     .table-responsive {
         border-radius: 10px;
         overflow-x: auto;
+    }
+    .btn-dark {
+        background-color: #333;
+        border: none;
+    }
+    .btn-dark:hover {
+        background-color: #000;
+        color: #fff;
     }
 </style>
 @endsection
