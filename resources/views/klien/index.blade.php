@@ -41,7 +41,6 @@
             </div>
         @endif
 
-        <!-- Back Button di bawah kiri -->
         <div class="mt-5">
             <a href="{{ route('klien.dashboard') }}" class="btn btn-dark rounded-pill px-4">
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
@@ -50,7 +49,6 @@
     </div>
 </div>
 
-<!-- Custom Styles -->
 <style>
     body {
         background-color: #f0f0f0;

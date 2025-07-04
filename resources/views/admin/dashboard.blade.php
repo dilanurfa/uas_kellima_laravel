@@ -9,7 +9,7 @@
 
     <div class="container">
         <div class="row g-4 justify-content-center">
-            <!-- Manajemen User -->
+
             <div class="col-md-4 col-lg-3">
                 <div class="card h-100 text-center border-0 shadow feature-card bg-white">
                     <div class="card-body">
@@ -23,7 +23,6 @@
                 </div>
             </div>
 
-            <!-- Manajemen Ruangan -->
             <div class="col-md-4 col-lg-3">
                 <div class="card h-100 text-center border-0 shadow feature-card bg-white">
                     <div class="card-body">
@@ -37,7 +36,6 @@
                 </div>
             </div>
 
-            <!-- Daftar Booking -->
             <div class="col-md-4 col-lg-3">
                 <div class="card h-100 text-center border-0 shadow feature-card bg-white">
                     <div class="card-body">
@@ -54,7 +52,6 @@
     </div>
 </div>
 
-<!-- Custom Styles -->
 <style>
     body {
         background-color: #f0f0f0;

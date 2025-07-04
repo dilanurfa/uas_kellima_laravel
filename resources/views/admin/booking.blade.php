@@ -66,9 +66,7 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Back to Dashboard Button -->
-        <div class="mt-4">
+       <div class="mt-4">
             <a href="{{ route('dashboard') }}" class="btn btn-dark rounded-pill px-4">
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
@@ -76,7 +74,6 @@
     </div>
 </div>
 
-<!-- Custom Styles -->
 <style>
     body {
         background-color: #f0f0f0;
