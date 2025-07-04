@@ -32,7 +32,7 @@
                            id="harga" 
                            class="form-control @error('harga') is-invalid @enderror" 
                            value="{{ old('harga') }}" 
-                           placeholder="Contoh: 50000">
+                           placeholder="Masukkan harga">
                     @error('harga')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -45,7 +45,7 @@
                            id="durasi" 
                            class="form-control @error('durasi') is-invalid @enderror" 
                            value="{{ old('durasi') }}" 
-                           placeholder="Contoh: 2 jam">
+                           placeholder="Masukkan durasi">
                     @error('durasi')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
