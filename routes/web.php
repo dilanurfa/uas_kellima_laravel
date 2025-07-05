@@ -43,6 +43,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/booking/thanks', function () {
     return view('klien.thanks');
 })->name('booking.thanks')->middleware('auth');
+// Tambahan untuk download & cancel
+Route::get('/booking/{id}/thanks', [BookingController::class, 'thanks'])->name('klien.thanks');
+Route::get('/booking/{id}/download', [BookingController::class, 'downloadBukti'])->name('klien.download');
+Route::delete('/booking/{id}/cancel', [BookingController::class, 'cancel'])->name('klien.cancel');
+
 
     Route::get('/klien/riwayat', [\App\Http\Controllers\BookingController::class, 'riwayat'])->name('klien.riwayat');
 
