@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
 
     <style>
-        /* Navbar Styling */
         #header {
             position: fixed;
             top: 0;
@@ -26,7 +25,7 @@
             background: transparent;
         }
         #header.scrolled {
-            background: #000; /* Black on scroll */
+            background: #000;
         }
         #header .navmenu a {
             color: #fff;
@@ -41,8 +40,8 @@
             border: none;
             margin-top: 0.5rem;
             z-index: 2000;
-            left: 50% !important;    /* Center the dropdown */
-            transform: translateX(-50%); /* Adjust position */
+            left: 50% !important;
+            transform: translateX(-50%);
         }
         #header .dropdown-menu a {
             color: #fff;
@@ -52,7 +51,7 @@
             background-color: #145ea8;
         }
         .dropdown-menu {
-            transition: none !important; /* No fade/slide effect */
+            transition: none !important;
             animation: none !important;
         }
         .logo a {
@@ -67,12 +66,11 @@
         #header.scrolled .logo a {
             color: #fff;
         }
-        /* Mobile menu */
         @media (max-width: 991px) {
             #header .dropdown-menu {
                 left: 0 !important;
                 transform: translateX(0) !important;
-                width: 100%; /* Full width on small screens */
+                width: 100%;
             }
         }
     </style>
@@ -87,15 +85,19 @@
 
             <nav id="navmenu" class="navmenu">
                 <ul class="d-flex align-items-center mb-0">
-                    <li><a href="#hero" class="active">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    @auth
+                        @if (Request::is('admin*'))
+                            <!-- Navbar untuk admin -->
+                            <li><a href="#hero" class="active">Home</a></li>
+                            <li><a href="#about">Tentang</a></li>
+                        @else
+                            <!-- Navbar untuk user -->
+                            <li><a href="#hero" class="active">Home</a></li>
+                            <li><a href="#about">Tentang</a></li>
+                            <li><a href="#footer">Contact</a></li>
+                        @endif
 
-                    @guest
-                        <li><a href="{{ route('login') }}">Login</a></li>
-                        <li><a href="{{ route('register') }}">Register</a></li>
-                    @else
+                        <!-- Dropdown nama user/admin -->
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
@@ -118,24 +120,20 @@
                                 </li>
                             </ul>
                         </li>
-                    @endguest
+                    @else
+                        <!-- Navbar untuk guest (belum login) -->
+                        <li><a href="{{ route('login') }}">Login</a></li>
+                        <li><a href="{{ route('register') }}">Register</a></li>
+                    @endauth
                 </ul>
             </nav>
         </div>
     </header>
 
-   
     <!-- Content -->
     <main>
         @yield('content')
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-light py-4">
-        <div class="container text-center">
-            <p>&copy; {{ date('Y') }} The Sound Project</p>
-        </div>
-    </footer>
 
     <!-- Scripts -->
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

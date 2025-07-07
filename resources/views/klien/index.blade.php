@@ -59,50 +59,70 @@
         </div>
     </section>
 
-    <<!-- About Section -->
-<section id="about" class="about py-5">
-    <div class="container section-title text-center mb-5" data-aos="fade-up">
-        <h2 class="fw-bold">TENTANG</h2>
-    <div class="container">
-        <div class="row gy-4 align-items-center">
+       <section id="about" class="about section">
 
-            <!-- Gambar -->
-            <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
-                <img src="{{ asset('assets/img/about.jpg') }}" class="img-fluid rounded shadow" alt="About">
-            </div>
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>TENTANG</h2>
+  </div><!-- End Section Title -->
 
-            <!-- Konten -->
-            <div class="col-lg-6 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-                <h3 class="fw-bold">Voluptatem dignissimos provident quasi corporis</h3>
-                <p class="fst-italic">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua.
-                </p>
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <i class="bi bi-check-circle text-primary"></i>
-                        <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-check-circle text-primary"></i>
-                        <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span>
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-check-circle text-primary"></i>
-                        <span>
-                            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                            in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.
-                        </span>
-                    </li>
-                </ul>
-                <a href="#" class="btn btn-outline-primary mt-3">
-                    Read More <i class="bi bi-arrow-right ms-1"></i>
-                </a>
-            </div>
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+        <img src="assets/img/studiooo.jpeg" class="img-fluid" alt="">
+      </div>
+
+      <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+        <h3>Fakta Unik The Sound Project</h3>
+        <p class="fst-italic">
+          Wah menarik nih, kita ulik yok
+        </p>
+        <ul>
+          <li><i class="bi bi-check-circle"></i> <span>Nama The Sound Project adalah hasil dari keasbunan</span></li>
+          <li><i class="bi bi-check-circle"></i> <span>Target market kami adalah generasi Z yang santai dan tidak rese </span></li>
+          <li><i class="bi bi-check-circle"></i> <span>Di kami, kamu bebas mau guling-guling juga boleh, asal jangan ganggu</span></li>
+           <li><i class="bi bi-check-circle"></i> <span>Awalnya bangunan kami itu makam keramat</span></li>
+            <li><i class="bi bi-check-circle"></i> <span>The Sound Project tidak menggunakan tumbal</span></li>
+        </ul>
+
+        <!-- Tambahan yang disembunyikan -->
+        <div id="more-points" style="display: none;">
+          <ul>
+            <li><i class="bi bi-check-circle"></i> <span>Cukup segitu aja hehe</span></li>
+          </ul>
         </div>
+
+        <!-- Tombol Read More -->
+        <a href="javascript:void(0);" class="read-more" onclick="toggleMorePoints()">
+          <span>Read More</span> <i class="bi bi-arrow-down"></i>
+        </a>
+      </div>
     </div>
+  </div>
 </section>
 
+<script>
+  function toggleMorePoints() {
+    const morePoints = document.getElementById('more-points');
+    const readMoreBtn = document.querySelector('.read-more span');
+    const readMoreIcon = document.querySelector('.read-more i');
+
+    if (morePoints.style.display === "none") {
+      morePoints.style.display = "block";
+      readMoreBtn.textContent = "Show Less";
+      readMoreIcon.classList.remove('bi-arrow-down');
+      readMoreIcon.classList.add('bi-arrow-up');
+    } else {
+      morePoints.style.display = "none";
+      readMoreBtn.textContent = "Read More";
+      readMoreIcon.classList.remove('bi-arrow-up');
+      readMoreIcon.classList.add('bi-arrow-down');
+    }
+  }
+</script>
+
+
+    
 <!-- Features Section -->
     <section id="features" class="features section">
 
@@ -120,7 +140,7 @@
             <div class="feature-box orange">
               <i class="bi bi-award"></i>
               <h4>Kualitas Mantap</h4>
-              <p>The sound project menjadi Top 1 di Bandung dikarenakan kualitasnya yang jos </p>
+              <p>The sound project menjadi Top 1 di Bandung karena kualitasnya yang jos </p>
             </div>
           </div><!-- End Feature Borx-->
 
@@ -128,7 +148,7 @@
             <div class="feature-box blue">
               <i class="bi bi-patch-check"></i>
               <h4>Peralatan Lengkap</h4>
-              <p>Dengan alat musik yang lengkap, pastinya anda tidak akan bingung untuk memilih yang mana </p>
+              <p>Dengan alat musik yang lengkap, pastinya kamu tidak akan bingung untuk memilih</p>
             </div>
           </div><!-- End Feature Borx-->
 
@@ -136,7 +156,7 @@
             <div class="feature-box green">
               <i class="bi bi-sunrise"></i>
               <h4>Kantin</h4>
-              <p>Lapar? kami menyediakan kantin untuk anda dengan berbagai macam pilihan makanan</p>
+              <p>Lapar? kami menyediakan kantin untuk kamu dengan berbagai macam pilihan makanan</p>
             </div>
           </div><!-- End Feature Borx-->
 
@@ -156,11 +176,7 @@
 
   <!-- Call To Action Section -->
     <section id="call-to-action" class="call-to-action section dark-background">
-
-      <img src="assets/img/cta-bg.jpg" alt="">
-
       <div class="container">
-
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
           <div class="col-xl-9 text-center text-xl-start">
             <h3>Tertarik Nih?</h3>
@@ -176,48 +192,58 @@
     </section><!-- /Call To Action Section -->
 
     <!-- Studio Tersedia -->
-    <section id="studios" class="section py-5">
-        <div class="container">
-            <div class="section-title text-center mb-5" data-aos="fade-up">
-                <h2>Studio <span class="text-primary">Tersedia</span></h2>
-                <p class="text-muted">Temukan studio musik yang cocok untuk kebutuhan Anda</p>
-            </div>
+<section id="studios" class="section py-5">
+    <div class="container">
+        <div class="section-title text-center mb-5" data-aos="fade-up">
+            <h2>Studio <span class="text-primary">Tersedia</span></h2>
+            <p class="text-muted">Temukan studio musik yang cocok untuk kebutuhan Anda</p>
+        </div>
 
-            <div class="row">
-                @if($Ruangan->count())
-                    @foreach($Ruangan as $rgn)
-                        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-                            <div class="card shadow border-0">
-                                @if($rgn->foto)
-                                    <img src="{{ asset('storage/' . $rgn->foto) }}" class="card-img-top" alt="{{ $rgn->nama_ruangan }}">
-                                @else
-                                    <img src="https://via.placeholder.com/400x250?text=No+Image" class="card-img-top" alt="No Image">
-                                @endif
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">{{ $rgn->nama_ruangan }}</h5>
-                                    <p class="card-text">Harga: <strong>Rp {{ number_format($rgn->harga, 0, ',', '.') }}</strong></p>
-                                    <p class="card-text text-muted">{{ $rgn->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
-                                    <a href="{{ route('klien.booking', $rgn->id) }}" class="btn btn-primary w-100">Booking Sekarang</a>
-                                </div>
+        <div class="row">
+            @if($Ruangan->count())
+                @foreach($Ruangan as $rgn)
+                    <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card shadow border-0">
+                            @if($rgn->foto)
+                                <img src="{{ asset('storage/' . $rgn->foto) }}" class="card-img-top studio-img" alt="{{ $rgn->nama_ruangan }}">
+                            @else
+                                <img src="https://via.placeholder.com/400x600?text=No+Image" class="card-img-top studio-img" alt="No Image">
+                            @endif
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">{{ $rgn->nama_ruangan }}</h5>
+                                <p class="card-text">Harga: <strong>Rp {{ number_format($rgn->harga, 0, ',', '.') }}</strong></p>
+                                <p class="card-text text-muted">{{ $rgn->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
+                                <a href="{{ route('klien.booking', $rgn->id) }}" class="btn btn-primary w-100">Booking Sekarang</a>
                             </div>
                         </div>
-                    @endforeach
-                @else
-                    <div class="col-12 text-center">
-                        <p class="text-muted">Belum ada studio tersedia saat ini</p>
                     </div>
-                @endif
-            </div>
+                @endforeach
+            @else
+                <div class="col-12 text-center">
+                    <p class="text-muted">Belum ada studio tersedia saat ini</p>
+                </div>
+            @endif
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- Tambahkan CSS -->
+<style>
+    .studio-img {
+        width: 100%;
+        height: 500px; /* tinggi tetap */
+        object-fit: cover; /* potong gambar supaya pas */
+        border-radius: 8px;
+    }
+</style>
+
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Testimonials</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <h2>Tesimoni</h2>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -232,18 +258,14 @@
                     <div class="testimonial-content">
                       <p>
                         <i class="bi bi-quote quote-icon-left"></i>
-                        <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
+                        <span>Widihhhhh mantap jos studio nya keren banget, banyak pilihan lagi... top markotop deh buat The Sound Project. Perbanyak cabang banggg, keren. semangat terus deh</span>
                         <i class="bi bi-quote quote-icon-right"></i>
                       </p>
-                      <h3>Saul Goodman</h3>
-                      <h4>Ceo &amp; Founder</h4>
+                      <h3>Kak Gem</h3>
                       <div class="stars">
                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-lg-2 text-center">
-                    <img src="assets/img/testimonials/testimonials-1.jpg" class="img-fluid testimonial-img" alt="">
                   </div>
                 </div>
               </div>
@@ -256,8 +278,8 @@
 
   <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
-    <h2>Team</h2>
-    <p>Kami adalah tim di balik <strong>The Sound Project</strong> Studio Musik</p>
+    <h2>TIM</h2>
+    <p>Sosok yang ada dibalik<strong>The Sound Project</strong> Studio Musik</p>
   </div><!-- End Section Title -->
 
   <div class="container">
@@ -405,85 +427,6 @@
   }
 </style>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4">
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-geo-alt flex-shrink-0"></i>
-              <div>
-                <h3>Address</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
-              </div>
-            </div><!-- End Info Item -->
-
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-              <i class="bi bi-telephone flex-shrink-0"></i>
-              <div>
-                <h3>Call Us</h3>
-                <p>+1 5589 55488 55</p>
-              </div>
-            </div><!-- End Info Item -->
-
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-              <i class="bi bi-envelope flex-shrink-0"></i>
-              <div>
-                <h3>Email Us</h3>
-                <p>info@example.com</p>
-              </div>
-            </div><!-- End Info Item -->
-
-          </div>
-
-          <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Contact Section -->
-
-  </main>
 
   <footer id="footer" class="footer dark-background">
 
@@ -492,9 +435,9 @@
         <div class="col-lg-3 col-md-6 d-flex">
           <i class="bi bi-geo-alt icon"></i>
           <div class="address">
-            <h4>Address</h4>
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
+            <h4>Alamat</h4>
+            <p>Jl. Cibaduyut Yuhuu</p>
+            <p>Bandung, Jawa Barat</p>
             <p></p>
           </div>
 
@@ -503,10 +446,10 @@
         <div class="col-lg-3 col-md-6 d-flex">
           <i class="bi bi-telephone icon"></i>
           <div>
-            <h4>Contact</h4>
+            <h4>Kontak</h4>
             <p>
-              <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-              <strong>Email:</strong> <span>info@example.com</span><br>
+              <strong>WA:</strong> <span>+62 888 8888 8888</span><br>
+              <strong>Email:</strong> <span>tsproject@gmail.com</span><br>
             </p>
           </div>
         </div>
@@ -514,16 +457,16 @@
         <div class="col-lg-3 col-md-6 d-flex">
           <i class="bi bi-clock icon"></i>
           <div>
-            <h4>Opening Hours</h4>
+            <h4>Buka</h4>
             <p>
-              <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-              <strong>Sunday</strong>: <span>Closed</span>
+              <strong>Setiap hari  </strong> <span>24 jam</span><br>
+              <strong>Tutup?  </strong>Perang dunia 3 <span></span>
             </p>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <h4>Follow Us</h4>
+          <h4>Ikuti Kita</h4>
           <div class="social-links d-flex">
             <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -536,14 +479,7 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Imperial</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">TheSoundProject</strong></p>
     </div>
 
   </footer>

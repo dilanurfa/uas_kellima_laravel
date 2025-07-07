@@ -36,7 +36,7 @@ class LoginController extends Controller
         }
  
         // Default redirect untuk user biasa
-return redirect()->route('klien.dashboard');
+return redirect()->route('klien.index');
 
     }
 }

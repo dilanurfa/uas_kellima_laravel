@@ -19,7 +19,7 @@
     }
 
     .booking-card {
-        background: #ffffff;
+        background: #fff;
         border: 1px solid #cfe2ff;
         border-radius: 15px;
         box-shadow: 0 8px 20px rgba(0, 70, 140, 0.1);
@@ -58,18 +58,13 @@
         padding: 15px;
         margin-top: 10px;
         display: none;
+        text-align: center;
     }
 
     .payment-info h5 {
         font-size: 1rem;
         color: #0077b6;
         margin-bottom: 10px;
-    }
-
-    .payment-info p {
-        margin: 0;
-        font-size: 0.95rem;
-        color: #003566;
     }
 
     .qris-img {
@@ -82,31 +77,45 @@
 <div class="container mt-5">
     <div class="booking-card">
         <h2>Booking Studio: <strong>{{ $Ruangan->nama_ruangan }}</strong></h2>
-        <p class="text-muted">Lengkapi form berikut untuk memesan studio dengan nyaman</p>
+        <p class="text-muted">Isi form berikut supaya booking kamu lancar dan mudah</p>
 
         @if (session('success'))
             <div class="alert alert-success">
-                {{ session('success') }}
-                <br>
-                <small>Mohon tunggu konfirmasi dari admin.</small>
+                {{ session('success') }}<br>
+                <small>Tunggu ya konfirmasi dari admin.</small>
             </div>
         @endif
 
-        <form id="bookingForm" action="{{ route('booking.store') }}" method="POST" novalidate>
+        <form id="bookingForm" action="{{ route('booking.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <input type="hidden" name="ruangan_id" value="{{ $Ruangan->id }}">
 
-            <!-- Harga per jam -->
+            <!-- Nama Lengkap -->
             <div class="mb-3">
-                <label>Harga per Jam</label>
-                <input type="text" class="form-control" value="Rp {{ number_format($Ruangan->harga, 0, ',', '.') }}" disabled>
+                <label for="nama" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                <input type="text" name="nama" id="nama" class="form-control" placeholder="Tulis nama lengkap kamu" required>
+                <div class="text-danger" id="error-nama"></div>
             </div>
 
-            <!-- Durasi -->
+            <!-- Tanggal Booking -->
             <div class="mb-3">
-                <label for="durasi" class="form-label">Durasi Booking (jam)</label>
+                <label for="tanggal" class="form-label">Tanggal Booking <span class="text-danger">*</span></label>
+                <input type="date" name="tanggal" id="tanggal" class="form-control" required>
+                <div class="text-danger" id="error-tanggal"></div>
+            </div>
+
+            <!-- Jam Booking -->
+            <div class="mb-3">
+                <label for="jam" class="form-label">Jam Booking <span class="text-danger">*</span></label>
+                <input type="time" name="jam" id="jam" class="form-control" required>
+                <div class="text-danger" id="error-jam"></div>
+            </div>
+
+            <!-- Durasi Booking -->
+            <div class="mb-3">
+                <label for="durasi" class="form-label">Durasi Booking (jam) <span class="text-danger">*</span></label>
                 <select name="durasi" id="durasi" class="form-select" required>
-                    <option value="" selected disabled>-- Pilih Durasi --</option>
+                    <option value="" selected disabled>Pilih durasi jam</option>
                     @for ($i = 1; $i <= 8; $i++)
                         <option value="{{ $i }}">{{ $i }} jam</option>
                     @endfor
@@ -114,53 +123,43 @@
                 <div class="text-danger" id="error-durasi"></div>
             </div>
 
-            <!-- Total harga -->
+            <!-- Total Harga -->
             <div class="mb-3">
                 <label for="total_harga" class="form-label">Total Harga</label>
-                <input type="text" class="form-control" id="total_harga" value="Rp {{ number_format($Ruangan->harga, 0, ',', '.') }}" disabled>
+                <input type="text" id="total_harga" class="form-control" disabled placeholder="Pilih durasi dulu ya">
             </div>
 
-            <!-- Tanggal -->
+            <!-- Metode Pembayaran -->
             <div class="mb-3">
-                <label for="tanggal" class="form-label">Tanggal Booking</label>
-                <input type="date" name="tanggal" id="tanggal" class="form-control" required>
-                <div class="text-danger" id="error-tanggal"></div>
-            </div>
-
-            <!-- Jam -->
-            <div class="mb-3">
-                <label for="jam" class="form-label">Jam Booking</label>
-                <input type="time" name="jam" id="jam" class="form-control" required>
-                <div class="text-danger" id="error-jam"></div>
-            </div>
-
-            <!-- Pembayaran -->
-            <div class="mb-3">
-                <label for="pembayaran" class="form-label">Metode Pembayaran</label>
+                <label for="pembayaran" class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
                 <select name="pembayaran" id="pembayaran" class="form-select" required>
-                    <option value="" selected disabled>-- Pilih Metode Pembayaran --</option>
-                    <option value="transfer_bank">Transfer Bank</option>
-                    <option value="e_wallet">E-Wallet</option>
+                    <option value="" selected disabled>Pilih metode pembayaran</option>
+                    <option value="qris">QRIS</option>
+                    <option value="transfer">Transfer Bank</option>
                 </select>
                 <div class="text-danger" id="error-pembayaran"></div>
 
-                <!-- Info Transfer Bank -->
-                <div class="payment-info" id="bank-info">
-                    <h5>Transfer ke Rekening</h5>
-                    <p>Bank BCA: <strong>1234567890</strong></p>
-                    <p>Atas Nama: <strong>The Sound Project</strong></p>
-                </div>
-
                 <!-- Info QRIS -->
                 <div class="payment-info" id="qris-info">
-                    <h5>Scan QRIS untuk Pembayaran</h5>
-                    <img src="{{ asset('assets/img/qris2.jpg') }}" alt="QRIS" class="qris-img">
+                    <h5>Scan QRIS untuk pembayaran</h5>
+                    <img src="{{ asset('assets/img/qris.jpg') }}" alt="QRIS" class="qris-img">
+                </div>
+
+                <!-- Info Transfer -->
+                <div class="payment-info" id="transfer-info">
+                    <h5>Transfer ke Rekening Berikut</h5>
+                    <p><strong>Bank BCA</strong><br>No Rek: <strong>1234567890</strong><br>a.n. <strong>Studio Musik</strong></p>
                 </div>
             </div>
 
-            <button type="button" class="btn btn-primary w-100 mt-3" id="btnSubmit">
-                <i class="bi bi-calendar-check"></i> Kirim Booking
-            </button>
+            <!-- Upload Bukti Pembayaran -->
+            <div class="mb-3" id="bukti-container" style="display: none;">
+                <label for="bukti_pembayaran" class="form-label">Upload Bukti Pembayaran <span class="text-danger">*</span></label>
+                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control" accept=".jpg,.jpeg,.png">
+                <div class="text-danger" id="error-bukti"></div>
+            </div>
+
+            <button type="button" class="btn btn-primary w-100 mt-3" id="btnSubmit">Kirim Booking</button>
         </form>
     </div>
 </div>
@@ -174,7 +173,7 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
       </div>
       <div class="modal-body">
-        Apakah Anda yakin ingin memesan studio ini?
+        Yakin mau pesan studio ini?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -194,8 +193,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmYes = document.getElementById('confirmYes');
     const bookingForm = document.getElementById('bookingForm');
     const pembayaranSelect = document.getElementById('pembayaran');
-    const bankInfo = document.getElementById('bank-info');
     const qrisInfo = document.getElementById('qris-info');
+    const transferInfo = document.getElementById('transfer-info');
+    const buktiContainer = document.getElementById('bukti-container');
+    const buktiInput = document.getElementById('bukti_pembayaran');
 
     function formatRupiah(angka) {
         return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -203,58 +204,74 @@ document.addEventListener('DOMContentLoaded', function () {
 
     durasiSelect.addEventListener('change', function () {
         const durasi = parseInt(this.value);
-        const total = hargaPerJam * durasi;
-        totalHargaInput.value = formatRupiah(total);
+        if (!isNaN(durasi)) {
+            const total = hargaPerJam * durasi;
+            totalHargaInput.value = formatRupiah(total);
+        } else {
+            totalHargaInput.value = '';
+        }
     });
 
     pembayaranSelect.addEventListener('change', function () {
-        bankInfo.style.display = "none";
-        qrisInfo.style.display = "none";
+        if (this.value === 'qris') {
+            qrisInfo.style.display = 'block';
+            transferInfo.style.display = 'none';
+            buktiContainer.style.display = 'block';
+        } else if (this.value === 'transfer') {
+            transferInfo.style.display = 'block';
+            qrisInfo.style.display = 'none';
+            buktiContainer.style.display = 'block';
+        } else {
+            qrisInfo.style.display = 'none';
+            transferInfo.style.display = 'none';
+            buktiContainer.style.display = 'none';
+        }
+    });
 
-        if (pembayaranSelect.value === "transfer_bank") {
-            bankInfo.style.display = "block";
-        } else if (pembayaranSelect.value === "e_wallet") {
-            qrisInfo.style.display = "block";
+    buktiInput.addEventListener('change', function () {
+        const file = this.files[0];
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        if (file && !allowedTypes.includes(file.type)) {
+            this.value = '';
+            document.getElementById('error-bukti').textContent = 'Hanya file JPG atau PNG yang diperbolehkan';
+        } else {
+            document.getElementById('error-bukti').textContent = '';
         }
     });
 
     btnSubmit.addEventListener('click', function () {
-        let isValid = true;
-
+        // Reset semua pesan error
         document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
-        const tanggalInput = document.getElementById('tanggal');
-        const jamInput = document.getElementById('jam');
-        const tanggalValue = tanggalInput.value;
-        const jamValue = jamInput.value;
-        const now = new Date();
-        const tanggalBooking = new Date(tanggalValue + 'T' + jamValue);
 
+        let valid = true;
+
+        // Validasi form
+        if (!document.getElementById('nama').value.trim()) {
+            document.getElementById('error-nama').textContent = 'Nama wajib diisi';
+            valid = false;
+        }
+        if (!document.getElementById('tanggal').value) {
+            document.getElementById('error-tanggal').textContent = 'Tanggal wajib diisi';
+            valid = false;
+        }
+        if (!document.getElementById('jam').value) {
+            document.getElementById('error-jam').textContent = 'Jam wajib diisi';
+            valid = false;
+        }
         if (!durasiSelect.value) {
-            document.getElementById('error-durasi').textContent = "Wajib diisi";
-            isValid = false;
+            document.getElementById('error-durasi').textContent = 'Durasi wajib dipilih';
+            valid = false;
         }
-
-        if (!tanggalValue) {
-            document.getElementById('error-tanggal').textContent = "Wajib diisi";
-            isValid = false;
-        }
-
-        if (!jamValue) {
-            document.getElementById('error-jam').textContent = "Wajib diisi";
-            isValid = false;
-        }
-
         if (!pembayaranSelect.value) {
-            document.getElementById('error-pembayaran').textContent = "Wajib diisi";
-            isValid = false;
+            document.getElementById('error-pembayaran').textContent = 'Metode pembayaran wajib dipilih';
+            valid = false;
+        }
+        if (buktiContainer.style.display === 'block' && !buktiInput.value) {
+            document.getElementById('error-bukti').textContent = 'Bukti pembayaran wajib diunggah';
+            valid = false;
         }
 
-        if (tanggalValue && jamValue && tanggalBooking < now) {
-            alert("❌ Pesanan tidak bisa dilakukan karena tanggal/jam sudah terlewat.");
-            isValid = false;
-        }
-
-        if (isValid) {
+        if (valid) {
             confirmModal.show();
         }
     });

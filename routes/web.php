@@ -8,53 +8,84 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AkunController;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+| Semua route web aplikasi ada di sini.
+*/
+
+// Landing page
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Auth routes (login, register, logout)
 Auth::routes();
 
+// Home / dashboard umum
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Resource CRUD Ruangan (bisa admin atau user tergantung middleware/controller)
 Route::resource('/Ruangan', RuanganController::class);
 
-Route::middleware(['isAdmin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::resource('admin/users', UserController::class);
-    Route::resource('admin/Ruangan', RuanganController::class);
 
+// ==========================
+// ADMIN ROUTES
+// ==========================
+Route::middleware(['isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
-    Route::get('/admin/booking', [BookingController::class, 'booking'])->name('admin.booking');
+    Route::resource('users', UserController::class);
+    Route::resource('Ruangan', RuanganController::class);
 
-    Route::post('/admin/booking/{id}/confirm', [BookingController::class, 'confirm'])->name('admin.booking.confirm');
-    Route::post('/admin/booking/{id}/reject', [BookingController::class, 'reject'])->name('admin.booking.reject');
+    // Booking management admin
+    Route::get('/booking', [BookingController::class, 'booking'])->name('booking');
+    Route::post('/booking/{id}/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');
+    Route::post('/booking/{id}/reject', [BookingController::class, 'reject'])->name('booking.reject');
 });
 
 
+// ==========================
+// KLIEN ROUTES (authenticated user)
+// ==========================
 Route::middleware(['auth'])->group(function () {
+
+    // Klien dashboard
     Route::get('/klien', [KlienController::class, 'index'])->name('klien.index');
     Route::get('/klien/dashboard', [KlienController::class, 'dashboard'])->name('klien.dashboard');
 
+    // Booking studio: show form booking
+    Route::get('/booking/{id}', [BookingController::class, 'create'])->name('klien.booking');
 
-    Route::get('/klien/booking/{ruangan}', [BookingController::class, 'create'])->name('klien.booking');
-
-
+    // Proses simpan booking (POST)
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
-    Route::get('/booking/thanks', function () {
-    return view('klien.thanks');
-})->name('booking.thanks')->middleware('auth');
-// Tambahan untuk download & cancel
-Route::get('/booking/{id}/thanks', [BookingController::class, 'thanks'])->name('klien.thanks');
-Route::get('/booking/{id}/download', [BookingController::class, 'downloadBukti'])->name('klien.download');
-Route::delete('/booking/{id}/cancel', [BookingController::class, 'cancel'])->name('klien.cancel');
+    // Halaman QRIS statis setelah booking sukses (GET)
+    Route::get('/booking/qris/{id}', [BookingController::class, 'showQris'])->name('booking.qris');
 
+    // Konfirmasi pembayaran (GET)
+    Route::get('/booking/confirm/{id}', [BookingController::class, 'confirmPayment'])->name('booking.confirmPayment');
 
-    Route::get('/klien/riwayat', [\App\Http\Controllers\BookingController::class, 'riwayat'])->name('klien.riwayat');
+    // Halaman sukses booking
+    Route::get('/booking/success/{id}', [BookingController::class, 'success'])->name('booking.success');
 
+    // Download bukti pembayaran
+    Route::get('/booking/receipt/{id}', [BookingController::class, 'downloadReceipt'])->name('booking.receipt');
+
+    // Riwayat booking klien
+    Route::get('/klien/riwayat', [BookingController::class, 'riwayat'])->name('klien.riwayat');
+
+    // Cancel booking
+    Route::delete('/booking/{id}/cancel', [BookingController::class, 'cancel'])->name('klien.cancel');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/akun', [AkunController::class, 'show'])->name('akun.show');
-    Route::get('/akun/edit', [AkunController::class, 'edit'])->name('akun.edit');
-    Route::post('/akun/update', [AkunController::class, 'update'])->name('akun.update');
+
+// ==========================
+// AKUN ROUTES (authenticated user)
+// ==========================
+Route::middleware(['auth'])->prefix('akun')->name('akun.')->group(function () {
+    Route::get('/', [AkunController::class, 'show'])->name('show');
+    Route::get('/edit', [AkunController::class, 'edit'])->name('edit');
+    Route::post('/update', [AkunController::class, 'update'])->name('update');
 });

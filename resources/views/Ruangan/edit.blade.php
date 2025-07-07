@@ -8,7 +8,7 @@
             <a href="{{ route('Ruangan.index') }}" class="btn btn-secondary">Kembali</a>
         </div>
         <div class="card-body">
-            <form action="{{ route('Ruangan.update', $ruangan->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('Ruangan.update', $Ruangan->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -18,7 +18,7 @@
                            name="nama_ruangan" 
                            id="nama_ruangan" 
                            class="form-control @error('nama_ruangan') is-invalid @enderror"
-                           value="{{ old('nama_ruangan', $ruangan->nama_ruangan) }}"
+                           value="{{ old('nama_ruangan', $Ruangan->nama_ruangan) }}"
                            placeholder="Masukkan nama ruangan">
                     @error('nama_ruangan')
                         <small class="text-danger">{{ $message }}</small>
@@ -31,7 +31,7 @@
                            name="harga" 
                            id="harga" 
                            class="form-control @error('harga') is-invalid @enderror"
-                           value="{{ old('harga', $ruangan->harga) }}"
+                           value="{{ old('harga', $Ruangan->harga) }}"
                            placeholder="Masukkan harga">
                     @error('harga')
                         <small class="text-danger">{{ $message }}</small>
@@ -44,7 +44,7 @@
                            name="durasi" 
                            id="durasi" 
                            class="form-control @error('durasi') is-invalid @enderror"
-                           value="{{ old('durasi', $ruangan->durasi) }}"
+                           value="{{ old('durasi', $Ruangan->durasi) }}"
                            placeholder="Contoh: 2 jam">
                     @error('durasi')
                         <small class="text-danger">{{ $message }}</small>
@@ -56,7 +56,7 @@
                     <textarea name="deskripsi" 
                               id="deskripsi" 
                               class="form-control @error('deskripsi') is-invalid @enderror"
-                              rows="3">{{ old('deskripsi', $ruangan->deskripsi) }}</textarea>
+                              rows="3">{{ old('deskripsi', $Ruangan->deskripsi) }}</textarea>
                     @error('deskripsi')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -64,8 +64,8 @@
 
                 <div class="form-group my-3">
                     <label>Foto Lama</label><br>
-                    @if($ruangan->foto)
-                        <img src="{{ asset('storage/' . $ruangan->foto) }}" class="img-thumbnail mb-2" width="150">
+                    @if($Ruangan->foto)
+                        <img src="{{ asset('storage/' . $Ruangan->foto) }}" class="img-thumbnail mb-2" width="150">
                     @else
                         <p class="text-muted">Belum ada foto</p>
                     @endif

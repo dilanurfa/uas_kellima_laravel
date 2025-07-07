@@ -51,7 +51,7 @@ class RuanganController extends Controller
     public function edit($id)
     {
         $Ruangan = Ruangan::findOrFail($id);
-        return view('Ruangan.edit', compact('ruangan'));
+        return view('Ruangan.edit', compact('Ruangan'));
     }
 
     public function update(Request $request, $id)
