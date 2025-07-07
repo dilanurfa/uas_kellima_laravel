@@ -10,7 +10,7 @@ class KlienController extends Controller
     public function index()
     {
         $Ruangan = Ruangan::all();
-        return view('klien.index', compact('Ruangan'));
+        return view('welcome', compact('Ruangan'));
     }
 
     public function dashboard()

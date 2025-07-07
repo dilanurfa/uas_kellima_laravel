@@ -16,9 +16,7 @@ use App\Http\Controllers\AkunController;
 */
 
 // Landing page
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [KlienController::class, 'index']);
 
 // Auth routes (login, register, logout)
 Auth::routes();
