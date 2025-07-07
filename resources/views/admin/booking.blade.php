@@ -22,6 +22,8 @@
                         <th>Studio</th>
                         <th>Tanggal</th>
                         <th>Jam</th>
+                        <th>Durasi</th>
+                        <th>Bukti</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -34,17 +36,27 @@
                             <td>{{ $booking->ruangan->nama_ruangan ?? 'Unknown' }}</td>
                             <td>{{ $booking->tanggal }}</td>
                             <td>{{ $booking->jam }}</td>
+                            <td>{{ $booking->durasi }} jam</td>
                             <td>
-                                @if($booking->status == 'pending')
+                                @if($booking->bukti_pembayaran)
+                                    <a href="{{ asset('storage/' . $booking->bukti_pembayaran) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $booking->bukti_pembayaran) }}" alt="Bukti Pembayaran" width="80" class="img-thumbnail">
+                                    </a>
+                                @else
+                                    <span class="text-muted">Belum ada</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($booking->status_pembayaran == 'pending')
                                     <span class="badge bg-warning text-dark">Tertunda</span>
-                                @elseif($booking->status == 'approved')
-                                    <span class="badge bg-success">Disetujui</span>
+                                @elseif($booking->status_pembayaran == 'lunas')
+                                    <span class="badge bg-success">Lunas</span>
                                 @else
                                     <span class="badge bg-danger">Ditolak</span>
                                 @endif
                             </td>
                             <td>
-                                @if($booking->status == 'pending')
+                                @if($booking->status_pembayaran == 'pending')
                                     <form action="{{ route('admin.booking.confirm', $booking->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         <button class="btn btn-success btn-sm rounded-pill px-3" type="submit">Setujui</button>
@@ -60,24 +72,22 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted py-4">Belum ada booking</td>
+                            <td colspan="9" class="text-center text-muted py-4">Belum ada booking</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-       <div class="mt-4">
+
+        <div class="mt-4">
             <a href="{{ route('admin.dashboard') }}" class="btn btn-dark rounded-pill px-4">
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
+                <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
             </a>
         </div>
     </div>
 </div>
 
 <style>
-    body {
-        background-color: #f0f0f0;
-    }
     .table th, .table td {
         vertical-align: middle;
     }

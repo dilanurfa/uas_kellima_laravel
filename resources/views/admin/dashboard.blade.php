@@ -18,7 +18,7 @@
                         </div>
                         <h5 class="fw-bold text-dark">Manajemen User</h5>
                         <p class="text-muted small">Kelola data pengguna sistem.</p>
-                        <a href="{{ route('users.index') }}" class="btn btn-dark btn-sm px-4 rounded-pill">Kelola User</a>
+                        <a href="{{ route('admin.users.index') }}" class="btn btn-dark btn-sm px-4 rounded-pill">Kelola User</a>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                         </div>
                         <h5 class="fw-bold text-dark">Manajemen Ruangan</h5>
                         <p class="text-muted small">Kelola data studio/ruangan.</p>
-                        <a href="{{ route('Ruangan.index') }}" class="btn btn-dark btn-sm px-4 rounded-pill">Kelola Ruangan</a>
+                        <a href="{{ route('admin.ruangan.index') }}" class="btn btn-dark btn-sm px-4 rounded-pill">Kelola Ruangan</a>
                     </div>
                 </div>
             </div>

@@ -5,77 +5,99 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
-    // ✅ Tampilkan form booking studio
+    // ✅ Tampilkan form booking untuk klien
     public function create($id)
     {
         $Ruangan = Ruangan::findOrFail($id);
         return view('klien.booking', compact('Ruangan'));
     }
 
-    // ✅ Proses booking & redirect ke halaman QRIS
+    // ✅ Simpan booking dari klien
     public function store(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'ruangan_id'   => 'required|exists:ruangans,id',
-            'nama'         => 'required|string|max:100',
-            'tanggal'      => 'required|date|after_or_equal:today',
-            'jam'          => 'required',
-            'durasi'       => 'required|integer|min:1',
+        $validated = $request->validate([
+            'ruangan_id'        => 'required|exists:ruangan,id',
+            'nama'              => 'required|string|max:100',
+            'tanggal'           => 'required|date|after_or_equal:today',
+            'jam'               => 'required',
+            'durasi'            => 'required|integer|min:1|max:8',
+            'metode_bayar'      => 'required|in:qris,transfer',
+            'bukti_pembayaran'  => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // Hitung total harga
-        $ruangan = Ruangan::findOrFail($request->ruangan_id);
-        $total_harga = $ruangan->harga * $request->durasi;
+        $ruangan = Ruangan::findOrFail($validated['ruangan_id']);
+        $total_harga = $ruangan->harga * $validated['durasi'];
 
-        // Simpan booking
+        $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+
         $booking = Booking::create([
-            'ruangan_id'       => $ruangan->id,
-            'nama'             => $request->nama,
-            'tanggal'          => $request->tanggal,
-            'jam'              => $request->jam,
-            'durasi'           => $request->durasi,
-            'total_harga'      => $total_harga,
-            'status_pembayaran'=> 'pending',
+            'user_id'           => Auth::id(),
+            'ruangan_id'        => $validated['ruangan_id'],
+            'nama'              => $validated['nama'],
+            'tanggal'           => $validated['tanggal'],
+            'jam'               => $validated['jam'],
+            'durasi'            => $validated['durasi'],
+            'metode_bayar'      => $validated['metode_bayar'],
+            'bukti_pembayaran'  => $buktiPath,
+            'total_harga'       => $total_harga,
+            'status_pembayaran' => 'pending',
         ]);
 
-        // Redirect ke halaman QRIS statis
-        return redirect()->route('booking.qris', $booking->id);
+        return redirect()->route('booking.success', $booking->id)
+                         ->with('success', 'Booking berhasil, silakan tunggu konfirmasi admin.');
     }
 
-    // ✅ Tampilkan halaman QRIS
-    public function showQris($id)
+    // ✅ Halaman sukses klien setelah booking
+    public function success($id)
     {
         $booking = Booking::findOrFail($id);
-        return view('klien.qris', compact('booking'));
+        return view('klien.thanks', compact('booking'));
     }
 
-    // ✅ Konfirmasi pembayaran → redirect ke sukses
-    public function confirmPayment($id)
+    // ✅ Menampilkan riwayat booking untuk klien
+    public function riwayat()
+    {
+        $bookings = Booking::where('user_id', Auth::id())->latest()->get();
+        return view('klien.riwayat', compact('bookings'));
+    }
+
+    // ✅ Admin: tampilkan semua booking
+    public function booking()
+    {
+        $bookings = Booking::with(['user', 'ruangan'])->latest()->get();
+        return view('admin.booking', compact('bookings'));
+    }
+
+    // ✅ Admin: konfirmasi (setuju) booking
+    public function confirm($id)
     {
         $booking = Booking::findOrFail($id);
         $booking->status_pembayaran = 'lunas';
         $booking->save();
 
-        return redirect()->route('booking.success', $id);
+        return redirect()->route('admin.booking')->with('success', 'Booking telah dikonfirmasi.');
     }
 
-    // ✅ Halaman sukses
-    public function success($id)
+    // ✅ Admin: tolak booking
+    public function reject($id)
     {
         $booking = Booking::findOrFail($id);
-        return view('klien.booking-sukses', compact('booking'));
-    }
+        $booking->status_pembayaran = 'ditolak';
+        $booking->save();
 
-    // ✅ Unduh bukti pembayaran
-    public function downloadReceipt($id)
-    {
-        $booking = Booking::findOrFail($id);
-        $pdf = Pdf::loadView('klien.bukti-pembayaran', compact('booking'));
-        return $pdf->download("Bukti-Pembayaran-Booking-{$booking->id}.pdf");
+        return redirect()->route('admin.booking')->with('success', 'Booking telah ditolak.');
     }
+    
+    public function show($id)
+{
+    $booking = Booking::findOrFail($id);
+    return view('klien.show', compact('booking'));
 }
+
+}
+
