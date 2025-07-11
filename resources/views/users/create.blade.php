@@ -5,10 +5,10 @@
     <div class="card mt-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title mb-0">Tambah User</h3>
-            <a href="{{ route('users.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Kembali</a>
         </div>
         <div class="card-body">
-            <form action="{{ route('users.store') }}" method="POST">
+            <form action="{{ route('admin.users.store') }}" method="POST">
                 @csrf
                 <div class="form-group my-2">
                     <label for="name">Nama <span class="text-danger">*</span></label>
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Batal</a>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Simpan User
                     </button>

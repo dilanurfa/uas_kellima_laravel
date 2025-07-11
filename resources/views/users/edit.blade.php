@@ -5,10 +5,10 @@
     <div class="card mt-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title mb-0">Edit User</h3>
-            <a href="{{ route('users.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Kembali</a>
         </div>
         <div class="card-body">
-            <form action="{{ route('users.update', $user->id) }}" method="POST">
+            <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Batal</a>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Update User
                     </button>

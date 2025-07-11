@@ -16,7 +16,7 @@
                 </span>
             </p>
             <p><strong>Tanggal Daftar:</strong> {{ $user->created_at->translatedFormat('d F Y') }}</p>
-            <a href="{{ route('users.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Kembali</a>
         </div>
     </div>
 </div>

@@ -44,19 +44,19 @@ class UserController extends Controller
     ]);
 
 
-        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan');
     }
  
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return view('admin.users.show', compact('user'));
     }
 
     
 public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
@@ -80,7 +80,7 @@ public function edit(User $user)
 
         $user->update($updateData);
 
-        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy(User $user)
@@ -90,6 +90,6 @@ public function edit(User $user)
         }
  
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User berhasil dihapus');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus');
     }
 }
