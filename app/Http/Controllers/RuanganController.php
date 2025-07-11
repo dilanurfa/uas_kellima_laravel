@@ -84,7 +84,7 @@ class RuanganController extends Controller
 
         $Ruangan->update($validated);
 
-        return redirect()->route('Ruangan.index')->with('success', 'Ruangan berhasil diperbarui.');
+        return redirect()->route('admin.Ruangan.index')->with('success', 'Ruangan berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -97,13 +97,13 @@ class RuanganController extends Controller
 
         $Ruangan->delete();
 
-        return redirect()->route('Ruangan.index')->with('success', 'Ruangan berhasil dihapus.');
+        return redirect()->route('admin.Ruangan.index')->with('success', 'Ruangan berhasil dihapus.');
     }
 
 public function show($id)
 {
     $Ruangan = Ruangan::findOrFail($id);
-    return view('Ruangan.show', compact('ruangan'));
+    return view('Ruangan.show', compact('Ruangan'));
 }
 
 public function daftarUntukKlien()

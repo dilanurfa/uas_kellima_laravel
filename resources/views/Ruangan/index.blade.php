@@ -8,7 +8,7 @@
     <div class="card shadow">
         <div class="card-header d-flex justify-content-between align-items-center bg-dark text-white">
             <h4 class="mb-0">Daftar Ruangan Studio Cihuy</h4>
-            <a href="{{ route('Ruangan.create') }}" class="btn btn-light">
+            <a href="{{ route('admin.Ruangan.create') }}" class="btn btn-light">
                 <i class="fas fa-plus"></i> Tambah Ruangan
             </a>
         </div>
@@ -52,15 +52,15 @@
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <a href="{{ route('Ruangan.show', $rgn->id) }}" 
+                                            <a href="{{ route('admin.Ruangan.show', $rgn->id) }}" 
                                                class="btn btn-outline-info" title="Detail">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="{{ route('Ruangan.edit', $rgn->id) }}" 
+                                            <a href="{{ route('admin.Ruangan.edit', $rgn->id) }}" 
                                                class="btn btn-outline-warning" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="{{ route('Ruangan.destroy', $rgn->id) }}" method="POST" class="d-inline"
+                                            <form action="{{ route('admin.Ruangan.destroy', $rgn->id) }}" method="POST" class="d-inline"
                                                   onsubmit="return confirm('Hapus ruangan ini?')">
                                                 @csrf
                                                 @method('DELETE')

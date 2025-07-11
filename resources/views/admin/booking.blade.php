@@ -17,7 +17,7 @@
             <table class="table table-hover align-middle bg-white rounded shadow-sm overflow-hidden">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID</th>
+                        <th>No</th>
                         <th>Klien</th>
                         <th>Studio</th>
                         <th>Tanggal</th>
@@ -31,7 +31,7 @@
                 <tbody>
                     @forelse($bookings as $booking)
                         <tr>
-                            <td>{{ $booking->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $booking->user->name ?? 'Unknown' }}</td>
                             <td>{{ $booking->ruangan->nama_ruangan ?? 'Unknown' }}</td>
                             <td>{{ $booking->tanggal }}</td>
@@ -57,11 +57,11 @@
                             </td>
                             <td>
                                 @if($booking->status_pembayaran == 'pending')
-                                    <form action="{{ route('admin.booking.confirm', $booking->id) }}" method="POST" style="display:inline-block;">
+                                    <form action="{{ route('admin.booking.confirm', $booking->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         <button class="btn btn-success btn-sm rounded-pill px-3" type="submit">Setujui</button>
                                     </form>
-                                    <form action="{{ route('admin.booking.reject', $booking->id) }}" method="POST" style="display:inline-block;">
+                                    <form action="{{ route('admin.booking.reject', $booking->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         <button class="btn btn-danger btn-sm rounded-pill px-3" type="submit">Tolak</button>
                                     </form>

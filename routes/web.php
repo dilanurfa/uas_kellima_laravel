@@ -28,14 +28,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // ==========================
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
 
-
     // Dashboard admin
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-     Route::resource('users', UserController::class);
-      Route::resource('ruangan', RuanganController::class);
 
+    // Manajemen pengguna dan ruangan
+    Route::resource('users', UserController::class);
+    Route::resource('Ruangan', RuanganController::class);
 
-    // Manajemen booking
+    // Manajemen booking oleh admin
     Route::get('/booking', [BookingController::class, 'booking'])->name('booking');
     Route::post('/booking/{id}/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');
     Route::post('/booking/{id}/reject', [BookingController::class, 'reject'])->name('booking.reject');
@@ -48,16 +48,17 @@ Route::middleware(['auth'])->group(function () {
 
     // Dashboard klien
     Route::get('/klien', [KlienController::class, 'index'])->name('klien.index');
-    Route::get('/klien/show/{id}', [BookingController::class, 'show'])->name('klien.show');
-
     Route::get('/klien/dashboard', [KlienController::class, 'dashboard'])->name('klien.dashboard');
 
-    // Booking ruangan
-    Route::get('/booking/{id}', [BookingController::class, 'create'])->name('klien.booking');          // form booking
-    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');              // proses simpan
-    Route::get('/booking/success/{id}', [BookingController::class, 'success'])->name('booking.success'); // halaman sukses
-    Route::get('/klien/riwayat', [BookingController::class, 'riwayat'])->name('klien.riwayat');        // riwayat booking
-    Route::delete('/booking/{id}/cancel', [BookingController::class, 'cancel'])->name('klien.cancel'); // batal booking
+    // Riwayat dan detail booking klien
+    Route::get('/klien/riwayat', [BookingController::class, 'riwayat'])->name('klien.riwayat');
+    Route::get('/klien/show/{id}', [BookingController::class, 'show'])->name('klien.show');
+    Route::delete('/booking/{id}/cancel', [BookingController::class, 'cancel'])->name('klien.cancel');
+
+    // Proses booking ruangan
+    Route::get('/booking/{id}', [BookingController::class, 'create'])->name('klien.booking'); // Form booking
+    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');      // Simpan booking
+    Route::get('/booking/success/{id}', [BookingController::class, 'success'])->name('booking.success'); // Sukses
 });
 
 // ==========================

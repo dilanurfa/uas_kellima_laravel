@@ -6,7 +6,6 @@ use App\Models\Booking;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -45,21 +44,30 @@ class BookingController extends Controller
             'metode_bayar'      => $validated['metode_bayar'],
             'bukti_pembayaran'  => $buktiPath,
             'total_harga'       => $total_harga,
-            'status_pembayaran' => 'pending',
+            'status' => 'pending',
         ]);
 
         return redirect()->route('booking.success', $booking->id)
                          ->with('success', 'Booking berhasil, silakan tunggu konfirmasi admin.');
     }
 
-    // ✅ Halaman sukses klien setelah booking
+    // ✅ Halaman sukses setelah booking
     public function success($id)
     {
         $booking = Booking::findOrFail($id);
         return view('klien.thanks', compact('booking'));
     }
 
-    // ✅ Menampilkan riwayat booking untuk klien
+    // ✅ Menampilkan bukti booking (untuk klien)
+    public function show($id)
+    {
+        $booking = Booking::where('id', $id)
+                          ->where('user_id', Auth::id())
+                          ->firstOrFail();
+        return view('klien.show', compact('booking'));
+    }
+
+    // ✅ Riwayat booking klien
     public function riwayat()
     {
         $bookings = Booking::where('user_id', Auth::id())->latest()->get();
@@ -73,11 +81,11 @@ class BookingController extends Controller
         return view('admin.booking', compact('bookings'));
     }
 
-    // ✅ Admin: konfirmasi (setuju) booking
+    // ✅ Admin: konfirmasi booking
     public function confirm($id)
     {
         $booking = Booking::findOrFail($id);
-        $booking->status_pembayaran = 'lunas';
+        $booking->status = 'approved';
         $booking->save();
 
         return redirect()->route('admin.booking')->with('success', 'Booking telah dikonfirmasi.');
@@ -87,17 +95,9 @@ class BookingController extends Controller
     public function reject($id)
     {
         $booking = Booking::findOrFail($id);
-        $booking->status_pembayaran = 'ditolak';
+        $booking->status = 'rejected';
         $booking->save();
 
         return redirect()->route('admin.booking')->with('success', 'Booking telah ditolak.');
     }
-    
-    public function show($id)
-{
-    $booking = Booking::findOrFail($id);
-    return view('klien.show', compact('booking'));
 }
-
-}
-
