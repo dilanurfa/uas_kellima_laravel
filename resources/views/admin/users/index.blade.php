@@ -1,69 +1,74 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <div class="card mt-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title mb-0">Manajemen Users</h3>
-            <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah Users
+<div class="container py-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Daftar User</h4>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm">
+                <i class="fas fa-plus"></i> Tambah User
             </a>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
         </div>
-        <div class="card-body">
+
+        <div class="card-body bg-light">
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
- 
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>Tanggal Daftar</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($users as $user)
-                                <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'primary' }}">
-                                            {{ $user->role->name ?? 'No Role' }}
-                                        </span>
-                                    </td>
-                                    <td>{{ $user->created_at->format('d/m/Y') }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.users.show', $user) }}" class="btn btn-sm btn-info">Detail</a>
-                                          <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-info">Edit</a>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Tanggal Daftar</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @foreach($users as $user)
+                            <tr>
+                                <td>{{ $user->id }}</td>
+                                <td class="text-start">{{ $user->name }}</td>
+                                <td class="text-start">{{ $user->email }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'primary' }}">
+                                        {{ $user->role->name ?? 'No Role' }}
+                                    </span>
+                                </td>
+                                <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a href="{{ route('admin.users.show', $user) }}" class="btn btn-outline-info" title="Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-warning" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                         @if($user->id !== auth()->id())
-                                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-info" onclick="return confirm('Yakin ingin menghapus user ini?')">Hapus</button>
+                                                <button type="submit" class="btn btn-outline-danger" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </form>
                                         @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
- 
-                    {{ $users->links() }}
-                </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                {{ $users->links() }}
             </div>
         </div>
     </div>

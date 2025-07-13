@@ -29,7 +29,7 @@
             overflow-x: hidden;
         }
         .sidebar {
-            width: 220px;
+            width: 222px;
             background-color: #343a40;
             color: white;
             height: 100vh;
