@@ -3,10 +3,10 @@
 @section('content')
 <div class="container py-4">
     <div class="card shadow border-0">
-        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Daftar User</h4>
-            <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm">
-                <i class="fas fa-plus"></i> Tambah User
+        <div class="card-header bg-gradient bg-dark text-white py-3 d-flex justify-content-between align-items-center rounded-top">
+            <h4 class="mb-0"><i class="fas fa-users me-2"></i> Daftar User Studio The Sound Project</h4>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm shadow-sm">
+                <i class="fas fa-plus me-1"></i> Tambah User
             </a>
         </div>
 

@@ -1,58 +1,93 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="main-content w-100" style="background-color: #f0f0f0;">
-    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-        <div class="text-center py-5">
-            <h2 class="fw-bold" style="color: #222;">Selamat Datang, {{ Auth::user()->name }}!</h2>
-            <p class="text-muted">Anda masuk sebagai <strong>Administrator</strong>.</p>
+    <h2 class="mb-4 fw-bold">Dashboard</h2>
+
+    {{-- Kartu Statistik --}}
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-info shadow-sm">
+                <div class="card-body">
+                    <h5>Total Booking</h5>
+                    <h3>{{ $totalBooking ?? 0 }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success shadow-sm">
+                <div class="card-body">
+                    <h5>Booking Diterima</h5>
+                    <h3>{{ $totalAccepted ?? 0 }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-warning shadow-sm">
+                <div class="card-body">
+                    <h5>Booking Menunggu</h5>
+                    <h3>{{ $totalPending ?? 0 }}</h3>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div>
-    <div class="sidebar">
-    <h4 class="px-3 mb-4">Administrator</h4>
-    <a href="{{ route('admin.users.index') }}">
-        <i class="fas fa-users me-2"></i> Manajemen User
-    </a>
-    <a href="{{ route('admin.Ruangan.index') }}">
-        <i class="fas fa-door-open me-2"></i> Manajemen Ruangan
-    </a>
-    <a href="{{ route('admin.booking') }}">
-        <i class="fas fa-calendar-check me-2"></i> Daftar Booking
-    </a> 
-</div>
 
-<style>
-    body {
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .sidebar {
-            width: 222px;
-            background-color: #343a40;
-            color: white;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            padding-top: 60px;
-        }
-        .sidebar a {
-            color: #fff;
-            padding: 12px 20px;
-            display: block;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #495057;
-        }
-        .main-content {
-            margin-left: 220px;
-            padding: 20px;
-        }
-        .navbar {
-            z-index: 1030;
-        }
-</style>
+    {{-- Tabel Booking --}}
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            Daftar Booking Masuk
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light text-center">
+                        <tr>
+                            <th>No</th>
+                            <th>Nama User</th>
+                            <th>Ruangan</th>
+                            <th>Tanggal Booking</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @forelse($bookings as $index => $booking)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $booking->user->name }}</td>
+                                <td>{{ $booking->ruangan->nama_ruangan }}</td>
+                                <td>{{ $booking->tanggal_booking }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $booking->status == 'diterima' ? 'success' : ($booking->status == 'ditolak' ? 'danger' : 'secondary') }}">
+                                        {{ ucfirst($booking->status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    @if($booking->status === 'menunggu')
+                                        <form action="{{ route('admin.booking.confirm', $booking->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('admin.booking.reject', $booking->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <i class="text-muted">-</i>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">Belum ada data booking.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection

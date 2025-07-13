@@ -7,7 +7,7 @@
 <div class="container my-4">
     <div class="card shadow-lg border-0">
         <div class="card-header bg-gradient bg-dark text-white py-3 d-flex justify-content-between align-items-center rounded-top">
-            <h4 class="mb-0"><i class="fas fa-door-open me-2"></i> Daftar Ruangan Studio Cihuy</h4>
+            <h4 class="mb-0"><i class="fas fa-door-open me-2"></i> Daftar Ruangan Studio The Sound Project</h4>
             <a href="{{ route('admin.Ruangan.create') }}" class="btn btn-light btn-sm shadow-sm">
                 <i class="fas fa-plus me-1"></i> Tambah Ruangan
             </a>

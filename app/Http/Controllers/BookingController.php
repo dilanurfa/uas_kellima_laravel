@@ -81,6 +81,16 @@ class BookingController extends Controller
         return view('admin.booking', compact('bookings'));
     }
 
+    // ✅ Admin: untuk tombol tolak dan terima
+    public function updateStatus(Request $request, $id)
+    {
+    $booking = Booking::findOrFail($id);
+    $booking->status = $request->status;
+    $booking->save();
+
+    return redirect()->route('admin.dashboard')->with('success', 'Status booking diperbarui.');
+    }
+
     // ✅ Admin: konfirmasi booking
     public function confirm($id)
     {
