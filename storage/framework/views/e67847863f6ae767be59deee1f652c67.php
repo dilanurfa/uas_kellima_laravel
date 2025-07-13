@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- Cropper.js CSS -->
@@ -96,28 +94,29 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            @if(session('success'))
+            <?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                    {{ session('success') }}
+                    <?php echo e(session('success')); ?>
+
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            @if ($errors->any())
+            <?php if($errors->any()): ?>
                 <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
                     <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li><?php echo e($error); ?></li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            @endif
+            <?php endif; ?>
 
             <div class="profile-card">
                 <div class="avatar-wrapper">
                     <img 
-                        src="{{ $user->photo ? asset('storage/photos/' . $user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=0d6efd&color=fff&size=120' }}" 
+                        src="<?php echo e($user->photo ? asset('storage/photos/' . $user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=0d6efd&color=fff&size=120'); ?>" 
                         alt="Foto Profil" 
                         class="profile-avatar shadow" 
                         id="user-photo">
@@ -128,9 +127,9 @@
                     </label>
                 </div>
 
-                <h3 class="mt-4 mb-1">{{ $user->name }}</h3>
-                <p class="text-muted mb-2">{{ $user->email }}</p>
-                <p class="text-secondary small mb-4">{{ $user->role->name ?? 'User Biasa' }}</p>
+                <h3 class="mt-4 mb-1"><?php echo e($user->name); ?></h3>
+                <p class="text-muted mb-2"><?php echo e($user->email); ?></p>
+                <p class="text-secondary small mb-4"><?php echo e($user->role->name ?? 'User Biasa'); ?></p>
 
                 <div class="row text-center mb-4">
                     <div class="col stat-box">
@@ -140,11 +139,11 @@
                         <h4>5</h4><small>Riwayat</small>
                     </div>
                     <div class="col stat-box">
-                        <h4>{{ \Carbon\Carbon::parse($user->created_at)->format('Y') }}</h4><small>Member Sejak</small>
+                        <h4><?php echo e(\Carbon\Carbon::parse($user->created_at)->format('Y')); ?></h4><small>Member Sejak</small>
                     </div>
                 </div>
 
-                <a href="{{ route('akun.edit') }}" class="btn btn-primary btn-rounded">
+                <a href="<?php echo e(route('akun.edit')); ?>" class="btn btn-primary btn-rounded">
                     <i class="bi bi-person-lines-fill me-1"></i> Edit Profil
                 </a>
             </div>
@@ -152,12 +151,12 @@
     </div>
 </div>
 
-{{-- Modal Cropper --}}
+
 <div class="modal fade" id="cropperModal" tabindex="-1" aria-labelledby="cropperModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form id="cropperForm" action="{{ route('akun.photo.update') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+            <form id="cropperForm" action="<?php echo e(route('akun.photo.update')); ?>" method="POST" enctype="multipart/form-data">
+                <?php echo csrf_field(); ?>
                 <div class="modal-header">
                     <h5 class="modal-title">Atur Foto Profil</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
@@ -227,4 +226,6 @@
         }, 'image/jpeg', 0.9);
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\ASUS VIVOBOOK DC\uas_kellima_laravel\resources\views/akun/show.blade.php ENDPATH**/ ?>
