@@ -1,92 +1,50 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <div class="card mt-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title mb-0">Edit Ruangan</h3>
-            <a href="{{ route('admin.Ruangan.index') }}" class="btn btn-secondary">Kembali</a>
+<div class="container my-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0"><i class="fas fa-edit me-2"></i> Edit Ruangan</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body bg-light">
             <form action="{{ route('admin.Ruangan.update', $Ruangan->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
-                <div class="form-group my-2">
-                    <label for="nama_ruangan">Nama Ruangan <span class="text-danger">*</span></label>
-                    <input type="text" 
-                           name="nama_ruangan" 
-                           id="nama_ruangan" 
-                           class="form-control @error('nama_ruangan') is-invalid @enderror"
-                           value="{{ old('nama_ruangan', $Ruangan->nama_ruangan) }}"
-                           placeholder="Masukkan nama ruangan">
-                    @error('nama_ruangan')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nama Ruangan</label>
+                    <input type="text" name="nama_ruangan" class="form-control" value="{{ $Ruangan->nama_ruangan }}" required>
                 </div>
 
-                <div class="form-group my-2">
-                    <label for="harga">Harga <span class="text-danger">*</span></label>
-                    <input type="number" 
-                           name="harga" 
-                           id="harga" 
-                           class="form-control @error('harga') is-invalid @enderror"
-                           value="{{ old('harga', $Ruangan->harga) }}"
-                           placeholder="Masukkan harga">
-                    @error('harga')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Harga</label>
+                    <input type="number" name="harga" class="form-control" value="{{ $Ruangan->harga }}" required>
                 </div>
 
-                <div class="form-group my-2">
-                    <label for="durasi">Durasi <span class="text-danger">*</span></label>
-                    <input type="text" 
-                           name="durasi" 
-                           id="durasi" 
-                           class="form-control @error('durasi') is-invalid @enderror"
-                           value="{{ old('durasi', $Ruangan->durasi) }}"
-                           placeholder="Contoh: 2 jam">
-                    @error('durasi')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Durasi</label>
+                    <input type="text" name="durasi" class="form-control" value="{{ $Ruangan->durasi }}" required>
                 </div>
 
-                <div class="form-group my-2">
-                    <label for="deskripsi">Deskripsi <span class="text-danger">*</span></label>
-                    <textarea name="deskripsi" 
-                              id="deskripsi" 
-                              class="form-control @error('deskripsi') is-invalid @enderror"
-                              rows="3">{{ old('deskripsi', $Ruangan->deskripsi) }}</textarea>
-                    @error('deskripsi')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Deskripsi</label>
+                    <textarea name="deskripsi" class="form-control" rows="3">{{ $Ruangan->deskripsi }}</textarea>
                 </div>
 
-                <div class="form-group my-3">
-                    <label>Foto Lama</label><br>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Foto Saat Ini</label><br>
                     @if($Ruangan->foto)
-                        <img src="{{ asset('storage/' . $Ruangan->foto) }}" class="img-thumbnail mb-2" width="150">
+                        <img src="{{ asset('storage/' . $Ruangan->foto) }}" class="rounded shadow mb-2" width="120"><br>
                     @else
-                        <p class="text-muted">Belum ada foto</p>
+                        <span class="text-muted fst-italic">Tidak ada foto</span><br>
                     @endif
+                    <input type="file" name="foto" class="form-control mt-2">
                 </div>
 
-                <div class="form-group my-2">
-                    <label for="foto">Ganti Foto (opsional)</label>
-                    <input type="file" 
-                           name="foto" 
-                           id="foto" 
-                           class="form-control @error('foto') is-invalid @enderror">
-                    @error('foto')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                    <small class="text-muted">Hanya JPG/PNG, max 2MB</small>
-                </div>
-
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ route('admin.Ruangan.index') }}" class="btn btn-secondary">Batal</a>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Simpan Perubahan
+                <div class="d-flex justify-content-end">
+                    <a href="{{ route('admin.Ruangan.index') }}" class="btn btn-secondary me-2">Batal</a>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-save me-1"></i> Perbarui
                     </button>
                 </div>
             </form>

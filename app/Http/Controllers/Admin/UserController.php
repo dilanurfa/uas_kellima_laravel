@@ -18,13 +18,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('role')->paginate(10);
-        return view('users.index', compact('users'));
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
     {
         $roles = Role::all();
-        return view('users.create', compact('roles'));
+        return view('admin.users.create', compact('roles'));
     }
 
    public function store(Request $request)
