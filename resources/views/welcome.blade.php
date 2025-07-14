@@ -28,7 +28,7 @@
         #hero .container {
             position: relative;
             z-index: 2;
-            color: #fff;
+            color: #ffffff;
         }
         /* Remove any overlay */
         #hero::before {
