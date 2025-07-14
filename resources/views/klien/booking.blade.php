@@ -1,143 +1,147 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="card mt-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title mb-0">Booking Studio: <strong>{{ $Ruangan->nama_ruangan }}</strong></h3>
-            <a href="{{ route('home') }}" class="btn btn-secondary">Kembali</a>
-        </div>
-        <div class="card-body">
-            <form action="{{ route('booking.store') }}" method="POST" enctype="multipart/form-data">
+<section class="py-5" style="background: linear-gradient(to bottom right, #f8fafc, #e0f0ff);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow-lg border-0 rounded-5 overflow-hidden">
+          <div class="row g-0">
+
+            {{-- Gambar Studio --}}
+            <div class="col-md-6 d-none d-md-block">
+              <img src="{{ asset('storage/' . $Ruangan->foto) }}" alt="Gambar Studio" class="img-fluid h-100 w-100 object-fit-cover">
+            </div>
+
+            {{-- Form Booking --}}
+            <div class="col-md-6 bg-white p-5">
+              <h3 class="text-center mb-4 fw-bold text-dark">
+                Booking Studio <br><span class="text-primary">{{ $Ruangan->nama_ruangan }}</span>
+              </h3>
+
+              {{-- Harga --}}
+              <div class="text-center mb-4">
+                <div class="text-muted">Harga per Jam</div>
+                <div class="fs-4 fw-bold text-primary">Rp {{ number_format($Ruangan->harga, 0, ',', '.') }}</div>
+              </div>
+
+              {{-- Form --}}
+              <form action="{{ route('booking.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="ruangan_id" value="{{ $Ruangan->id }}">
+                <input type="hidden" id="harga_per_jam" value="{{ $Ruangan->harga }}">
 
-                <!-- Nama Lengkap -->
-                <div class="form-group my-2">
-                    <label for="nama">Nama Lengkap <span class="text-danger">*</span></label>
-                    <input type="text" 
-                           name="nama" 
-                           id="nama" 
-                           class="form-control @error('nama') is-invalid @enderror" 
-                           value="{{ old('nama') }}" 
-                           placeholder="Tulis nama lengkap kamu">
-                    @error('nama')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                {{-- Nama --}}
+                <div class="form-group mb-3">
+                  <label for="nama" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                  <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
+                  @error('nama') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
-                <!-- Tanggal Booking -->
-                <div class="form-group my-2">
-                    <label for="tanggal">Tanggal Booking <span class="text-danger">*</span></label>
-                    <input type="date" 
-                           name="tanggal" 
-                           id="tanggal" 
-                           class="form-control @error('tanggal') is-invalid @enderror" 
-                           value="{{ old('tanggal') }}">
-                    @error('tanggal')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                {{-- Tanggal dan Jam --}}
+                <div class="row g-2">
+                  <div class="col-md-6">
+                    <label for="tanggal" class="form-label">Tanggal Booking <span class="text-danger">*</span></label>
+                    <input type="date" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ old('tanggal') }}">
+                    @error('tanggal') <small class="text-danger">{{ $message }}</small> @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label for="jam" class="form-label">Jam Mulai <span class="text-danger">*</span></label>
+                    <input type="time" name="jam" class="form-control @error('jam') is-invalid @enderror" value="{{ old('jam') }}">
+                    @error('jam') <small class="text-danger">{{ $message }}</small> @enderror
+                  </div>
                 </div>
 
-                <!-- Jam Booking -->
-                <div class="form-group my-2">
-                    <label for="jam">Jam Booking <span class="text-danger">*</span></label>
-                    <input type="time" 
-                           name="jam" 
-                           id="jam" 
-                           class="form-control @error('jam') is-invalid @enderror" 
-                           value="{{ old('jam') }}">
-                    @error('jam')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                {{-- Jika validasi jam sudah lewat --}}
+                @if ($errors->has('jam') && str_contains($errors->first('jam'), 'sudah berlalu'))
+                  <div class="mt-2 text-danger"><small>{{ $errors->first('jam') }}</small></div>
+                @endif
+
+                {{-- Durasi --}}
+                <div class="form-group mt-3 mb-3">
+                  <label for="durasi" class="form-label">Durasi (jam) <span class="text-danger">*</span></label>
+                  <select name="durasi" id="durasi" class="form-select @error('durasi') is-invalid @enderror" onchange="hitungTotal()">
+                    <option value="">-- Pilih Durasi --</option>
+                    @for($i=1; $i<=8; $i++)
+                      <option value="{{ $i }}" {{ old('durasi') == $i ? 'selected' : '' }}>{{ $i }} jam</option>
+                    @endfor
+                  </select>
+                  @error('durasi') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
-                <!-- Durasi Booking -->
-                <div class="form-group my-2">
-                    <label for="durasi">Durasi (jam) <span class="text-danger">*</span></label>
-                    <select name="durasi" 
-                            id="durasi" 
-                            class="form-select @error('durasi') is-invalid @enderror">
-                        <option value="">-- Pilih Durasi --</option>
-                        @for ($i = 1; $i <= 8; $i++)
-                            <option value="{{ $i }}" {{ old('durasi') == $i ? 'selected' : '' }}>
-                                {{ $i }} jam
-                            </option>
-                        @endfor
-                    </select>
-                    @error('durasi')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                {{-- Total Harga --}}
+                <div class="mb-3">
+                  <label class="form-label">Total Harga</label>
+                  <input type="text" id="total_harga_display" class="form-control bg-light border-0 fw-semibold" readonly>
                 </div>
 
-                <!-- Metode Pembayaran -->
-                <div class="form-group my-2">
-                    <label for="metode_bayar">Metode Pembayaran <span class="text-danger">*</span></label>
-                    <select name="metode_bayar" 
-                            id="metode_bayar" 
-                            class="form-select @error('metode_bayar') is-invalid @enderror" onchange="tampilkanMetode()">
-                        <option value="">-- Pilih Metode Pembayaran --</option>
-                        <option value="qris" {{ old('metode_bayar') == 'qris' ? 'selected' : '' }}>QRIS</option>
-                        <option value="transfer" {{ old('metode_bayar') == 'transfer' ? 'selected' : '' }}>Transfer Bank</option>
-                    </select>
-                    @error('metode_bayar')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                {{-- Metode Pembayaran --}}
+                <div class="form-group mb-3">
+                  <label for="metode_bayar" class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
+                  <select name="metode_bayar" id="metode_bayar" class="form-select @error('metode_bayar') is-invalid @enderror" onchange="toggleInfo()">
+                    <option value="">-- Pilih Metode Pembayaran --</option>
+                    <option value="qris" {{ old('metode_bayar') == 'qris' ? 'selected' : '' }}>QRIS</option>
+                    <option value="transfer" {{ old('metode_bayar') == 'transfer' ? 'selected' : '' }}>Transfer Bank</option>
+                  </select>
+                  @error('metode_bayar') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
-                <!-- Info QRIS -->
-                <div class="my-3" id="qris-info" style="display: none;">
-                    <h5>Silakan Scan QRIS berikut untuk pembayaran:</h5>
-                    <img src="{{ asset('assets/img/qris.jpg') }}" alt="QRIS" class="img-fluid" style="max-width: 200px;">
+                {{-- Info QRIS --}}
+                <div class="mb-3" id="qris-info" style="display: none;">
+                  <div class="bg-light p-3 rounded border text-center">
+                    <img src="{{ asset('assets/img/qris.jpg') }}" alt="QRIS" class="img-fluid" style="max-width: 180px;">
+                  </div>
                 </div>
 
-                <!-- Info Transfer -->
-                <div class="my-3" id="transfer-info" style="display: none;">
-                    <h5>Silakan Transfer ke rekening berikut:</h5>
-                    <p><strong>Bank BCA</strong><br>No Rek: <strong>1234567890</strong><br>a.n. <strong>Studio Musik</strong></p>
+                {{-- Info Transfer --}}
+                <div class="mb-3" id="transfer-info" style="display: none;">
+                  <div class="bg-light p-3 rounded border">
+                    <div class="text-dark">
+                      BCA - 1234567890 <br> a.n. Studio Musik
+                    </div>
+                  </div>
                 </div>
 
-                <!-- Upload Bukti Pembayaran -->
-                <div class="form-group my-2">
-                    <label for="bukti_pembayaran">Bukti Pembayaran (JPG/PNG) <span class="text-danger">*</span></label>
-                    <input type="file" 
-                           name="bukti_pembayaran" 
-                           id="bukti_pembayaran" 
-                           class="form-control @error('bukti_pembayaran') is-invalid @enderror"
-                           accept=".jpg,.jpeg,.png">
-                    @error('bukti_pembayaran')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                {{-- Bukti Pembayaran --}}
+                <div class="form-group mb-4">
+                  <label for="bukti_pembayaran" class="form-label">Upload Bukti Pembayaran <span class="text-danger">*</span></label>
+                  <input type="file" name="bukti_pembayaran" class="form-control @error('bukti_pembayaran') is-invalid @enderror" accept=".jpg,.jpeg,.png">
+                  @error('bukti_pembayaran') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ route('home') }}" class="btn btn-secondary">Batal</a>
-                    <button type="submit" class="btn btn-primary">Kirim Booking</button>
-                </div>
-            </form>
+                <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm">Kirim Booking</button>
+              </form>
+
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+</section>
 
 <script>
-    function tampilkanMetode() {
-        let metode = document.getElementById('metode_bayar').value;
-        let qrisInfo = document.getElementById('qris-info');
-        let transferInfo = document.getElementById('transfer-info');
+function toggleInfo() {
+  const metode = document.getElementById('metode_bayar').value;
+  document.getElementById('qris-info').style.display = metode === 'qris' ? 'block' : 'none';
+  document.getElementById('transfer-info').style.display = metode === 'transfer' ? 'block' : 'none';
+}
 
-        if (metode === 'qris') {
-            qrisInfo.style.display = 'block';
-            transferInfo.style.display = 'none';
-        } else if (metode === 'transfer') {
-            transferInfo.style.display = 'block';
-            qrisInfo.style.display = 'none';
-        } else {
-            qrisInfo.style.display = 'none';
-            transferInfo.style.display = 'none';
-        }
-    }
+function hitungTotal() {
+  const durasi = parseInt(document.getElementById('durasi').value);
+  const harga = parseInt(document.getElementById('harga_per_jam').value);
+  const total = durasi * harga;
+  const formatter = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+  });
+  document.getElementById('total_harga_display').value = durasi ? formatter.format(total) : '';
+}
 
-    // Jalankan sekali saat halaman dimuat jika user sudah pilih sebelumnya
-    window.onload = tampilkanMetode;
+window.onload = function() {
+  toggleInfo();
+  hitungTotal();
+};
 </script>
 @endsection
