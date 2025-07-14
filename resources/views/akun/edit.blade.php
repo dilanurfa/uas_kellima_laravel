@@ -4,11 +4,13 @@
 <div class="container">
     <div class="card mt-3">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title mb-0">Edit Profil</h3>
+            <h3 class="card-title mb-0">Edit User</h3>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Kembali</a>
         </div>
         <div class="card-body">
-            <form action="{{ route('akun.update') }}" method="POST">
+            <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
                 @csrf
+                @method('PUT')
 
                 <div class="form-group my-2">
                     <label for="name">Nama <span class="text-danger">*</span></label>
@@ -36,43 +38,29 @@
                     @enderror
                 </div>
 
-                <hr class="my-4">
-                <h6 class="fw-semibold">Ganti Password?</h6>
-
                 <div class="form-group my-2">
-                    <label for="password">Password Baru</label>
-                    <input type="password"
-                           class="form-control @error('password') is-invalid @enderror"
-                           name="password"
-                           id="password"
-                           autocomplete="new-password"
-                           placeholder="Masukan password baru">
-                    @error('password')
+                    <label for="role_id">Role <span class="text-danger">*</span></label>
+                    <select name="role_id"
+                            id="role_id"
+                            class="form-control @error('role_id') is-invalid @enderror">
+                        <option value="">-- Pilih Role --</option>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->id }}" {{ (old('role_id', $user->role_id) == $role->id) ? 'selected' : '' }}>
+                                {{ $role->display_name ?? $role->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('role_id')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
 
-                <div class="form-group my-2">
-                    <label for="password_confirmation">Konfirmasi Password</label>
-                    <input type="password"
-                           class="form-control"
-                           name="password_confirmation"
-                           id="password_confirmation"
-                           autocomplete="new-password"
-                           placeholder="Konfirmasi password baru">
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Batal</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update User
+                    </button>
                 </div>
-
-<div class="d-flex justify-content-between mt-4">
-    <a href="{{ route('akun.show') }}" class="btn btn-outline-secondary">
-        <i class="fas fa-arrow-left me-1"></i> Batal
-    </a>
-    <button type="submit" class="btn bg-dark text-white">
-        <i class="fas fa-save me-1"></i> Simpan
-    </button>
-</div>
-
-                </div>
-
             </form>
         </div>
     </div>

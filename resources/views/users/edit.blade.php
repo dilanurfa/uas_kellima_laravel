@@ -1,12 +1,67 @@
-@extends('layouts.app')
+////@extends('layouts.app')
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
 
 @section('content')
+<style>
+    body {
+        background-color: #b4c6dc;
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border: none;
+    }
+
+    .card-header {
+        background-color: #cad9ec;
+        border-bottom: 1px solid #b4c6dc;
+    }
+
+    .card-header h4 {
+        font-weight: 600;
+        font-size: 1.2rem;
+        color: #2c3e50;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #3a3a3a;
+    }
+
+    .input-group-text {
+        background-color: #e7eff9;
+        border-right: 0;
+    }
+
+    .form-control,
+    .form-select {
+        border-left: 0;
+    }
+
+    .btn-success {
+        background-color: #4caf50;
+        border: none;
+    }
+
+    .btn-outline-danger {
+        border-color: #dc3545;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: #fff;
+    }
+</style>
+
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
             <div class="card shadow rounded-4">
-                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">
                         <i class="bi bi-pencil-square me-2"></i> Edit User
                     </h4>
@@ -20,7 +75,6 @@
                         @csrf
                         @method('PUT')
 
-                        {{-- Input Nama --}}
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama <span class="text-danger">*</span></label>
                             <div class="input-group">
@@ -37,7 +91,6 @@
                             @enderror
                         </div>
 
-                        {{-- Input Email --}}
                         <div class="mb-3">
                             <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                             <div class="input-group">
@@ -54,7 +107,6 @@
                             @enderror
                         </div>
 
-                        {{-- Input Role --}}
                         <div class="mb-4">
                             <label for="role_id" class="form-label">Role <span class="text-danger">*</span></label>
                             <div class="input-group">
@@ -75,7 +127,6 @@
                             @enderror
                         </div>
 
-                        {{-- Tombol Aksi --}}
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('admin.users.index') }}" class="btn btn-outline-danger">
                                 <i class="bi bi-x-circle me-1"></i> Batal

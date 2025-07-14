@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- CSS Imperial -->
+
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/aos/aos.css') }}">
@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
 
     <style>
-        /* Make video visible and clear */
         #hero {
             position: relative;
             min-height: 100vh;
@@ -30,7 +29,7 @@
             z-index: 2;
             color: #ffffff;
         }
-        /* Remove any overlay */
+
         #hero::before {
             content: none;
         }
