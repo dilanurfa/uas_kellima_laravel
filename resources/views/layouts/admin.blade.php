@@ -34,6 +34,17 @@
         .sidebar a:hover {
             background-color: #495057;
         }
+
+        .sidebar .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            text-align: left;
+            padding-left: 1.25rem;
+        }
+        .sidebar .btn-danger:hover {
+            background-color: #bb2d3b;
+        }
+
         .main-content {
             margin-left: 220px;
             padding: 30px;
@@ -47,17 +58,32 @@
     <div class="d-flex">
         {{-- Sidebar --}}
         <div class="sidebar">
-            <h4>Administrator</h4>
+            <h4 class="text-white px-3 mb-4">The Sound Project</h4>
+
             <a href="{{ route('admin.dashboard') }}">
-                <i class="fas fa-chart-bar me-2"></i> Dashboard
+                <i class="fas fa-home me-2"></i> Dashboard
+            </a>
+            <a href="{{ route('admin.booking') }}">
+                <i class="fas fa-users me-2"></i> Manajemen Booking
             </a>
             <a href="{{ route('admin.users.index') }}">
                 <i class="fas fa-users me-2"></i> Manajemen User
             </a>
-            <a href="{{ route('admin.Ruangan.index') }}">
-                <i class="fas fa-door-open me-2"></i> Manajemen Ruangan
+            <a href="{{ route('admin.reports') }}">
+                <i class="fas fa-chart-line me-2"></i> Statistik & Laporan
             </a>
+            <a href="{{ route('admin.messages') }}">
+                <i class="fas fa-envelope me-2"></i> Pesan Masuk
+            </a>
+
+            <form method="POST" action="{{ route('logout') }}" class="mt-4 px-3">
+                @csrf
+                <button type="submit" class="btn btn-danger w-100">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </button>
+            </form>
         </div>
+
 
         {{-- Main Content --}}
         <div class="main-content w-100">

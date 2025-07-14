@@ -47,16 +47,16 @@
                                 @endif
                             </td>
                             <td>
-                                @if($booking->status_pembayaran == 'pending')
+                                @if($booking->status == 'pending')
                                     <span class="badge bg-warning text-dark">Tertunda</span>
-                                @elseif($booking->status_pembayaran == 'lunas')
+                                @elseif($booking->status == 'lunas')
                                     <span class="badge bg-success">Lunas</span>
                                 @else
                                     <span class="badge bg-danger">Ditolak</span>
                                 @endif
                             </td>
                             <td>
-                                @if($booking->status_pembayaran == 'pending')
+                               @if($booking->status == 'pending')
                                     <form action="{{ route('admin.booking.confirm', $booking->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         <button class="btn btn-success btn-sm rounded-pill px-3" type="submit">Setujui</button>

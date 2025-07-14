@@ -30,8 +30,11 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
 
     // Dashboard admin
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::put('/admin/booking/{id}/update', [BookingController::class, 'updateStatus'])->name('admin.booking.update');
+    Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
+    Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
+
 
 
     // Manajemen pengguna dan ruangan
