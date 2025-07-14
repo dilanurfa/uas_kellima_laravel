@@ -131,7 +131,7 @@ class BookingController extends Controller
         $booking->status = 'approved';
         $booking->save();
 
-        return redirect()->route('admin.booking')->with('success', 'Booking telah dikonfirmasi.');
+        return redirect()->route('admin.booking.')->with('success', 'Booking telah dikonfirmasi.');
     }
 
     public function reject($id)

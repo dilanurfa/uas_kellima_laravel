@@ -1,21 +1,23 @@
 @extends('layouts.admin')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <div class="container-fluid py-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Manajemen Booking</li>
+            </ol>
+        </nav>
 
-<div class="container-fluid py-5" style="background-color: #f0f0f0;">
-    <div class="container">
-        <div class="text-center mb-4">
-            <h2 class="fw-bold" style="color: #222;">Daftar Booking Studio</h2>
-        </div>
+        <h2 class="mb-4 fw-bold">Manajemen Booking Studio</h2>
 
         @if(session('success'))
             <div class="alert alert-success text-center">{{ session('success') }}</div>
         @endif
 
         <div class="table-responsive">
-            <table class="table table-hover align-middle bg-white rounded shadow-sm overflow-hidden">
-                <thead class="table-dark">
+            <table class="table table-hover align-middle bg-white rounded shadow-sm">
+                <thead class="table-dark text-center">
                     <tr>
                         <th>No</th>
                         <th>Klien</th>
@@ -28,7 +30,7 @@
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                     @forelse($bookings as $booking)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
@@ -40,23 +42,19 @@
                             <td>
                                 @if($booking->bukti_pembayaran)
                                     <a href="{{ asset('storage/' . $booking->bukti_pembayaran) }}" target="_blank">
-                                        <img src="{{ asset('storage/' . $booking->bukti_pembayaran) }}" alt="Bukti Pembayaran" width="80" class="img-thumbnail">
+                                        <img src="{{ asset('storage/' . $booking->bukti_pembayaran) }}" width="80" class="img-thumbnail">
                                     </a>
                                 @else
                                     <span class="text-muted">Belum ada</span>
                                 @endif
                             </td>
                             <td>
-                                @if($booking->status == 'pending')
-                                    <span class="badge bg-warning text-dark">Tertunda</span>
-                                @elseif($booking->status == 'lunas')
-                                    <span class="badge bg-success">Lunas</span>
-                                @else
-                                    <span class="badge bg-danger">Ditolak</span>
-                                @endif
+                                <span class="badge bg-{{ $booking->status == 'lunas' ? 'success' : ($booking->status == 'pending' ? 'warning text-dark' : 'danger') }}">
+                                    {{ ucfirst($booking->status) }}
+                                </span>
                             </td>
                             <td>
-                               @if($booking->status == 'pending')
+                                @if($booking->status == 'pending')
                                     <form action="{{ route('admin.booking.confirm', $booking->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         <button class="btn btn-success btn-sm rounded-pill px-3" type="submit">Setujui</button>
@@ -72,7 +70,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center text-muted py-4">Belum ada booking</td>
+                            <td colspan="9" class="text-muted text-center py-4">Belum ada booking</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -85,19 +83,4 @@
             </a>
         </div>
     </div>
-</div>
-
-<style>
-    .table th, .table td {
-        vertical-align: middle;
-    }
-    .btn-dark {
-        background-color: #333;
-        border: none;
-    }
-    .btn-dark:hover {
-        background-color: #000;
-        color: #fff;
-    }
-</style>
 @endsection

@@ -31,58 +31,40 @@
         </div>
     </div>
 
-    {{-- Tabel Booking --}}
+    {{-- Preview Tabel Booking --}}
     <div class="card shadow-sm">
-        <div class="card-header bg-dark text-white">
-            Daftar Booking Masuk
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <span>Daftar Booking Terbaru</span>
+            <a href="{{ route('admin.booking.index') }}" class="btn btn-sm btn-light">Lihat Semua</a>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover mb-0">
-                    <thead class="table-light text-center">
+                <table class="table table-striped table-hover mb-0 text-center">
+                    <thead class="table-light">
                         <tr>
                             <th>No</th>
                             <th>Nama User</th>
                             <th>Ruangan</th>
-                            <th>Tanggal Booking</th>
+                            <th>Tanggal</th>
                             <th>Status</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="text-center">
-                        @forelse($bookings as $index => $booking)
+                    <tbody>
+                        @forelse($bookings->take(5) as $index => $booking)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $booking->user->name }}</td>
                                 <td>{{ $booking->ruangan->nama_ruangan }}</td>
-                                <td>{{ $booking->tanggal_booking }}</td>
+                                <td>{{ $booking->tanggal }}</td>
                                 <td>
-                                    <span class="badge bg-{{ $booking->status == 'diterima' ? 'success' : ($booking->status == 'ditolak' ? 'danger' : 'secondary') }}">
+                                    <span class="badge bg-{{ $booking->status == 'lunas' ? 'success' : ($booking->status == 'pending' ? 'warning text-dark' : 'danger') }}">
                                         {{ ucfirst($booking->status) }}
                                     </span>
-                                </td>
-                                <td>
-                                    @if($booking->status === 'menunggu')
-                                        <form action="{{ route('admin.booking.confirm', $booking->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-success">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('admin.booking.reject', $booking->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </form>
-                                    @else
-                                        <i class="text-muted">-</i>
-                                    @endif
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center text-muted py-4">Belum ada data booking.</td>
+                                <td colspan="5" class="text-muted py-3">Belum ada data booking.</td>
                             </tr>
                         @endforelse
                     </tbody>

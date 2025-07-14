@@ -63,7 +63,7 @@
             <a href="{{ route('admin.dashboard') }}">
                 <i class="fas fa-home me-2"></i> Dashboard
             </a>
-            <a href="{{ route('admin.booking') }}">
+            <a href="{{ route('admin.booking.index') }}">
                 <i class="fas fa-users me-2"></i> Manajemen Booking
             </a>
             <a href="{{ route('admin.users.index') }}">
