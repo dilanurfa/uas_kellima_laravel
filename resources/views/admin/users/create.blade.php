@@ -15,14 +15,14 @@
         padding-left: 2.5rem;
     }
     .form-control::placeholder {
-        color: #adb5bd;
+        color: #59626a;
     }
     .input-icon {
         position: absolute;
         top: 50%;
         left: 15px;
         transform: translateY(-50%);
-        color: #6c757d;
+        color: #82878a;
     }
     .form-floating .form-control {
         padding-left: 2.5rem;
@@ -33,7 +33,7 @@
     <div class="row justify-content-center">
         <div class="col-md-7 col-lg-5">
             <div class="card shadow-lg">
-                <div class="card-header bg-gradient-primary text-white rounded-top-3 d-flex justify-content-between align-items-center" style="background: linear-gradient(to right, #95a9d2, #6d95da);">
+                <div class="card-header bg-gradient-primary text-white rounded-top-3 d-flex justify-content-between align-items-center" style="background: linear-gradient(to right, #3b4048, #3b4048);">
                     <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i> Tambah User</h5>
                     <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-light shadow-sm">
                         <i class="fas fa-arrow-left me-1"></i> Kembali

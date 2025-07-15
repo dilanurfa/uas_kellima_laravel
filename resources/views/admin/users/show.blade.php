@@ -17,7 +17,7 @@
     }
 
     .detail-header {
-        background-color: #cad9ec;
+        background-color: #2f3133;
         padding: 20px 30px;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
@@ -28,7 +28,7 @@
         margin: 0;
         font-size: 22px;
         font-weight: 600;
-        color: #2b3a4d;
+        color: #eeeeee;
     }
 
     .detail-body {
@@ -54,17 +54,13 @@
 
     .detail-table th {
         width: 30%;
-        background-color: #f0f5fa;
-        color: #495057;
+        background-color: #a5a7aa;
+        color: #121314;
         font-weight: 600;
     }
 
-    .detail-table td {
-        color: #333;
-    }
-
     .badge-role {
-        background-color: #8da9c4;
+        background-color: #60676d;
         color: white;
         padding: 5px 12px;
         font-size: 0.85rem;
@@ -73,8 +69,8 @@
 
     .btn-back {
         margin-top: 25px;
-        background-color: #cad9ec;
-        color: #2b3a4d;
+        background-color: #5d5f61;
+        color: #f1f1f1;
         padding: 8px 20px;
         border-radius: 6px;
         border: none;
@@ -82,10 +78,7 @@
         transition: all 0.3s ease;
     }
 
-    .btn-back:hover {
-        background-color: #b0c6de;
-        color: #1f2b3a;
-    }
+
 </style>
 
 <div class="detail-card">

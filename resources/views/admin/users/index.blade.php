@@ -7,57 +7,65 @@
 <style>
     body {
         font-family: 'Quicksand', sans-serif;
-        background-color: #b4c6dc;
+        background-color: #2c2c2c; 
+        color: #dcdcdc; 
+    }
+
+    .table {
+        color: #dcdcdc;
+        border-color: #555;
     }
 
     .table th, .table td {
         vertical-align: middle;
+        border-color: #555; 
     }
 
     .table thead th {
-        background-color: #e8edf4;
-        color: #182a48;
-        font-weight: 600;
+        background-color: #3d3d3d; 
+        color: #f0f0f0; 
+        font-weight: 500;
+    }
+
+    .table tbody tr:hover {
+        background-color: #3a3a3a;
+    }
+
+    .card {
+        background-color: #353535;
+        color: #dcdcdc;
     }
 
     .card-header {
-        background-color: #cad9ec !important;
-        border-bottom: 1px solid #b9cbe0;
-    }
-
-    .card-header h5 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #2c3e50;
-        display: flex;
-        align-items: center;
-    }
-
-    .card-footer {
-        background-color: #f7f9fc;
+        background-color: #3f3f3f !important;
+        border-bottom: 1px solid #555;
     }
 
     .badge {
         font-size: 0.85rem;
-        padding: 5px 10px;
+        padding: 3px 10px;
         border-radius: 20px;
     }
 
-    .highlighted {
-        background-color: #fef3c7 !important;
-        transition: background-color 0.3s ease;
+
+    .btn-outline-info {
+        color: #3498db;
+        border-color: #3498db;
     }
 
-    select.form-select-sm,
-    .input-group-sm .form-control,
-    .input-group-sm .btn,
-    .btn-sm {
-        height: 30px !important;
-        padding-top: 4px;
-        padding-bottom: 4px;
-        font-size: 0.875rem;
+    .btn-outline-primary {
+        color: #9b59b6;
+        border-color: #9b59b6;
     }
+
+    .btn-outline-danger {
+        color: #e74c3c;
+        border-color: #e74c3c;
+    }
+
+
 </style>
+
 
 <div class="container py-4">
     @if(session('success'))

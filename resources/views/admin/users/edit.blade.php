@@ -10,20 +10,15 @@
         font-family: 'Quicksand', sans-serif;
     }
 
-    .card {
-        background-color: #ffffff;
-        border: none;
-    }
-
     .card-header {
-        background-color: #cad9ec;
+        background-color: #343435;
         border-bottom: 1px solid #b4c6dc;
     }
 
     .card-header h4 {
         font-weight: 600;
         font-size: 1.2rem;
-        color: #2c3e50;
+        color: #e0e3e6;
     }
 
     .form-label {
@@ -32,7 +27,7 @@
     }
 
     .input-group-text {
-        background-color: #e7eff9;
+        background-color: #52565a;
         border-right: 0;
     }
 
@@ -41,19 +36,6 @@
         border-left: 0;
     }
 
-    .btn-success {
-        background-color: #4caf50;
-        border: none;
-    }
-
-    .btn-outline-danger {
-        border-color: #dc3545;
-    }
-
-    .btn-outline-danger:hover {
-        background-color: #dc3545;
-        color: #fff;
-    }
 </style>
 
 <div class="container mt-4">
