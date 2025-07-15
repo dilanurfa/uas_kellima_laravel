@@ -16,7 +16,7 @@
 
     .table thead th {
         background-color: #e8edf4;
-        color: #2e3c55;
+        color: #182a48;
         font-weight: 600;
     }
 
@@ -74,32 +74,6 @@
                     <i class="fas fa-users me-2 text-dark"></i> Manajemen Users
                 </h5>
 
-                <div class="d-flex flex-wrap align-items-center gap-2">
-                    {{-- Form Pencarian dan Filter --}}
-                    <form action="{{ route('admin.users.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-wrap">
-                        {{-- Filter Role --}}
-                        <select name="role" class="form-select form-select-sm" style="width: auto;">
-                            <option value="">Semua Role</option>
-                            <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
-                        </select>
-
-                        {{-- Search --}}
-                        <div class="input-group input-group-sm" style="width: 200px;">
-                            <input type="text" name="search" class="form-control"
-                                   placeholder="Cari nama..." value="{{ request('search') }}">
-                            <button class="btn btn-outline-secondary" type="submit" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-
-                        @if(request()->has('search') || request()->has('role'))
-                            <a href="{{ route('admin.users.index') }}" class="btn btn-outline-danger btn-sm" title="Reset">
-                                <i class="fas fa-times"></i>
-                            </a>
-                        @endif
-                    </form>
-
                     <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm shadow-sm d-flex align-items-center" style="height: 30px;">
                         <i class="fas fa-plus me-1"></i> Tambah User
                     </a>
@@ -107,7 +81,6 @@
             </div>
         </div>
 
-        {{-- Table --}}
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover text-center align-middle mb-0">
@@ -173,7 +146,6 @@
             </div>
         </div>
 
-        {{-- Pagination --}}
         <div class="card-footer">
             <div class="d-flex justify-content-center">
                 {{ $users->appends(request()->query())->links() }}
