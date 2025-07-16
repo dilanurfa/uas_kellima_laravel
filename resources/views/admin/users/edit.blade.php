@@ -1,127 +1,57 @@
 @extends('layouts.admin')
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
-
 @section('content')
-<style>
-    body {
-        background-color: #b4c6dc;
-        font-family: 'Quicksand', sans-serif;
-    }
+<div class="container-fluid py-4">
+    <h4 class="mb-4 fw-bold text-dark">✏️ Edit Data Pengguna</h4>
 
-    .card-header {
-        background-color: #343435;
-        border-bottom: 1px solid #b4c6dc;
-    }
+    <div class="card shadow-sm rounded-4 border-0">
+        <div class="card-body px-5 py-4">
+            <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+                @csrf
+                @method('PUT')
 
-    .card-header h4 {
-        font-weight: 600;
-        font-size: 1.2rem;
-        color: #e0e3e6;
-    }
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-semibold">Nama</label>
+                    <input type="text" name="name" class="form-control rounded-pill @error('name') is-invalid @enderror"
+                        value="{{ old('name', $user->name) }}" placeholder="Nama lengkap">
+                    @error('name')
+                        <div class="text-danger small">{{ $message }}</div>
+                    @enderror
+                </div>
 
-    .form-label {
-        font-weight: 600;
-        color: #3a3a3a;
-    }
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Email</label>
+                    <input type="email" name="email" class="form-control rounded-pill @error('email') is-invalid @enderror"
+                        value="{{ old('email', $user->email) }}" placeholder="Alamat email">
+                    @error('email')
+                        <div class="text-danger small">{{ $message }}</div>
+                    @enderror
+                </div>
 
-    .input-group-text {
-        background-color: #52565a;
-        border-right: 0;
-    }
+                <div class="mb-4">
+                    <label for="role_id" class="form-label fw-semibold">Role</label>
+                    <select name="role_id" class="form-select rounded-pill @error('role_id') is-invalid @enderror">
+                        <option value="">-- Pilih Role --</option>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->id }}" {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>
+                                {{ $role->display_name ?? $role->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('role_id')
+                        <div class="text-danger small">{{ $message }}</div>
+                    @enderror
+                </div>
 
-    .form-control,
-    .form-select {
-        border-left: 0;
-    }
-
-</style>
-
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-
-            <div class="card shadow rounded-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0">
-                        <i class="bi bi-pencil-square me-2"></i> Edit User
-                    </h4>
-                    <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-arrow-left-circle me-1"></i> Kembali
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-outline-danger rounded-pill px-4">
+                        <i class="fas fa-times me-1"></i> Batal
                     </a>
+                    <button type="submit" class="btn btn-success rounded-pill px-4">
+                        <i class="fas fa-save me-1"></i> Simpan
+                    </button>
                 </div>
-
-                <div class="card-body px-4 py-4">
-                    <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                                <input type="text"
-                                       class="form-control @error('name') is-invalid @enderror"
-                                       name="name"
-                                       id="name"
-                                       value="{{ old('name', $user->name) }}"
-                                       placeholder="Masukkan nama">
-                            </div>
-                            @error('name')
-                                <div class="text-danger small">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                                <input type="email"
-                                       class="form-control @error('email') is-invalid @enderror"
-                                       name="email"
-                                       id="email"
-                                       value="{{ old('email', $user->email) }}"
-                                       placeholder="Masukkan email">
-                            </div>
-                            @error('email')
-                                <div class="text-danger small">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="role_id" class="form-label">Role <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
-                                <select name="role_id"
-                                        id="role_id"
-                                        class="form-select @error('role_id') is-invalid @enderror">
-                                    <option value="">-- Pilih Role --</option>
-                                    @foreach($roles as $role)
-                                        <option value="{{ $role->id }}" {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>
-                                            {{ $role->display_name ?? $role->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @error('role_id')
-                                <div class="text-danger small">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('admin.users.index') }}" class="btn btn-outline-danger">
-                                <i class="bi bi-x-circle me-1"></i> Batal
-                            </a>
-                            <button type="submit" class="btn btn-success">
-                                <i class="bi bi-save2 me-1"></i> Simpan Perubahan
-                            </button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-
+            </form>
         </div>
     </div>
 </div>

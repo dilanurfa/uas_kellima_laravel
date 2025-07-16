@@ -14,7 +14,7 @@
             overflow-x: hidden;
         }
         .sidebar {
-            width: 220px;
+            width: 225px;
             background-color: #343a40;
             color: white;
             min-height: 100vh;
@@ -69,13 +69,9 @@
             <a href="{{ route('admin.users.index') }}">
                 <i class="fas fa-users me-2"></i> Manajemen User
             </a>
-            <a href="{{ route('admin.reports') }}">
-                <i class="fas fa-chart-line me-2"></i> Statistik & Laporan
+            <a href="{{ route('admin.ruangan.index') }}">
+                <i class="fas fa-door-open me-2"></i> Manajemen Ruangan
             </a>
-            <a href="{{ route('admin.messages') }}">
-                <i class="fas fa-envelope me-2"></i> Pesan Masuk
-            </a>
-
             <form method="POST" action="{{ route('logout') }}" class="mt-4 px-3">
                 @csrf
                 <button type="submit" class="btn btn-danger w-100">

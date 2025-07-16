@@ -1,119 +1,41 @@
 @extends('layouts.admin')
 
 @section('content')
-<style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background-color: #f0f4f8;
-    }
+<div class="container-fluid py-4">
+    <h4 class="mb-4 fw-bold text-dark">👤 Detail Pengguna</h4>
 
-    .detail-card {
-        max-width: 800px;
-        margin: 40px auto;
-        background: #e9edf4;
-        border: 1px solid #d3dce6;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .detail-header {
-        background-color: #2f3133;
-        padding: 20px 30px;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
-        border-bottom: 1px solid #c1d0e3;
-    }
-
-    .detail-header h4 {
-        margin: 0;
-        font-size: 22px;
-        font-weight: 600;
-        color: #eeeeee;
-    }
-
-    .detail-body {
-        padding: 30px;
-        background-color: #f7f9fc;
-        border-bottom-left-radius: 12px;
-        border-bottom-right-radius: 12px;
-    }
-
-    .detail-table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: #fff;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .detail-table th,
-    .detail-table td {
-        padding: 12px 16px;
-        border-bottom: 1px solid #e0e0e0;
-    }
-
-    .detail-table th {
-        width: 30%;
-        background-color: #a5a7aa;
-        color: #121314;
-        font-weight: 600;
-    }
-
-    .badge-role {
-        background-color: #60676d;
-        color: white;
-        padding: 5px 12px;
-        font-size: 0.85rem;
-        border-radius: 20px;
-    }
-
-    .btn-back {
-        margin-top: 25px;
-        background-color: #5d5f61;
-        color: #f1f1f1;
-        padding: 8px 20px;
-        border-radius: 6px;
-        border: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-
-
-</style>
-
-<div class="detail-card">
-    <div class="detail-header">
-        <h4><i class="fas fa-user-circle me-2"></i> Detail Pengguna</h4>
+    <div class="card shadow-sm rounded-4 border-0">
+        <div class="card-body px-5 py-4">
+            <div class="row mb-3">
+                <div class="col-md-4 fw-semibold text-muted">ID</div>
+                <div class="col-md-8">{{ $user->id }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 fw-semibold text-muted">Nama</div>
+                <div class="col-md-8">{{ $user->name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 fw-semibold text-muted">Email</div>
+                <div class="col-md-8">{{ $user->email }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 fw-semibold text-muted">Role</div>
+                <div class="col-md-8">
+                    <span class="badge bg-secondary">{{ $user->role->name ?? 'No Role' }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 fw-semibold text-muted">Tanggal Daftar</div>
+                <div class="col-md-8">{{ $user->created_at->translatedFormat('d F Y') }}</div>
+            </div>
+        </div>
     </div>
-    <div class="detail-body">
-        <table class="detail-table mb-3">
-            <tr>
-                <th>ID</th>
-                <td>{{ $user->id }}</td>
-            </tr>
-            <tr>
-                <th>Nama</th>
-                <td>{{ $user->name }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ $user->email }}</td>
-            </tr>
-            <tr>
-                <th>Role</th>
-                <td>
-                    <span class="badge-role">{{ $user->role->name ?? 'No Role' }}</span>
-                </td>
-            </tr>
-            <tr>
-                <th>Tanggal Daftar</th>
-                <td>{{ $user->created_at->translatedFormat('d F Y') }}</td>
-            </tr>
-        </table>
 
-        <a href="{{ route('admin.users.index') }}" class="btn btn-back">
-            <i class="fas fa-arrow-left me-1"></i> Kembali
+    <div class="mt-4 text-center">
+        <a href="{{ route('admin.users.index') }}" class="btn btn-dark rounded-pill px-4">
+            <i class="fas fa-arrow-left me-2"></i> Kembali ke Daftar User
         </a>
     </div>
 </div>
 @endsection
+    

@@ -29,12 +29,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // ==========================
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
-
+    
     // Dashboard & Pages
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
-    Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
-    Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
+    Route::resource('ruangan', RuanganController::class);
 
     // Manajemen pengguna dan ruangan
     Route::resource('users', UserController::class);
