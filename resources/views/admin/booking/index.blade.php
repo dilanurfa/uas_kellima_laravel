@@ -22,10 +22,12 @@
                         <th>No</th>
                         <th>Klien</th>
                         <th>Studio</th>
-                        <th>Tanggal</th>
-                        <th>Jam</th>
+                        <th>Tanggal Booking</th>
+                        <th>Jam Mulai</th>
                         <th>Durasi</th>
-                        <th>Bukti</th>
+                        <th>Total Harga</th>
+                        <th>Metode Bayar</th>
+                        <th>Bukti Pembayaran</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -39,6 +41,8 @@
                             <td>{{ $booking->tanggal }}</td>
                             <td>{{ $booking->jam }}</td>
                             <td>{{ $booking->durasi }} jam</td>
+                            <td>Rp{{ number_format($booking->total_harga, 0, ',', '.') }}</td>
+                            <td>{{ ucfirst($booking->metode_bayar) ?? '-' }}</td>
                             <td>
                                 @if($booking->bukti_pembayaran)
                                     <a href="{{ asset('storage/' . $booking->bukti_pembayaran) }}" target="_blank">
@@ -70,7 +74,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-muted text-center py-4">Belum ada booking</td>
+                            <td colspan="11" class="text-muted text-center py-4">Belum ada booking</td>
                         </tr>
                     @endforelse
                 </tbody>
