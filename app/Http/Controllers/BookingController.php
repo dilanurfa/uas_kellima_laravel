@@ -79,8 +79,8 @@ class BookingController extends Controller
             'jam'               => $request->jam,
             'durasi'            => $request->durasi,
             'metode_bayar'      => $request->metode_bayar,
-            'bukti_pembayaran'  => $buktiPath,
-            'total_harga'       => $total_harga,
+            'bukti_pembayaran'  => $request->bukti,
+            'total_harga'       => $request->total_harga,
             'status'            => 'pending',
         ]);
 

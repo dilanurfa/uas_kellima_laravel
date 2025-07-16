@@ -20,7 +20,7 @@
                         <th>Tanggal</th>
                         <th>Jam</th>
                         <th>Durasi</th>
-                        <th>Total</th>
+                        <th>Total Harga</th>
                         <th>Metode</th>
                         <th>Bukti</th>
                         <th>Status</th>
@@ -39,36 +39,17 @@
                             <td>Rp{{ number_format($booking->total_harga, 0, ',', '.') }}</td>
                             <td><span class="badge bg-secondary">{{ ucfirst($booking->metode_bayar) }}</span></td>
                             <td>
-                                @if($booking->bukti_pembayaran)
-                                    <button class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#buktiModal{{ $booking->id }}">
-                                        Lihat
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="buktiModal{{ $booking->id }}" tabindex="-1" aria-labelledby="buktiLabel{{ $booking->id }}" aria-hidden="true">
-                                      <div class="modal-dialog modal-dialog-centered modal-sm">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <h5 class="modal-title">Bukti Pembayaran</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                          </div>
-                                          <div class="modal-body text-center">
-                                            <img src="{{ asset('storage/' . $booking->bukti_pembayaran) }}" class="img-fluid rounded">
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                @else
-                                    <span class="text-muted">Belum ada</span>
+                                @if($booking->bukti)
+                                    <img src="{{ asset('storage/' . $booking->bukti) }}" class="img-fluid">
                                 @endif
-                            </td>
                             <td>
                                 @php
                                     $statusClass = match($booking->status) {
-                                        'lunas' => 'success',
-                                        'pending' => 'warning text-dark',
-                                        'ditolak' => 'danger',
-                                        default => 'secondary'
+                                        'pending'   => 'warning text-dark',
+                                        'approved'  => 'success',
+                                        'rejected'  => 'danger',
+                                        'lunas'     => 'primary', // jika masih dipakai
+                                        default     => 'secondary'
                                     };
                                 @endphp
                                 <span class="badge bg-{{ $statusClass }}">

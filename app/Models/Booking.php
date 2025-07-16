@@ -14,7 +14,9 @@ class Booking extends Model
         'tanggal',
         'jam',
         'durasi',
+        'total_harga',
         'metode_bayar',
+        'bukti_pembayaran',
         'status',
     ];
 

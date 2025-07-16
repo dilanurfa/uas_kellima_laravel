@@ -16,7 +16,7 @@ class BookingController extends Controller
     public function confirm($id)
     {
         $booking = Booking::findOrFail($id);
-        $booking->status = 'lunas';
+        $booking->status = 'approved';
         $booking->save();
 
         return redirect()->route('admin.booking.index')->with('success', 'Booking disetujui.');
@@ -25,7 +25,7 @@ class BookingController extends Controller
     public function reject($id)
     {
         $booking = Booking::findOrFail($id);
-        $booking->status = 'ditolak';
+        $booking->status = 'rejected';
         $booking->save();
 
         return redirect()->route('admin.booking.index')->with('success', 'Booking ditolak.');
