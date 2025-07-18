@@ -22,27 +22,9 @@ class AdminController extends Controller
         return view('admin.dashboard', [
             'bookings' => $bookings,
             'totalBooking' => $bookings->count(),
-            'totalAccepted' => $bookings->where('status', 'diterima')->count(),
-            'totalPending' => $bookings->where('status', 'menunggu')->count()
+            'totalAccepted' => $bookings->where('status', 'approved')->count(),
+            'totalPending' => $bookings->where('status', 'pending')->count()
         ]);
     }
-
-    public function reports()
-    {
-        return view('admin.reports', [
-            'totalBooking' => Booking::count(),
-            'totalUser' => User::count(),
-            'monthlyBooking' => Booking::whereMonth('created_at', now()->month)->count(),
-        ]);
-    }
-
-    public function messages()
-    {
-        $messages = ContactMessage::latest()->get(); // asumsi model ContactMessage
-        return view('admin.messages', compact('messages'));
-    }
-
-
-
 
 }

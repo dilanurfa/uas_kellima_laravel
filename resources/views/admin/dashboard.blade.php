@@ -25,7 +25,7 @@
         <div class="col-md-4 mb-3">
             <div class="card shadow-sm text-dark bg-warning rounded-4">
                 <div class="card-body">
-                    <h5 class="mb-1">Booking Pending</h5>
+                    <h5 class="mb-1">Booking Menunggu</h5>
                     <h3 class="fw-bold">{{ $totalPending ?? 0 }}</h3>
                 </div>
             </div>

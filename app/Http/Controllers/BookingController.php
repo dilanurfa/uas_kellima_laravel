@@ -142,4 +142,17 @@ class BookingController extends Controller
 
         return redirect()->route('admin.booking')->with('success', 'Booking telah ditolak.');
     }
+
+        public function riwayatAdmin()
+    {
+        $bookings = Booking::with(['user', 'ruangan'])
+                        ->where('status', 'lunas')
+                        ->latest()
+                        ->get();
+
+        return view('admin.booking.riwayat', compact('bookings'));
+
+    }
+
+
 }

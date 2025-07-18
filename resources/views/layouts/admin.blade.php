@@ -72,6 +72,10 @@
             <a href="{{ route('admin.ruangan.index') }}">
                 <i class="fas fa-door-open me-2"></i> Manajemen Ruangan
             </a>
+            <a href="{{ route('admin.booking.riwayat') }}">
+                <i class="fas fa-clock-rotate-left me-2"></i> Riwayat Booking
+            </a>
+
             <form method="POST" action="{{ route('logout') }}" class="mt-4 px-3">
                 @csrf
                 <button type="submit" class="btn btn-danger w-100">

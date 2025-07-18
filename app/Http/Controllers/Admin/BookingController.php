@@ -30,4 +30,5 @@ class BookingController extends Controller
 
         return redirect()->route('admin.booking.index')->with('success', 'Booking ditolak.');
     }
+
 }

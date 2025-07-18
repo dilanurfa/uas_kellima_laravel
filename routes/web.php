@@ -34,6 +34,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('ruangan', RuanganController::class);
+    Route::get('/booking/riwayat', [BookingController::class, 'riwayatAdmin'])->name('booking.riwayat');
+
 
     // Manajemen pengguna dan ruangan
     Route::resource('users', UserController::class);
