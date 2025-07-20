@@ -79,11 +79,5 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="mt-4 text-center">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-dark rounded-pill px-4">
-                <i class="fas fa-arrow-left me-2"></i> Kembali ke Dashboard
-            </a>
-        </div>
     </div>
 @endsection

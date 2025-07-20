@@ -69,6 +69,14 @@
                                         {{ ucfirst($booking->status) }}
                                     </span>
                                 </td>
+                                <td>
+                                    @if($booking->status == 'approved')
+                                        <form action="{{ route('admin.booking.selesai', $booking->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button class="btn btn-primary btn-sm rounded-pill px-3" type="submit">✔ Selesai</button>
+                                        </form>
+                                    @endif
+                                </td>
                             </tr>
                         @empty
                             <tr>

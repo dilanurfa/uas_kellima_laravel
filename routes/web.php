@@ -45,6 +45,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/booking', [AdminBookingController::class, 'index'])->name('booking.index');
     Route::post('/booking/{id}/confirm', [AdminBookingController::class, 'confirm'])->name('booking.confirm');
     Route::post('/booking/{id}/reject', [AdminBookingController::class, 'reject'])->name('booking.reject');
+    Route::post('/booking/selesai/{id}', [AdminBookingController::class, 'selesaikan'])->name('booking.selesai');
+
 });
 // ==========================
 // KLIEN ROUTES

@@ -110,12 +110,6 @@ class BookingController extends Controller
         return view('klien.riwayat', compact('bookings'));
     }
 
-    public function booking()
-    {
-        $bookings = Booking::with(['user', 'ruangan'])->latest()->get();
-        return view('admin.booking', compact('bookings'));
-    }
-
     public function updateStatus(Request $request, $id)
     {
         $booking = Booking::findOrFail($id);
@@ -125,25 +119,7 @@ class BookingController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Status booking diperbarui.');
     }
 
-    public function confirm($id)
-    {
-        $booking = Booking::findOrFail($id);
-        $booking->status = 'approved';
-        $booking->save();
-
-        return redirect()->route('admin.booking.')->with('success', 'Booking telah dikonfirmasi.');
-    }
-
-    public function reject($id)
-    {
-        $booking = Booking::findOrFail($id);
-        $booking->status = 'rejected';
-        $booking->save();
-
-        return redirect()->route('admin.booking')->with('success', 'Booking telah ditolak.');
-    }
-
-        public function riwayatAdmin()
+    public function riwayatAdmin()
     {
         $bookings = Booking::with(['user', 'ruangan'])
                         ->where('status', 'lunas')
@@ -153,6 +129,5 @@ class BookingController extends Controller
         return view('admin.booking.riwayat', compact('bookings'));
 
     }
-
 
 }

@@ -9,7 +9,11 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::with(['user', 'ruangan'])->latest()->get();
+        $bookings = Booking::with(['user', 'ruangan'])
+            ->whereNotIn('status', ['lunas']) // agar tidak tampilkan riwayat
+            ->latest()
+            ->get();
+
         return view('admin.booking.index', compact('bookings'));
     }
 
@@ -29,6 +33,20 @@ class BookingController extends Controller
         $booking->save();
 
         return redirect()->route('admin.booking.index')->with('success', 'Booking ditolak.');
+    }
+    
+    public function selesaikan($id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        if ($booking->status === 'approved') {
+            $booking->status = 'lunas';
+            $booking->save();
+
+            return back()->with('success', 'Booking telah ditandai sebagai selesai.');
+        }
+
+        return back()->with('error', 'Hanya booking yang sudah disetujui bisa ditandai selesai.');
     }
 
 }
