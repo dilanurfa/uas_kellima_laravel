@@ -95,6 +95,7 @@
                             <li><a href="#hero" class="active">Home</a></li>
                             <li><a href="#about">Tentang</a></li>
                             <li><a href="#footer">Contact</a></li>
+                            <li><a href="{{ route('klien.riwayat') }}">Riwayat Booking</a></li>
                         @endif
 
                         <!-- Dropdown nama user/admin -->
