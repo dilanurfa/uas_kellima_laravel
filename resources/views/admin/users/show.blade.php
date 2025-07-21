@@ -1,34 +1,41 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container py-4">
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-dark text-white">
-            <h5 class="mb-0">Detail User: {{ $user->name }}</h5>
+<div class="container-fluid py-4">
+    <h4 class="mb-4 fw-bold text-dark">👤 Detail Pengguna</h4>
+
+    <div class="card shadow-sm rounded-4 border-0">
+        <div class="card-body px-5 py-4">
+            <div class="row mb-3">
+                <div class="col-md-4 fw-semibold text-muted">ID</div>
+                <div class="col-md-8">{{ $user->id }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 fw-semibold text-muted">Nama</div>
+                <div class="col-md-8">{{ $user->name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 fw-semibold text-muted">Email</div>
+                <div class="col-md-8">{{ $user->email }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 fw-semibold text-muted">Role</div>
+                <div class="col-md-8">
+                    <span class="badge bg-secondary">{{ $user->role->name ?? 'No Role' }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 fw-semibold text-muted">Tanggal Daftar</div>
+                <div class="col-md-8">{{ $user->created_at->translatedFormat('d F Y') }}</div>
+            </div>
         </div>
-        <div class="card-body bg-light">
-            <dl class="row">
-                <dt class="col-sm-3">Nama</dt>
-                <dd class="col-sm-9">{{ $user->name }}</dd>
+    </div>
 
-                <dt class="col-sm-3">Email</dt>
-                <dd class="col-sm-9">{{ $user->email }}</dd>
-
-                <dt class="col-sm-3">Role</dt>
-                <dd class="col-sm-9">
-                    <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'primary' }}">
-                        {{ $user->role->name ?? 'No Role' }}
-                    </span>
-                </dd>
-
-                <dt class="col-sm-3">Tanggal Daftar</dt>
-                <dd class="col-sm-9">{{ $user->created_at->format('d M Y') }}</dd>
-            </dl>
-
-            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary btn-sm">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
-        </div>
+    <div class="mt-4 text-center">
+        <a href="{{ route('admin.users.index') }}" class="btn btn-dark rounded-pill px-4">
+            <i class="fas fa-arrow-left me-2"></i> Kembali ke Daftar User
+        </a>
     </div>
 </div>
 @endsection
+    

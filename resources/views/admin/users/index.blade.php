@@ -1,76 +1,64 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container py-4">
-    <div class="card shadow border-0">
-        <div class="card-header bg-gradient bg-dark text-white py-3 d-flex justify-content-between align-items-center rounded-top">
-            <h4 class="mb-0"><i class="fas fa-users me-2"></i> Daftar User Studio The Sound Project</h4>
-            <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm shadow-sm">
-                <i class="fas fa-plus me-1"></i> Tambah User
-            </a>
+<div class="container-fluid py-4">
+    <h2 class="mb-4 fw-bold text-dark">👤 Manajemen User</h2>
+
+    @if(session('success'))
+        <div class="alert alert-success text-center rounded-pill shadow-sm">
+            {{ session('success') }}
         </div>
+    @endif
 
-        <div class="card-body bg-light">
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-
-            <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead class="table-dark text-center">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Tanggal Daftar</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        @foreach($users as $user)
-                            <tr>
-                                <td>{{ $user->id }}</td>
-                                <td class="text-start">{{ $user->name }}</td>
-                                <td class="text-start">{{ $user->email }}</td>
-                                <td>
-                                    <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'primary' }}">
-                                        {{ $user->role->name ?? 'No Role' }}
-                                    </span>
-                                </td>
-                                <td>{{ $user->created_at->format('d/m/Y') }}</td>
-                                <td>
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <a href="{{ route('admin.users.show', $user) }}" class="btn btn-outline-info" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-warning" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        @if($user->id !== auth()->id())
-                                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger" title="Hapus">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="d-flex justify-content-center">
-                {{ $users->links() }}
-            </div>
-        </div>
+    <div class="table-responsive shadow-sm rounded-4 overflow-hidden">
+        <table class="table table-hover table-striped align-middle table-borderless mb-0">
+            <thead class="bg-dark text-white text-center">
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Terdaftar</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                @forelse($users as $user)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                            <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'secondary' }}">
+                                {{ $user->role->name ?? '-' }}
+                            </span>
+                        </td>
+                        <td>{{ $user->created_at->format('d M Y') }}</td>
+                        <td>
+                            <a href="{{ route('admin.users.show', $user) }}" class="btn btn-outline-primary btn-sm rounded-pill px-3" title="Detail">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-warning btn-sm rounded-pill px-3" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            @if($user->id !== auth()->id())
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-outline-danger btn-sm rounded-pill px-3" title="Hapus" onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-muted py-5">Belum ada user.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 @endsection

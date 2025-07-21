@@ -1,88 +1,86 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h2 class="mb-4 fw-bold">Dashboard</h2>
+<div class="container-fluid py-4">
+    <h2 class="mb-4 fw-bold text-dark">📊 Dashboard Admin</h2>
 
-    {{-- Kartu Statistik --}}
+    {{-- Statistik --}}
     <div class="row mb-4">
         <div class="col-md-4 mb-3">
-            <div class="card text-white bg-info shadow-sm">
+            <div class="card shadow-sm text-white bg-info rounded-4">
                 <div class="card-body">
-                    <h5>Total Booking</h5>
-                    <h3>{{ $totalBooking ?? 0 }}</h3>
+                    <h5 class="mb-1">Total Booking</h5>
+                    <h3 class="fw-bold">{{ $totalBooking ?? 0 }}</h3>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="card text-white bg-success shadow-sm">
+            <div class="card shadow-sm text-white bg-success rounded-4">
                 <div class="card-body">
-                    <h5>Booking Diterima</h5>
-                    <h3>{{ $totalAccepted ?? 0 }}</h3>
+                    <h5 class="mb-1">Booking Diterima</h5>
+                    <h3 class="fw-bold">{{ $totalAccepted ?? 0 }}</h3>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="card text-white bg-warning shadow-sm">
+            <div class="card shadow-sm text-dark bg-warning rounded-4">
                 <div class="card-body">
-                    <h5>Booking Menunggu</h5>
-                    <h3>{{ $totalPending ?? 0 }}</h3>
+                    <h5 class="mb-1">Booking Menunggu</h5>
+                    <h3 class="fw-bold">{{ $totalPending ?? 0 }}</h3>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Tabel Booking --}}
-    <div class="card shadow-sm">
-        <div class="card-header bg-dark text-white">
-            Daftar Booking Masuk
+    {{-- Tabel Booking Terbaru --}}
+    <div class="card shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-clock me-2"></i>Daftar Booking Terbaru</span>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover mb-0">
-                    <thead class="table-light text-center">
+                <table class="table table-hover table-striped align-middle table-borderless mb-0 text-center">
+                    <thead class="bg-light text-dark">
                         <tr>
                             <th>No</th>
                             <th>Nama User</th>
                             <th>Ruangan</th>
-                            <th>Tanggal Booking</th>
+                            <th>Tanggal</th>
                             <th>Status</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="text-center">
-                        @forelse($bookings as $index => $booking)
+                    <tbody>
+                        @forelse($bookings->take(5) as $index => $booking)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $booking->user->name }}</td>
                                 <td>{{ $booking->ruangan->nama_ruangan }}</td>
-                                <td>{{ $booking->tanggal_booking }}</td>
+                                <td>{{ $booking->tanggal }}</td>
                                 <td>
-                                    <span class="badge bg-{{ $booking->status == 'diterima' ? 'success' : ($booking->status == 'ditolak' ? 'danger' : 'secondary') }}">
+                                    @php
+                                        $statusClass = match($booking->status) {
+                                            'lunas' => 'success',
+                                            'pending' => 'warning text-dark',
+                                            'ditolak' => 'danger',
+                                            default => 'secondary'
+                                        };
+                                    @endphp
+                                    <span class="badge bg-{{ $statusClass }}">
                                         {{ ucfirst($booking->status) }}
                                     </span>
                                 </td>
                                 <td>
-                                    @if($booking->status === 'menunggu')
-                                        <form action="{{ route('admin.booking.confirm', $booking->id) }}" method="POST" class="d-inline">
+                                    @if($booking->status == 'approved')
+                                        <form action="{{ route('admin.booking.selesai', $booking->id) }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-success">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                            <button class="btn btn-primary btn-sm rounded-pill px-3" type="submit">✔ Selesai</button>
                                         </form>
-                                        <form action="{{ route('admin.booking.reject', $booking->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </form>
-                                    @else
-                                        <i class="text-muted">-</i>
                                     @endif
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center text-muted py-4">Belum ada data booking.</td>
+                                <td colspan="5" class="text-muted py-4">Belum ada data booking.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -90,4 +88,5 @@
             </div>
         </div>
     </div>
+</div>
 @endsection

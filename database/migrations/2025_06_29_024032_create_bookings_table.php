@@ -9,14 +9,14 @@ return new class extends Migration
 
    public function up(): void
 {
-    Schema::create('Booking', function (Blueprint $table) {
+    Schema::create('booking', function (Blueprint $table) {
         $table->id();
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
         $table->foreignId('ruangan_id')->constrained('Ruangan')->onDelete('cascade');
         $table->date('tanggal');
         $table->time('jam');
         $table->integer('durasi');
-        $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+        $table->enum('status', ['pending', 'approved', 'rejected', 'lunas', 'selesai']);      
         $table->timestamps();
     });
 }

@@ -33,7 +33,7 @@
         }
         #header .navmenu a.active,
         #header .navmenu a:hover {
-            color: #1977cc;
+            color: #1a88d6;
         }
         #header .dropdown-menu {
             background-color: #1977cc;
@@ -44,7 +44,7 @@
             transform: translateX(-50%);
         }
         #header .dropdown-menu a {
-            color: #fff;
+            color: #1b1616;
             padding: 8px 15px;
         }
         #header .dropdown-menu a:hover {
