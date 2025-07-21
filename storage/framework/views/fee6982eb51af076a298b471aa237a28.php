@@ -1,16 +1,13 @@
-@extends('layouts.app')
+<?php $__env->startSection('content'); ?>
 
-@section('content')
-    <!-- CSS Imperial -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/aos/aos.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/bootstrap/css/bootstrap.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/aos/aos.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/glightbox/css/glightbox.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/swiper/swiper-bundle.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css')); ?>">
 
     <style>
-        /* Make video visible and clear */
         #hero {
             position: relative;
             min-height: 100vh;
@@ -28,9 +25,9 @@
         #hero .container {
             position: relative;
             z-index: 2;
-            color: #fff;
+            color: #ffffff;
         }
-        /* Remove any overlay */
+
         #hero::before {
             content: none;
         }
@@ -50,7 +47,7 @@
     <!-- Hero Section -->
     <section id="hero" class="hero section">
         <video autoplay muted loop id="bg-video" style="position:absolute; width:100%; height:100%; object-fit:cover;">
-            <source src="{{ asset('assets/img/studio.mp4') }}" type="video/mp4" />
+            <source src="<?php echo e(asset('assets/img/studio.mp4')); ?>" type="video/mp4" />
         </video>
         <div class="container text-center position-relative" style="z-index:2;">
             <h2 class="text-white">Selamat Datang di <em style="color:#1977cc;">The sound project </em>Studio Musik</h2>
@@ -94,7 +91,7 @@
 
         <!-- Tombol Read More -->
         <a href="javascript:void(0);" class="read-more" onclick="toggleMorePoints()">
-          <span>Lebih lanjut</span> <i class="bi bi-arrow-down"></i>
+          <span>Read More</span> <i class="bi bi-arrow-down"></i>
         </a>
       </div>
     </div>
@@ -183,7 +180,7 @@
             <p>Ayo booking sekarang juga, sebelum keduluan orang lain!</p>
           </div>
           <div class="col-xl-3 cta-btn-container text-center">
-            <a href="#studios" class="cta-btn align-middle" >Booking</a>
+            <a class="cta-btn align-middle" href="login">Booking</a>
           </div>
         </div>
 
@@ -200,29 +197,29 @@
         </div>
 
         <div class="row">
-            @if($ruangan->count())
-                @foreach($ruangan as $rgn)
+            <?php if($Ruangan->count()): ?>
+                <?php $__currentLoopData = $Ruangan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rgn): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="card shadow border-0">
-                            @if($rgn->foto)
-                                <img src="{{ asset('storage/' . $rgn->foto) }}" class="card-img-top studio-img" alt="{{ $rgn->nama_ruangan }}">
-                            @else
+                            <?php if($rgn->foto): ?>
+                                <img src="<?php echo e(asset('storage/' . $rgn->foto)); ?>" class="card-img-top studio-img" alt="<?php echo e($rgn->nama_ruangan); ?>">
+                            <?php else: ?>
                                 <img src="https://via.placeholder.com/400x600?text=No+Image" class="card-img-top studio-img" alt="No Image">
-                            @endif
+                            <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title text-primary">{{ $rgn->nama_ruangan }}</h5>
-                                <p class="card-text">Harga: <strong>Rp {{ number_format($rgn->harga, 0, ',', '.') }}</strong></p>
-                                <p class="card-text text-muted">{{ $rgn->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
-                                <a href="{{ route('klien.booking', $rgn->id) }}" class="btn btn-primary w-100">Booking Sekarang</a>
+                                <h5 class="card-title text-primary"><?php echo e($rgn->nama_ruangan); ?></h5>
+                                <p class="card-text">Harga: <strong>Rp <?php echo e(number_format($rgn->harga, 0, ',', '.')); ?></strong></p>
+                                <p class="card-text text-muted"><?php echo e($rgn->deskripsi ?? 'Tidak ada deskripsi.'); ?></p>
+                                <a href="<?php echo e(route('klien.booking', $rgn->id)); ?>" class="btn btn-primary w-100">Booking Sekarang</a>
                             </div>
                         </div>
                     </div>
-                @endforeach
-            @else
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php else: ?>
                 <div class="col-12 text-center">
                     <p class="text-muted">Belum ada studio tersedia saat ini</p>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -238,125 +235,40 @@
 </style>
 
 
-<section id="testimonials" class="testimonials section">
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials section">
 
-  <div class="container section-title" data-aos="fade-up">
-    <h2 class="text-center">Testimoni</h2>
-  </div>
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Tesimoni</h2>
+      </div><!-- End Section Title -->
 
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    {{-- Swiper slider (testimoni utama) --}}
-    <div class="swiper testimonials-slider mb-5">
-      <div class="swiper-wrapper">
-        @forelse($ulasanList as $ulasan)
-          <div class="swiper-slide">
-            <div class="testimonial-item text-center">
-              <div class="row gy-4 justify-content-center">
-                <div class="col-lg-8">
-                  <div class="testimonial-content">
-                    <p class="text-center">
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>{{ $ulasan->ulasan }}</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                    <h3 class="text-center mt-3">{{ $ulasan->nama ?? 'Anonim' }}</h3>
-                    <div class="stars d-flex justify-content-center mt-2">
-                      @for($i=1; $i<=5; $i++)
-                        @if($i <= $ulasan->rating)
-                          <i class="bi bi-star-fill text-warning"></i>
-                        @else
-                          <i class="bi bi-star text-warning"></i>
-                        @endif
-                      @endfor
+        <div class="swiper init-swiper">
+
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="row gy-4 justify-content-center">
+                  <div class="col-lg-6">
+                    <div class="testimonial-content">
+                      <p>
+                        <i class="bi bi-quote quote-icon-left"></i>
+                        <span>Widihhhhh mantap jos studio nya keren banget, banyak pilihan lagi... top markotop deh buat The Sound Project. Perbanyak cabang banggg, keren. semangat terus deh</span>
+                        <i class="bi bi-quote quote-icon-right"></i>
+                      </p>
+                      <h3>Kak Gem</h3>
+                      <div class="stars">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        @empty
-          <div class="swiper-slide">
-            <div class="testimonial-item text-center">
-              <p class="text-center">Belum ada testimoni.</p>
-            </div>
-          </div>
-        @endforelse
-      </div>
-      <div class="swiper-pagination"></div>
-    </div>
+            </div><!-- End testimonial item -->
 
-   {{-- Tombol Tampilkan Semua Ulasan (Versi Kecil) --}}
-<div class="text-center mb-4">
-  <button id="showAllBtn"
-    class="btn rounded-pill shadow-sm d-inline-flex align-items-center gap-1 fw-semibold"
-    style="font-size: 0.85rem; padding: 6px 16px; background-color: #000; color: #fff; border: none;">
-    Tampilkan Semua Ulasan
-  </button>
-</div>
-
-
-
-    {{-- Semua ulasan (disembunyikan dulu) --}}
-    <div id="allTestimonials" class="row justify-content-center g-4" style="display:none;">
-      @forelse($ulasanList as $ulasan)
-        <div class="col-lg-4 col-md-6">
-          <div class="card h-100 border-0 shadow-sm hover-shadow">
-            <div class="card-body text-center">
-              <p class="fw-bold mb-1">{{ $ulasan->nama ?? 'Anonim' }}</p>
-              <p class="mb-3 text-muted">"{{ $ulasan->ulasan }}"</p>
-              <div class="stars d-flex justify-content-center">
-                @for($i=1; $i<=5; $i++)
-                  @if($i <= $ulasan->rating)
-                    <i class="bi bi-star-fill text-warning"></i>
-                  @else
-                    <i class="bi bi-star text-warning"></i>
-                  @endif
-                @endfor
-              </div>
-            </div>
-          </div>
-        </div>
-      @empty
-        <p class="text-center">Belum ada testimoni.</p>
-      @endforelse
-    </div>
-
-  </div>
-</section>
-
-<style>
-  /* Tambahan efek hover untuk card */
-  .hover-shadow:hover {
-    transform: translateY(-3px);
-    transition: 0.3s ease;
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15)!important;
-  }
-  /* Supaya bintang selalu kuning */
-  .stars i {
-    font-size: 1.2rem;
-    margin: 0 2px;
-  }
-</style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const btn = document.getElementById('showAllBtn');
-    const allTestimonials = document.getElementById('allTestimonials');
-
-    btn.addEventListener('click', function() {
-      if (allTestimonials.style.display === 'none') {
-        allTestimonials.style.display = 'flex';
-        btn.textContent = 'Sembunyikan Semua Ulasan';
-      } else {
-        allTestimonials.style.display = 'none';
-        btn.textContent = 'Tampilkan Semua Ulasan';
-      }
-    });
-  });
-</script>
-
-
+    </section><!-- /Testimonials Section -->
 
  <!-- Team Section -->
 <section id="team" class="team section">
@@ -374,7 +286,7 @@
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
         <div class="team-member text-center">
           <div class="member-img">
-            <img src="assets/img/adina.png" alt="">
+            <img src="assets/img/team/team-1.jpg" alt="">
             <div class="social">
               <a href="#"><i class="bi bi-twitter-x"></i></a>
               <a href="#"><i class="bi bi-facebook"></i></a>
@@ -384,7 +296,7 @@
           </div>
           <div class="member-info">
             <h4>Adina Kanesya Dahuri</h4>
-            <span>24110146</span>
+            <span>24111111</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -420,7 +332,7 @@
           </div>
           <div class="member-info">
             <h4>Faisal Meilano</h4>
-            <span>24110162</span>
+            <span>24111111</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -438,7 +350,7 @@
           </div>
           <div class="member-info">
             <h4>Fitria Oktaviani</h4>
-            <span>24110207</span>
+            <span>24111111</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -447,7 +359,7 @@
       <div class="col-lg-3 col-md-4 col-sm-6 offset-lg-1 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
         <div class="team-member text-center">
           <div class="member-img">
-            <img src="assets/img/habil.png" alt="">
+            <img src="assets/img/team/team-5.jpg" alt="">
             <div class="social">
               <a href="#"><i class="bi bi-twitter-x"></i></a>
               <a href="#"><i class="bi bi-facebook"></i></a>
@@ -457,7 +369,7 @@
           </div>
           <div class="member-info">
             <h4>Habil Mahmudin</h4>
-            <span>24110081</span>
+            <span>24111111</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -475,7 +387,7 @@
           </div>
           <div class="member-info">
             <h4>Muhammad Rafli</h4>
-            <span>24110113</span>
+            <span>24111111</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -492,8 +404,8 @@
             </div>
           </div>
           <div class="member-info">
-            <h4>Vira Riska Nuraziza</h4>
-            <span>24110077</span>
+            <h4>Vira Rizka Nuraziza</h4>
+            <span>24111111</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -511,21 +423,6 @@
     border-radius: 10px; /* Biar sudutnya lembut */
   }
 </style>
-<script>
-  new Swiper('.testimonials-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    }
-  });
-</script>
 
 
   <footer id="footer" class="footer dark-background">
@@ -585,14 +482,16 @@
   </footer>
 
     <!-- JS Files -->
-    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
-    <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="<?php echo e(asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/vendor/aos/aos.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/vendor/glightbox/js/glightbox.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/vendor/swiper/swiper-bundle.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/main.js')); ?>"></script>
     
 
     <script>
         AOS.init();
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Dell\Documents\uas_kellima_laravel\resources\views/welcome.blade.php ENDPATH**/ ?>

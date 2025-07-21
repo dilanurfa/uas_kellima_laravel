@@ -1,13 +1,11 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <!-- CSS Imperial -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/aos/aos.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/bootstrap/css/bootstrap.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/aos/aos.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/glightbox/css/glightbox.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/swiper/swiper-bundle.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css')); ?>">
 
     <style>
         /* Make video visible and clear */
@@ -50,7 +48,7 @@
     <!-- Hero Section -->
     <section id="hero" class="hero section">
         <video autoplay muted loop id="bg-video" style="position:absolute; width:100%; height:100%; object-fit:cover;">
-            <source src="{{ asset('assets/img/studio.mp4') }}" type="video/mp4" />
+            <source src="<?php echo e(asset('assets/img/studio.mp4')); ?>" type="video/mp4" />
         </video>
         <div class="container text-center position-relative" style="z-index:2;">
             <h2 class="text-white">Selamat Datang di <em style="color:#1977cc;">The sound project </em>Studio Musik</h2>
@@ -200,29 +198,29 @@
         </div>
 
         <div class="row">
-            @if($ruangan->count())
-                @foreach($ruangan as $rgn)
+            <?php if($ruangan->count()): ?>
+                <?php $__currentLoopData = $ruangan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rgn): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="card shadow border-0">
-                            @if($rgn->foto)
-                                <img src="{{ asset('storage/' . $rgn->foto) }}" class="card-img-top studio-img" alt="{{ $rgn->nama_ruangan }}">
-                            @else
+                            <?php if($rgn->foto): ?>
+                                <img src="<?php echo e(asset('storage/' . $rgn->foto)); ?>" class="card-img-top studio-img" alt="<?php echo e($rgn->nama_ruangan); ?>">
+                            <?php else: ?>
                                 <img src="https://via.placeholder.com/400x600?text=No+Image" class="card-img-top studio-img" alt="No Image">
-                            @endif
+                            <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title text-primary">{{ $rgn->nama_ruangan }}</h5>
-                                <p class="card-text">Harga: <strong>Rp {{ number_format($rgn->harga, 0, ',', '.') }}</strong></p>
-                                <p class="card-text text-muted">{{ $rgn->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
-                                <a href="{{ route('klien.booking', $rgn->id) }}" class="btn btn-primary w-100">Booking Sekarang</a>
+                                <h5 class="card-title text-primary"><?php echo e($rgn->nama_ruangan); ?></h5>
+                                <p class="card-text">Harga: <strong>Rp <?php echo e(number_format($rgn->harga, 0, ',', '.')); ?></strong></p>
+                                <p class="card-text text-muted"><?php echo e($rgn->deskripsi ?? 'Tidak ada deskripsi.'); ?></p>
+                                <a href="<?php echo e(route('klien.booking', $rgn->id)); ?>" class="btn btn-primary w-100">Booking Sekarang</a>
                             </div>
                         </div>
                     </div>
-                @endforeach
-            @else
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php else: ?>
                 <div class="col-12 text-center">
                     <p class="text-muted">Belum ada studio tersedia saat ini</p>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -246,10 +244,10 @@
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    {{-- Swiper slider (testimoni utama) --}}
+    
     <div class="swiper testimonials-slider mb-5">
       <div class="swiper-wrapper">
-        @forelse($ulasanList as $ulasan)
+        <?php $__empty_1 = true; $__currentLoopData = $ulasanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ulasan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
           <div class="swiper-slide">
             <div class="testimonial-item text-center">
               <div class="row gy-4 justify-content-center">
@@ -257,36 +255,36 @@
                   <div class="testimonial-content">
                     <p class="text-center">
                       <i class="bi bi-quote quote-icon-left"></i>
-                      <span>{{ $ulasan->ulasan }}</span>
+                      <span><?php echo e($ulasan->ulasan); ?></span>
                       <i class="bi bi-quote quote-icon-right"></i>
                     </p>
-                    <h3 class="text-center mt-3">{{ $ulasan->nama ?? 'Anonim' }}</h3>
+                    <h3 class="text-center mt-3"><?php echo e($ulasan->nama ?? 'Anonim'); ?></h3>
                     <div class="stars d-flex justify-content-center mt-2">
-                      @for($i=1; $i<=5; $i++)
-                        @if($i <= $ulasan->rating)
+                      <?php for($i=1; $i<=5; $i++): ?>
+                        <?php if($i <= $ulasan->rating): ?>
                           <i class="bi bi-star-fill text-warning"></i>
-                        @else
+                        <?php else: ?>
                           <i class="bi bi-star text-warning"></i>
-                        @endif
-                      @endfor
+                        <?php endif; ?>
+                      <?php endfor; ?>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        @empty
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
           <div class="swiper-slide">
             <div class="testimonial-item text-center">
               <p class="text-center">Belum ada testimoni.</p>
             </div>
           </div>
-        @endforelse
+        <?php endif; ?>
       </div>
       <div class="swiper-pagination"></div>
     </div>
 
-   {{-- Tombol Tampilkan Semua Ulasan (Versi Kecil) --}}
+   
 <div class="text-center mb-4">
   <button id="showAllBtn"
     class="btn rounded-pill shadow-sm d-inline-flex align-items-center gap-1 fw-semibold"
@@ -297,29 +295,29 @@
 
 
 
-    {{-- Semua ulasan (disembunyikan dulu) --}}
+    
     <div id="allTestimonials" class="row justify-content-center g-4" style="display:none;">
-      @forelse($ulasanList as $ulasan)
+      <?php $__empty_1 = true; $__currentLoopData = $ulasanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ulasan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <div class="col-lg-4 col-md-6">
           <div class="card h-100 border-0 shadow-sm hover-shadow">
             <div class="card-body text-center">
-              <p class="fw-bold mb-1">{{ $ulasan->nama ?? 'Anonim' }}</p>
-              <p class="mb-3 text-muted">"{{ $ulasan->ulasan }}"</p>
+              <p class="fw-bold mb-1"><?php echo e($ulasan->nama ?? 'Anonim'); ?></p>
+              <p class="mb-3 text-muted">"<?php echo e($ulasan->ulasan); ?>"</p>
               <div class="stars d-flex justify-content-center">
-                @for($i=1; $i<=5; $i++)
-                  @if($i <= $ulasan->rating)
+                <?php for($i=1; $i<=5; $i++): ?>
+                  <?php if($i <= $ulasan->rating): ?>
                     <i class="bi bi-star-fill text-warning"></i>
-                  @else
+                  <?php else: ?>
                     <i class="bi bi-star text-warning"></i>
-                  @endif
-                @endfor
+                  <?php endif; ?>
+                <?php endfor; ?>
               </div>
             </div>
           </div>
         </div>
-      @empty
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
         <p class="text-center">Belum ada testimoni.</p>
-      @endforelse
+      <?php endif; ?>
     </div>
 
   </div>
@@ -585,14 +583,16 @@
   </footer>
 
     <!-- JS Files -->
-    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
-    <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="<?php echo e(asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/vendor/aos/aos.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/vendor/glightbox/js/glightbox.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/vendor/swiper/swiper-bundle.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/main.js')); ?>"></script>
     
 
     <script>
         AOS.init();
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Dell\Documents\uas_kellima_laravel\resources\views/klien/index.blade.php ENDPATH**/ ?>

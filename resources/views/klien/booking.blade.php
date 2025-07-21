@@ -10,7 +10,6 @@
 
             {{-- Bagian Foto + Tombol Kembali --}}
             <div class="col-md-6 d-none d-md-block position-relative">
-              <!-- Tombol kembali di pojok kiri atas foto -->
               <a href="{{ route('klien.index') }}#studios"
                  class="btn btn-light position-absolute m-3 d-flex align-items-center shadow-sm"
                  style="top: 0; left: 0; z-index: 10; border-radius: 50px; padding: 6px 12px; font-size: 14px;">
@@ -26,6 +25,21 @@
               <h3 class="text-center mb-4 fw-bold text-dark">
                 Booking Studio <br><span class="text-primary">{{ $Ruangan->nama_ruangan }}</span>
               </h3>
+
+              {{-- ✅ ALERT SESSION --}}
+              @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  {{ session('success') }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              @endif
+
+              @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  {{ session('error') }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              @endif
 
               {{-- Harga --}}
               <div class="text-center mb-4">
