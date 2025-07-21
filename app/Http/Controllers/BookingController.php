@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 use App\Models\Booking;
 use App\Models\Ruangan;
@@ -69,8 +71,10 @@ class BookingController extends Controller
         $ruangan = Ruangan::findOrFail($request->ruangan_id);
         $total_harga = $ruangan->harga * $request->durasi;
 
+        // Simpan file bukti pembayaran
         $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
 
+        // Simpan data booking
         $booking = Booking::create([
             'user_id'           => Auth::id(),
             'ruangan_id'        => $request->ruangan_id,
@@ -79,8 +83,8 @@ class BookingController extends Controller
             'jam'               => $request->jam,
             'durasi'            => $request->durasi,
             'metode_bayar'      => $request->metode_bayar,
-            'bukti_pembayaran'  => $request->buktipath,
-            'total_harga'       => $request->total_harga,
+            'bukti_pembayaran'  => $buktiPath, // ✅ sudah diperbaiki
+            'total_harga'       => $total_harga, // ✅ pakai hasil perhitungan
             'status'            => 'pending',
         ]);
 
@@ -104,11 +108,6 @@ class BookingController extends Controller
         return view('klien.show', compact('booking'));
     }
 
-    public function riwayat()
-    {
-        $bookings = Booking::where('user_id', Auth::id())->latest()->get();
-        return view('klien.riwayat', compact('bookings'));
-    }
 
     public function updateStatus(Request $request, $id)
     {
@@ -127,7 +126,42 @@ class BookingController extends Controller
                         ->get();
 
         return view('admin.booking.riwayat', compact('bookings'));
-
     }
+
+    public function download($id)
+{
+    $booking = Booking::findOrFail($id);
+    $pdf = Pdf::loadView('klien.show-unduh', compact('booking'));
+    return $pdf->download('bukti-pembayaran-' . $id . '.pdf');
+}
+
+ public function riwayat()
+    {
+        // ambil semua booking user yang sedang login
+        $riwayat = Booking::with('ruangan')
+            ->where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // kirim $riwayat ke view
+        return view('klien.riwayat', compact('riwayat'));
+    }
+
+    public function destroy($id) {
+    $booking = Booking::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+    $booking->delete();
+    return back()->with('success','Pesanan berhasil dihapus.');
+}
+
+public function cancel($id) {
+    $booking = Booking::where('id',$id)->where('user_id',Auth::id())->firstOrFail();
+    if($booking->status === 'pending'){
+        $booking->delete();
+        return back()->with('success','Pesanan berhasil dibatalkan.');
+    }
+    return back()->with('error','Pesanan sudah diproses, tidak bisa dibatalkan.');
+}
+
+    
 
 }

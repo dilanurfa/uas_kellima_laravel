@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('booking', function (Blueprint $table) {
-            //
+            // Tambahkan kolom nama, buat nullable supaya SQLite tidak error
+            $table->string('nama', 100)->nullable()->after('ruangan_id');
         });
     }
 
@@ -21,11 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('Booking', function (Blueprint $table) {
-        $table->integer('total_harga')->nullable();
-        $table->string('metode_bayar')->nullable();
-        $table->string('bukti_pembayaran')->nullable();
-    });
-
+        Schema::table('booking', function (Blueprint $table) {
+            $table->dropColumn('nama');
+        });
     }
 };

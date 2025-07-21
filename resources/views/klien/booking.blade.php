@@ -1,16 +1,24 @@
-@extends('layouts.app')
+@extends('layouts.nonav')
 
 @section('content')
-<section class="py-5" style="background: linear-gradient(to bottom right, #f8fafc, #e0f0ff);">
+<section class="py-4 bg-light">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <div class="card shadow-lg border-0 rounded-5 overflow-hidden">
-          <div class="row g-0">
+          <div class="row g-0 position-relative">
 
-            {{-- Gambar Studio --}}
-            <div class="col-md-6 d-none d-md-block">
-              <img src="{{ asset('storage/' . $Ruangan->foto) }}" alt="Gambar Studio" class="img-fluid h-100 w-100 object-fit-cover">
+            {{-- Bagian Foto + Tombol Kembali --}}
+            <div class="col-md-6 d-none d-md-block position-relative">
+              <!-- Tombol kembali di pojok kiri atas foto -->
+              <a href="{{ route('klien.index') }}#studios"
+                 class="btn btn-light position-absolute m-3 d-flex align-items-center shadow-sm"
+                 style="top: 0; left: 0; z-index: 10; border-radius: 50px; padding: 6px 12px; font-size: 14px;">
+                <i class="bi bi-arrow-left me-1"></i>
+              </a>
+              <img src="{{ asset('storage/' . $Ruangan->foto) }}" 
+                   alt="Gambar Studio" 
+                   class="img-fluid h-100 w-100 object-fit-cover">
             </div>
 
             {{-- Form Booking --}}
@@ -22,7 +30,9 @@
               {{-- Harga --}}
               <div class="text-center mb-4">
                 <div class="text-muted">Harga per Jam</div>
-                <div class="fs-4 fw-bold text-primary">Rp {{ number_format($Ruangan->harga, 0, ',', '.') }}</div>
+                <div class="fs-4 fw-bold text-primary">
+                  Rp {{ number_format($Ruangan->harga, 0, ',', '.') }}
+                </div>
               </div>
 
               {{-- Form --}}
@@ -51,11 +61,6 @@
                     @error('jam') <small class="text-danger">{{ $message }}</small> @enderror
                   </div>
                 </div>
-
-                {{-- Jika validasi jam sudah lewat --}}
-                @if ($errors->has('jam') && str_contains($errors->first('jam'), 'sudah berlalu'))
-                  <div class="mt-2 text-danger"><small>{{ $errors->first('jam') }}</small></div>
-                @endif
 
                 {{-- Durasi --}}
                 <div class="form-group mt-3 mb-3">
@@ -89,16 +94,16 @@
                 {{-- Info QRIS --}}
                 <div class="mb-3" id="qris-info" style="display: none;">
                   <div class="bg-light p-3 rounded border text-center">
-                    <img src="{{ asset('assets/img/qris.jpg') }}" alt="QRIS" class="img-fluid" style="max-width: 180px;">
+                    <img src="{{ asset('assets/img/qris.png') }}" alt="QRIS" class="img-fluid" style="max-width: 180px;">
                   </div>
                 </div>
 
                 {{-- Info Transfer --}}
                 <div class="mb-3" id="transfer-info" style="display: none;">
                   <div class="bg-light p-3 rounded border">
-                    <div class="text-dark">
-                      BCA - 1234567890 <br> a.n. Studio Musik
-                    </div>
+                    <div class="text-dark">BCA - 1234567890</div>
+                    <div class="text-dark">BRI - 50567890</div>
+                    <div class="text-dark">Mandiri - 98765432</div>
                   </div>
                 </div>
 
@@ -121,27 +126,27 @@
 </section>
 
 <script>
-function toggleInfo() {
-  const metode = document.getElementById('metode_bayar').value;
-  document.getElementById('qris-info').style.display = metode === 'qris' ? 'block' : 'none';
-  document.getElementById('transfer-info').style.display = metode === 'transfer' ? 'block' : 'none';
-}
+  function toggleInfo() {
+    const metode = document.getElementById('metode_bayar').value;
+    document.getElementById('qris-info').style.display = metode === 'qris' ? 'block' : 'none';
+    document.getElementById('transfer-info').style.display = metode === 'transfer' ? 'block' : 'none';
+  }
 
-function hitungTotal() {
-  const durasi = parseInt(document.getElementById('durasi').value);
-  const harga = parseInt(document.getElementById('harga_per_jam').value);
-  const total = durasi * harga;
-  const formatter = new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-    minimumFractionDigits: 0
-  });
-  document.getElementById('total_harga_display').value = durasi ? formatter.format(total) : '';
-}
+  function hitungTotal() {
+    const durasi = parseInt(document.getElementById('durasi').value);
+    const harga = parseInt(document.getElementById('harga_per_jam').value);
+    const total = durasi * harga;
+    const formatter = new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0
+    });
+    document.getElementById('total_harga_display').value = durasi ? formatter.format(total) : '';
+  }
 
-window.onload = function() {
-  toggleInfo();
-  hitungTotal();
-};
+  window.onload = function() {
+    toggleInfo();
+    hitungTotal();
+  };
 </script>
 @endsection

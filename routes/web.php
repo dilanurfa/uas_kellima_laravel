@@ -60,12 +60,20 @@ Route::middleware(['auth'])->group(function () {
     // Riwayat dan detail booking klien
     Route::get('/klien/riwayat', [BookingController::class, 'riwayat'])->name('klien.riwayat');
     Route::get('/klien/show/{id}', [BookingController::class, 'show'])->name('klien.show');
-    Route::delete('/booking/{id}/cancel', [BookingController::class, 'cancel'])->name('klien.cancel');
+    // Di web.php (klien group)
+Route::delete('/booking/{id}/delete', [BookingController::class, 'destroy'])->name('klien.delete');
+Route::post('/booking/{id}/cancel', [BookingController::class, 'cancel'])->name('klien.cancel');
+
 
     // Proses booking ruangan
     Route::get('/booking/{id}', [BookingController::class, 'create'])->name('klien.booking'); // Form booking
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');      // Simpan booking
     Route::get('/booking/success/{id}', [BookingController::class, 'success'])->name('booking.success'); // Sukses
+    Route::get('/booking/{id}/download', [BookingController::class, 'download'])->name('booking.download');
+    Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
+   Route::match(['get','post'], '/klien/riwayat', [App\Http\Controllers\KlienController::class, 'riwayat'])->name('klien.riwayat');
+
+
 });
 
 // ==========================

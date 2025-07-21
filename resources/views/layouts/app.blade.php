@@ -1,19 +1,19 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>The Sound Project</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
 
     <style>
         #header {
@@ -36,7 +36,7 @@
             color: #1a88d6;
         }
         #header .dropdown-menu {
-            background-color: #1977cc;
+            background-color: #ffffff;
             border: none;
             margin-top: 0.5rem;
             z-index: 2000;
@@ -49,6 +49,7 @@
         }
         #header .dropdown-menu a:hover {
             background-color: #145ea8;
+            color: #fff;
         }
         .dropdown-menu {
             transition: none !important;
@@ -73,6 +74,16 @@
                 width: 100%;
             }
         }
+
+        #header .navmenu .dropdown-toggle {
+    color: #fff !important;
+}
+
+#header .navmenu .dropdown-toggle:hover,
+#header .navmenu .dropdown-toggle:focus {
+    color: #1a88d6 !important;
+}
+
     </style>
 </head>
 <body>
@@ -86,25 +97,19 @@
             <nav id="navmenu" class="navmenu">
                 <ul class="d-flex align-items-center mb-0">
                     @auth
-                        @if (Request::is('admin*'))
-                            <!-- Navbar untuk admin -->
-                            <li><a href="#hero" class="active">Home</a></li>
-                            <li><a href="#about">Tentang</a></li>
-                        @else
-                            <!-- Navbar untuk user -->
-                            <li><a href="#hero" class="active">Home</a></li>
-                            <li><a href="#about">Tentang</a></li>
-                            <li><a href="#footer">Contact</a></li>
-                            <li><a href="{{ route('klien.riwayat') }}">Riwayat Booking</a></li>
-                        @endif
+                        <!-- Navbar untuk USER -->
+                        <li><a href="{{ url('/') }}#hero" class="active">Beranda</a></li>
+                        <li><a href="{{ url('/') }}#about">Tentang</a></li>
+                        <li><a href="{{ url('/') }}#footer">Kontak</a></li>
+                        <li><a href="{{ route('klien.riwayat') }}">Riwayat Booking</a></li>
 
-                        <!-- Dropdown nama user/admin -->
+                        <!-- Dropdown nama user -->
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
+                            <a id="navbarDropdown" href="#" role="button" class="dropdown-toggle"
+                               data-bs-toggle="dropdown" aria-expanded="false" style="color: inherit;">
                                 {{ Auth::user()->name }} <i class="bi bi-chevron-down"></i>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('akun.show') }}">
                                         Profil Saya
@@ -113,7 +118,7 @@
                                 <li>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Logout
+                                        Keluar
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
@@ -123,8 +128,8 @@
                         </li>
                     @else
                         <!-- Navbar untuk guest (belum login) -->
-                        <li><a href="{{ route('login') }}">Login</a></li>
-                        <li><a href="{{ route('register') }}">Register</a></li>
+                        <li><a href="{{ route('login') }}">Masuk</a></li>
+                        <li><a href="{{ route('register') }}">Daftar</a></li>
                     @endauth
                 </ul>
             </nav>
@@ -139,7 +144,7 @@
     <!-- Scripts -->
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
-        // Change navbar background on scroll
+        // Ubah background navbar ketika scroll
         window.addEventListener('scroll', function() {
             const header = document.querySelector('#header');
             header.classList.toggle('scrolled', window.scrollY > 50);
