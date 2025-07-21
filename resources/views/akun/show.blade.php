@@ -139,7 +139,6 @@
                     <div class="col stat-box">
                 <h4>{{ $totalRiwayat }}</h4><small>Riwayat</small>
                     </div> 
-                    
 
                     <div class="col stat-box">
                         <h4>{{ \Carbon\Carbon::parse($user->created_at)->format('Y') }}</h4><small>Member Sejak</small>

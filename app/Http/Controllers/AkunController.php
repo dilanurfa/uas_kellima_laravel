@@ -21,8 +21,13 @@ class AkunController extends Controller
     $user = Auth::user();
 
     // Hitung jumlah booking dan riwayat
-    $totalBooking = $user->booking()->whereIn('status', ['pending', 'confirmed'])->count();
-    $totalRiwayat = $user->booking()->whereIn('status', ['selesai', 'cancelled'])->count();
+   $totalBooking = $user->booking()
+    ->whereIn('status', ['approved', 'lunas']) // hanya booking yang disetujui admin
+    ->count();
+
+$totalRiwayat = $user->booking()
+    ->where('status', 'lunas') // hanya jika booking selesai
+    ->count();
 
     return view('akun.show', compact('user', 'totalBooking', 'totalRiwayat'));
 }
@@ -51,7 +56,7 @@ class AkunController extends Controller
                 'nullable',
                 'min:6',
                 'confirmed',
-                'regex:/^(?=.*[0-9])(?=.*[\W_]).+$/'
+                'regex:/^(?=.[0-9])(?=.[\W_]).+$/'
             ],
         ], [
             'password.regex' => 'Password harus mengandung minimal 1 angka dan 1 simbol.',
