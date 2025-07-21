@@ -183,7 +183,7 @@
             <p>Ayo booking sekarang juga, sebelum keduluan orang lain!</p>
           </div>
           <div class="col-xl-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="#">Booking</a>
+            <a href="#studios" class="cta-btn align-middle" >Booking</a>
           </div>
         </div>
 
