@@ -116,20 +116,7 @@
                         <div class="invalid-feedback mt-1">{{ $message }}</div>
                       @enderror
                     </div>
-
-                    <div class="form-check mb-3">
-                      <input
-                        type="checkbox"
-                        class="form-check-input"
-                        name="remember"
-                        id="remember"
-                        {{ old('remember') ? 'checked' : '' }}
-                      >
-                      <label class="form-check-label" for="remember">
-                        Ingat Saya
-                      </label>
-                    </div>
-
+                    
                     <button type="submit" class="btn btn-theme btn-block">
                       Masuk
                     </button>

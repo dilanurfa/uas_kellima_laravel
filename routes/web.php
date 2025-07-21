@@ -7,6 +7,7 @@ use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\KlienController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AkunController;
 
@@ -26,21 +27,27 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // ==========================
 // ADMIN ROUTES
 // ==========================
-Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
 
-    // Dashboard admin
+Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // Dashboard & Pages
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::resource('ruangan', RuanganController::class);
+    Route::get('/booking/riwayat', [BookingController::class, 'riwayatAdmin'])->name('booking.riwayat');
+
 
     // Manajemen pengguna dan ruangan
     Route::resource('users', UserController::class);
     Route::resource('Ruangan', RuanganController::class);
 
-    // Manajemen booking oleh admin
-    Route::get('/booking', [BookingController::class, 'booking'])->name('booking');
-    Route::post('/booking/{id}/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');
-    Route::post('/booking/{id}/reject', [BookingController::class, 'reject'])->name('booking.reject');
-});
+    // ✅ Manajemen booking oleh admin
+    Route::get('/booking', [AdminBookingController::class, 'index'])->name('booking.index');
+    Route::post('/booking/{id}/confirm', [AdminBookingController::class, 'confirm'])->name('booking.confirm');
+    Route::post('/booking/{id}/reject', [AdminBookingController::class, 'reject'])->name('booking.reject');
+    Route::post('/booking/selesai/{id}', [AdminBookingController::class, 'selesaikan'])->name('booking.selesai');
 
+});
 // ==========================
 // KLIEN ROUTES
 // ==========================

@@ -1,84 +1,92 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<div class="container-fluid py-5" style="background-color: #f0f0f0;">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold" style="color: #222;">Selamat Datang, {{ Auth::user()->name }}!</h2>
-        <p class="text-muted">Anda masuk sebagai <strong>Administrator</strong>. Silakan pilih menu berikut untuk mengelola sistem.</p>
-    </div>
+<div class="container-fluid py-4">
+    <h2 class="mb-4 fw-bold text-dark">📊 Dashboard Admin</h2>
 
-    <div class="container">
-        <div class="row g-4 justify-content-center">
-
-            <div class="col-md-4 col-lg-3">
-                <div class="card h-100 text-center border-0 shadow feature-card bg-white">
-                    <div class="card-body">
-                        <div class="icon-circle mb-4">
-                            <i class="fas fa-users fa-2x text-dark"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark">Manajemen User</h5>
-                        <p class="text-muted small">Kelola data pengguna sistem.</p>
-                        <a href="{{ route('admin.users.index') }}" class="btn btn-dark btn-sm px-4 rounded-pill">Kelola User</a>
-                    </div>
+    {{-- Statistik --}}
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm text-white bg-info rounded-4">
+                <div class="card-body">
+                    <h5 class="mb-1">Total Booking</h5>
+                    <h3 class="fw-bold">{{ $totalBooking ?? 0 }}</h3>
                 </div>
             </div>
-
-            <div class="col-md-4 col-lg-3">
-                <div class="card h-100 text-center border-0 shadow feature-card bg-white">
-                    <div class="card-body">
-                        <div class="icon-circle mb-4">
-                            <i class="fas fa-door-open fa-2x text-dark"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark">Manajemen Ruangan</h5>
-                        <p class="text-muted small">Kelola data studio/ruangan.</p>
-                        <a href="{{ route('admin.Ruangan.index') }}" class="btn btn-dark btn-sm px-4 rounded-pill">Kelola Ruangan</a>
-                    </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm text-white bg-success rounded-4">
+                <div class="card-body">
+                    <h5 class="mb-1">Booking Diterima</h5>
+                    <h3 class="fw-bold">{{ $totalAccepted ?? 0 }}</h3>
                 </div>
             </div>
-
-            <div class="col-md-4 col-lg-3">
-                <div class="card h-100 text-center border-0 shadow feature-card bg-white">
-                    <div class="card-body">
-                        <div class="icon-circle mb-4">
-                            <i class="fas fa-calendar-check fa-2x text-dark"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark">Daftar Booking</h5>
-                        <p class="text-muted small">Lihat semua pemesanan studio.</p>
-                        <a href="{{ route('admin.booking') }}" class="btn btn-dark btn-sm px-4 rounded-pill">Lihat Booking</a>
-                    </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm text-dark bg-warning rounded-4">
+                <div class="card-body">
+                    <h5 class="mb-1">Booking Menunggu</h5>
+                    <h3 class="fw-bold">{{ $totalPending ?? 0 }}</h3>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    body {
-        background-color: #f0f0f0;
-    }
-    .icon-circle {
-        width: 70px;
-        height: 70px;
-        overflow: hidden;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background-color: #fff;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .feature-card:hover {
-        transform: translateY(-5px);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-    .btn-dark {
-        background-color: #333;
-        border: none;
-    }
-    .btn-dark:hover {
-        background-color: #000;
-        color: #fff;
-    }
-</style>
+    {{-- Tabel Booking Terbaru --}}
+    <div class="card shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-clock me-2"></i>Daftar Booking Terbaru</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle table-borderless mb-0 text-center">
+                    <thead class="bg-light text-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Nama User</th>
+                            <th>Ruangan</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($bookings->take(5) as $index => $booking)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $booking->user->name }}</td>
+                                <td>{{ $booking->ruangan->nama_ruangan }}</td>
+                                <td>{{ $booking->tanggal }}</td>
+                                <td>
+                                    @php
+                                        $statusClass = match($booking->status) {
+                                            'lunas' => 'success',
+                                            'pending' => 'warning text-dark',
+                                            'ditolak' => 'danger',
+                                            default => 'secondary'
+                                        };
+                                    @endphp
+                                    <span class="badge bg-{{ $statusClass }}">
+                                        {{ ucfirst($booking->status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    @if($booking->status == 'approved')
+                                        <form action="{{ route('admin.booking.selesai', $booking->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button class="btn btn-primary btn-sm rounded-pill px-3" type="submit">✔ Selesai</button>
+                                        </form>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-muted py-4">Belum ada data booking.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
