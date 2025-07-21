@@ -16,6 +16,21 @@
       <div style="width:45px;"></div>
     </div>
 
+    {{-- ✅ NOTIFIKASI SESSION --}}
+    @if (session('success'))
+      <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
+    @if (session('error'))
+      <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
     @forelse ($riwayat as $item)
       <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
         <div class="row g-0 align-items-stretch">
@@ -63,41 +78,50 @@
               @endif
             </div>
 
-            <div class="d-flex justify-content-between flex-wrap gap-2">
+            {{-- Tombol Aksi --}}
+            <div class="d-flex justify-content-center flex-wrap gap-2">
+              {{-- Detail --}}
+              <a href="{{ route('klien.show',$item->id) }}"
+                 class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center"
+                 data-bs-toggle="tooltip" title="Detail"
+                 style="width:42px;height:42px;">
+                <i class="bi bi-info-circle fs-6"></i>
+              </a>
+
               {{-- Chat --}}
-              <a href="#" class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
-                 data-bs-toggle="tooltip" title="Chat" style="width:42px;height:42px;">
+              <a href="#"
+                 class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                 data-bs-toggle="tooltip" title="Chat"
+                 style="width:42px;height:42px;">
                 <i class="bi bi-chat-dots fs-6"></i>
               </a>
 
-              {{-- Detail --}}
-              <a href="{{ route('klien.show',$item->id) }}" class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center"
-                 data-bs-toggle="tooltip" title="Detail" style="width:42px;height:42px;">
-                <i class="bi bi-info-circle fs-6"></i>
-              </a>
+              {{-- Hapus (berdekatan dengan chat) --}}
+              <form action="{{ route('klien.delete',$item->id) }}" method="POST"
+                    onsubmit="return confirm('Hapus pesanan ini secara permanen?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                        class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center"
+                        data-bs-toggle="tooltip" title="Hapus"
+                        style="width:42px;height:42px;">
+                  <i class="bi bi-trash fs-6"></i>
+                </button>
+              </form>
 
               {{-- Batalkan jika pending --}}
               @if($item->status === 'pending')
                 <form action="{{ route('klien.cancel',$item->id) }}" method="POST"
                       onsubmit="return confirm('Yakin membatalkan pesanan ini?');">
                   @csrf
-                  <button type="submit" class="btn btn-outline-warning rounded-circle d-flex align-items-center justify-content-center"
-                          data-bs-toggle="tooltip" title="Batalkan" style="width:42px;height:42px;">
+                  <button type="submit"
+                          class="btn btn-outline-warning rounded-circle d-flex align-items-center justify-content-center"
+                          data-bs-toggle="tooltip" title="Batalkan"
+                          style="width:42px;height:42px;">
                     <i class="bi bi-x-circle fs-6"></i>
                   </button>
                 </form>
               @endif
-
-              {{-- Hapus --}}
-              <form action="{{ route('klien.delete',$item->id) }}" method="POST"
-                    onsubmit="return confirm('Hapus pesanan ini secara permanen?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center"
-                        data-bs-toggle="tooltip" title="Hapus" style="width:42px;height:42px;">
-                  <i class="bi bi-trash fs-6"></i>
-                </button>
-              </form>
             </div>
           </div>
         </div>
@@ -156,6 +180,7 @@ document.addEventListener('DOMContentLoaded',function(){
   var tooltipTriggerList=[].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
   tooltipTriggerList.map(function(el){return new bootstrap.Tooltip(el)})
 
+  // Rating interaktif
   document.querySelectorAll('[id^="rating-"]').forEach(function(container){
     const id=container.id.split('-')[1];
     const stars=container.querySelectorAll('i');

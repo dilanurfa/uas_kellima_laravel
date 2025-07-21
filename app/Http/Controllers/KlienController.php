@@ -1,71 +1,72 @@
 <?php
 
-namespace App\Http\Controllers; // ✅ ini yang benar
+namespace App\Http\Controllers;
 
 use App\Models\Booking;
-use Illuminate\Http\Request; // ✅ gunakan request yang benar
-use Illuminate\Support\Facades\Auth;
 use App\Models\Ruangan;
+use Illuminate\Http\Request;
 
 class KlienController extends Controller
 {
+    // ✅ Halaman utama klien (menampilkan ruangan + ulasan)
+    public function index()
+    {
+        $ruangan = Ruangan::all();
 
-public function index() {
-    $ruangan = Ruangan::all();
-    $ulasanList = Booking::with('ruangan')
-        ->whereNotNull('rating')
-        ->whereNotNull('ulasan')
-        ->latest()
-        ->get();
+        $ulasanList = Booking::with('ruangan')
+            ->whereNotNull('rating')
+            ->whereNotNull('ulasan')
+            ->latest()
+            ->get();
 
-    return view('klien.index', compact('ruangan', 'ulasanList'));
-}
-
-
+        return view('klien.index', compact('ruangan', 'ulasanList'));
+    }
 
     public function dashboard()
     {
         return view('klien.dashboard');
     }
 
-   public function riwayat(Request $request)
-{
-    // kalau POST berarti kirim ulasan
-    if ($request->isMethod('post')) {
-        $request->validate([
-            'booking_id' => 'required|exists:booking,id',
-            'rating'     => 'required|integer|min:1|max:5',
-            'ulasan'     => 'required|string|max:1000',
-        ]);
+    // ✅ Halaman riwayat + proses kirim ulasan
+    public function riwayat(Request $request)
+    {
+        // Jika POST → simpan ulasan
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'booking_id' => 'required|exists:booking,id',
+                'rating'     => 'required|integer|min:1|max:5',
+                'ulasan'     => 'required|string|max:1000',
+            ]);
 
-        $booking = \App\Models\Booking::findOrFail($request->booking_id);
+            $booking = Booking::findOrFail($request->booking_id);
 
-        // pastikan milik user yang login
-        if ($booking->user_id !== auth()->id()) {
-            return back()->with('error','Tidak diizinkan.');
+            // pastikan milik user login
+            if ($booking->user_id !== auth()->id()) {
+                return back()->with('error', 'Tidak diizinkan.');
+            }
+
+            // pastikan statusnya lunas
+            if ($booking->status !== 'lunas') {
+                return back()->with('error', 'Booking belum selesai.');
+            }
+
+            // simpan rating & ulasan
+            $booking->rating = $request->rating;
+            $booking->ulasan = $request->ulasan;
+            $booking->save();
+
+            // redirect ke halaman index dengan notifikasi
+            return redirect()
+                ->route('klien.riwayat')
+                ->with('success', 'Terima kasih! Ulasan Anda tersimpan.');
         }
 
-        // pastikan statusnya lunas
-        if ($booking->status !== 'lunas') {
-            return back()->with('error','Belum selesai.');
-        }
+        // Jika GET → tampilkan riwayat
+        $riwayat = Booking::with('ruangan')
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->get();
 
-        // simpan rating & ulasan
-        $booking->rating = $request->rating;
-        $booking->ulasan = $request->ulasan;
-        $booking->save();
-
-        // setelah simpan → redirect ke klien.index
-        return redirect()->route('klien.index')->with('success','Terima kasih! Ulasan Anda tersimpan.');
+        return view('klien.riwayat', compact('riwayat'));
     }
-
-    // kalau GET, tampilkan halaman riwayat
-    $riwayat = \App\Models\Booking::with('ruangan')
-                ->where('user_id', auth()->id())
-                ->latest()
-                ->get();
-
-    return view('klien.riwayat', compact('riwayat'));
-}
-
 }

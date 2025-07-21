@@ -284,12 +284,16 @@
       <div class="swiper-pagination"></div>
     </div>
 
-    
-    <div class="text-center mb-4">
-      <button class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" id="showAllBtn">
-        Tampilkan Semua Ulasan
-      </button>
-    </div>
+   
+<div class="text-center mb-4">
+  <button id="showAllBtn"
+    class="btn rounded-pill shadow-sm d-inline-flex align-items-center gap-1 fw-semibold"
+    style="font-size: 0.85rem; padding: 6px 16px; background-color: #000; color: #fff; border: none;">
+    Tampilkan Semua Ulasan
+  </button>
+</div>
+
+
 
     
     <div id="allTestimonials" class="row justify-content-center g-4" style="display:none;">

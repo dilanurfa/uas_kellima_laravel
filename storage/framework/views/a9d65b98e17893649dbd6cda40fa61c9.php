@@ -8,7 +8,6 @@
 
             
             <div class="col-md-6 d-none d-md-block position-relative">
-              <!-- Tombol kembali di pojok kiri atas foto -->
               <a href="<?php echo e(route('klien.index')); ?>#studios"
                  class="btn btn-light position-absolute m-3 d-flex align-items-center shadow-sm"
                  style="top: 0; left: 0; z-index: 10; border-radius: 50px; padding: 6px 12px; font-size: 14px;">
@@ -24,6 +23,23 @@
               <h3 class="text-center mb-4 fw-bold text-dark">
                 Booking Studio <br><span class="text-primary"><?php echo e($Ruangan->nama_ruangan); ?></span>
               </h3>
+
+              
+              <?php if(session('success')): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <?php echo e(session('success')); ?>
+
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <?php endif; ?>
+
+              <?php if(session('error')): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <?php echo e(session('error')); ?>
+
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <?php endif; ?>
 
               
               <div class="text-center mb-4">
