@@ -1,5 +1,5 @@
 <?php $__env->startSection('content'); ?>
-
+    <!-- CSS Imperial -->
     <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/bootstrap/css/bootstrap.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/aos/aos.css')); ?>">
@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css')); ?>">
 
     <style>
+        /* Make video visible and clear */
         #hero {
             position: relative;
             min-height: 100vh;
@@ -25,9 +26,9 @@
         #hero .container {
             position: relative;
             z-index: 2;
-            color: #ffffff;
+            color: #fff;
         }
-
+        /* Remove any overlay */
         #hero::before {
             content: none;
         }
@@ -91,7 +92,7 @@
 
         <!-- Tombol Read More -->
         <a href="javascript:void(0);" class="read-more" onclick="toggleMorePoints()">
-          <span>Read More</span> <i class="bi bi-arrow-down"></i>
+          <span>Lebih lanjut</span> <i class="bi bi-arrow-down"></i>
         </a>
       </div>
     </div>
@@ -180,7 +181,7 @@
             <p>Ayo booking sekarang juga, sebelum keduluan orang lain!</p>
           </div>
           <div class="col-xl-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="login">Booking</a>
+            <a href="#studios" class="cta-btn align-middle" >Booking</a>
           </div>
         </div>
 
@@ -197,8 +198,8 @@
         </div>
 
         <div class="row">
-            <?php if($Ruangan->count()): ?>
-                <?php $__currentLoopData = $Ruangan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rgn): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php if($ruangan->count()): ?>
+                <?php $__currentLoopData = $ruangan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rgn): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="card shadow border-0">
                             <?php if($rgn->foto): ?>
@@ -235,40 +236,121 @@
 </style>
 
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section">
+<section id="testimonials" class="testimonials section">
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Tesimoni</h2>
-      </div><!-- End Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2 class="text-center">Testimoni</h2>
+  </div>
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="swiper init-swiper">
-
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="row gy-4 justify-content-center">
-                  <div class="col-lg-6">
-                    <div class="testimonial-content">
-                      <p>
-                        <i class="bi bi-quote quote-icon-left"></i>
-                        <span>Widihhhhh mantap jos studio nya keren banget, banyak pilihan lagi... top markotop deh buat The Sound Project. Perbanyak cabang banggg, keren. semangat terus deh</span>
-                        <i class="bi bi-quote quote-icon-right"></i>
-                      </p>
-                      <h3>Kak Gem</h3>
-                      <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                      </div>
+    
+    <div class="swiper testimonials-slider mb-5">
+      <div class="swiper-wrapper">
+        <?php $__empty_1 = true; $__currentLoopData = $ulasanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ulasan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+          <div class="swiper-slide">
+            <div class="testimonial-item text-center">
+              <div class="row gy-4 justify-content-center">
+                <div class="col-lg-8">
+                  <div class="testimonial-content">
+                    <p class="text-center">
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      <span><?php echo e($ulasan->ulasan); ?></span>
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                    <h3 class="text-center mt-3"><?php echo e($ulasan->nama ?? 'Anonim'); ?></h3>
+                    <div class="stars d-flex justify-content-center mt-2">
+                      <?php for($i=1; $i<=5; $i++): ?>
+                        <?php if($i <= $ulasan->rating): ?>
+                          <i class="bi bi-star-fill text-warning"></i>
+                        <?php else: ?>
+                          <i class="bi bi-star text-warning"></i>
+                        <?php endif; ?>
+                      <?php endfor; ?>
                     </div>
                   </div>
                 </div>
               </div>
-            </div><!-- End testimonial item -->
+            </div>
+          </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+          <div class="swiper-slide">
+            <div class="testimonial-item text-center">
+              <p class="text-center">Belum ada testimoni.</p>
+            </div>
+          </div>
+        <?php endif; ?>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
 
-    </section><!-- /Testimonials Section -->
+    
+    <div class="text-center mb-4">
+      <button class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" id="showAllBtn">
+        Tampilkan Semua Ulasan
+      </button>
+    </div>
+
+    
+    <div id="allTestimonials" class="row justify-content-center g-4" style="display:none;">
+      <?php $__empty_1 = true; $__currentLoopData = $ulasanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ulasan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100 border-0 shadow-sm hover-shadow">
+            <div class="card-body text-center">
+              <p class="fw-bold mb-1"><?php echo e($ulasan->nama ?? 'Anonim'); ?></p>
+              <p class="mb-3 text-muted">"<?php echo e($ulasan->ulasan); ?>"</p>
+              <div class="stars d-flex justify-content-center">
+                <?php for($i=1; $i<=5; $i++): ?>
+                  <?php if($i <= $ulasan->rating): ?>
+                    <i class="bi bi-star-fill text-warning"></i>
+                  <?php else: ?>
+                    <i class="bi bi-star text-warning"></i>
+                  <?php endif; ?>
+                <?php endfor; ?>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+        <p class="text-center">Belum ada testimoni.</p>
+      <?php endif; ?>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Tambahan efek hover untuk card */
+  .hover-shadow:hover {
+    transform: translateY(-3px);
+    transition: 0.3s ease;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15)!important;
+  }
+  /* Supaya bintang selalu kuning */
+  .stars i {
+    font-size: 1.2rem;
+    margin: 0 2px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('showAllBtn');
+    const allTestimonials = document.getElementById('allTestimonials');
+
+    btn.addEventListener('click', function() {
+      if (allTestimonials.style.display === 'none') {
+        allTestimonials.style.display = 'flex';
+        btn.textContent = 'Sembunyikan Semua Ulasan';
+      } else {
+        allTestimonials.style.display = 'none';
+        btn.textContent = 'Tampilkan Semua Ulasan';
+      }
+    });
+  });
+</script>
+
+
 
  <!-- Team Section -->
 <section id="team" class="team section">
@@ -286,7 +368,7 @@
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
         <div class="team-member text-center">
           <div class="member-img">
-            <img src="assets/img/team/team-1.jpg" alt="">
+            <img src="assets/img/adina.png" alt="">
             <div class="social">
               <a href="#"><i class="bi bi-twitter-x"></i></a>
               <a href="#"><i class="bi bi-facebook"></i></a>
@@ -296,7 +378,7 @@
           </div>
           <div class="member-info">
             <h4>Adina Kanesya Dahuri</h4>
-            <span>24111111</span>
+            <span>24110146</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -332,7 +414,7 @@
           </div>
           <div class="member-info">
             <h4>Faisal Meilano</h4>
-            <span>24111111</span>
+            <span>24110162</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -350,7 +432,7 @@
           </div>
           <div class="member-info">
             <h4>Fitria Oktaviani</h4>
-            <span>24111111</span>
+            <span>24110207</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -359,7 +441,7 @@
       <div class="col-lg-3 col-md-4 col-sm-6 offset-lg-1 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
         <div class="team-member text-center">
           <div class="member-img">
-            <img src="assets/img/team/team-5.jpg" alt="">
+            <img src="assets/img/habil.png" alt="">
             <div class="social">
               <a href="#"><i class="bi bi-twitter-x"></i></a>
               <a href="#"><i class="bi bi-facebook"></i></a>
@@ -369,7 +451,7 @@
           </div>
           <div class="member-info">
             <h4>Habil Mahmudin</h4>
-            <span>24111111</span>
+            <span>24110081</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -387,7 +469,7 @@
           </div>
           <div class="member-info">
             <h4>Muhammad Rafli</h4>
-            <span>24111111</span>
+            <span>24110113</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -404,8 +486,8 @@
             </div>
           </div>
           <div class="member-info">
-            <h4>Vira Rizka Nuraziza</h4>
-            <span>24111111</span>
+            <h4>Vira Riska Nuraziza</h4>
+            <span>24110077</span>
           </div>
         </div>
       </div><!-- End Team Member -->
@@ -423,6 +505,21 @@
     border-radius: 10px; /* Biar sudutnya lembut */
   }
 </style>
+<script>
+  new Swiper('.testimonials-slider', {
+    speed: 600,
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false
+    },
+    slidesPerView: 'auto',
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    }
+  });
+</script>
 
 
   <footer id="footer" class="footer dark-background">
@@ -494,4 +591,4 @@
     </script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\ASUS VIVOBOOK DC\uas_kellima_laravel\resources\views/welcome.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\ASUS VIVOBOOK DC\uas_kellima_laravel\resources\views/klien/index.blade.php ENDPATH**/ ?>

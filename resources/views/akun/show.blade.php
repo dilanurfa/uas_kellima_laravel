@@ -133,12 +133,14 @@
                 <p class="text-secondary small mb-4">{{ $user->role->name ?? 'User Biasa' }}</p>
 
                 <div class="row text-center mb-4">
-                    <div class="col stat-box">
-                        <h4>12</h4><small>Booking</small>
+                   <div class="col stat-box">
+                <h4>{{ $totalBooking }}</h4><small>Booking</small>
                     </div>
                     <div class="col stat-box">
-                        <h4>5</h4><small>Riwayat</small>
-                    </div>
+                <h4>{{ $totalRiwayat }}</h4><small>Riwayat</small>
+                    </div> 
+                    
+
                     <div class="col stat-box">
                         <h4>{{ \Carbon\Carbon::parse($user->created_at)->format('Y') }}</h4><small>Member Sejak</small>
                     </div>

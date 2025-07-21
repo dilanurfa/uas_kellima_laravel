@@ -15,12 +15,18 @@ class AkunController extends Controller
         $this->middleware('auth');
     }
 
-    // Tampilkan halaman profil
-    public function show()
-    {
-        $user = Auth::user();
-        return view('akun.show', compact('user'));
-    }
+    // Tampilkan halaman profil (yang jeon perbaiki barusan)
+   public function show()
+{
+    $user = Auth::user();
+
+    // Hitung jumlah booking dan riwayat
+    $totalBooking = $user->booking()->whereIn('status', ['pending', 'confirmed'])->count();
+    $totalRiwayat = $user->booking()->whereIn('status', ['selesai', 'cancelled'])->count();
+
+    return view('akun.show', compact('user', 'totalBooking', 'totalRiwayat'));
+}
+//sampe sini
 
     // Tampilkan form edit profil
     public function edit()
@@ -88,4 +94,5 @@ class AkunController extends Controller
 
         return response()->json(['success' => true]);
     }
+    
 }
