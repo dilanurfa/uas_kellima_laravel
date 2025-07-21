@@ -83,4 +83,10 @@ Route::middleware(['auth'])->prefix('akun')->name('akun.')->group(function () {
     Route::get('/', [AkunController::class, 'show'])->name('show');
     Route::get('/edit', [AkunController::class, 'edit'])->name('edit');
     Route::post('/update', [AkunController::class, 'update'])->name('update');
+    
+   // Tambahan dari Jeon untuk upload foto profil
+    Route::post('/photo', [AkunController::class, 'updatePhoto'])->name('photo.update');
+
+    
 });
+
