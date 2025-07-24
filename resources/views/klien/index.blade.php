@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- CSS Imperial -->
+    <!-- ini tu aku mencari dari boostrapp yaaa namanya tu imperial-->
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/aos/aos.css') }}">
@@ -10,11 +10,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
 
     <style>
-        /* Make video visible and clear */
-        #hero {
-            position: relative;
-            min-height: 100vh;
-            overflow: hidden;
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
         }
         #bg-video {
             position: absolute;
@@ -30,7 +29,7 @@
             z-index: 2;
             color: #fff;
         }
-        /* Remove any overlay */
+
         #hero::before {
             content: none;
         }
@@ -43,11 +42,10 @@
             border-color: #145ea8;
         }
         .text-primary {
-            color: #1977cc !important;
+            color: #1977cc;
         }
-    </style>
+        </style>
 
-    <!-- Hero Section -->
     <section id="hero" class="hero section">
         <video autoplay muted loop id="bg-video" style="position:absolute; width:100%; height:100%; object-fit:cover;">
             <source src="{{ asset('assets/img/studio.mp4') }}" type="video/mp4" />
@@ -58,91 +56,75 @@
             <a href="#studios" class="btn btn-primary">Lihat Studio</a>
         </div>
     </section>
+    
+    
+    <section id="about" class="about section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>TENTANG</h2>
+      </div>      
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+            <img src="assets/img/studiooo.jpeg" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+            <h3>Fakta Unik The Sound Project</h3>
+            <p class="fst-italic">Wah menarik nih, kita ulik yok</p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> <span>Nama The Sound Project adalah hasil dari keasbunan</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Target market kami adalah generasi Z yang santai dan tidak rese </span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Di kami, kamu bebas mau guling-guling juga boleh, asal jangan ganggu</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Awalnya bangunan kami itu makam keramat</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>The Sound Project tidak menggunakan tumbal</span></li>
+            </ul>
+            
+          <!-- ini tu yang disembunyiin pokoknya (biar keren aja) -->
+          <div id="more-points" style="display: none;">
+            <ul>
+              <li><i class="bi bi-check-circle"></i> <span>Cukup segitu aja hehe</span></li>
+            </ul>
+          </div>
 
-       <section id="about" class="about section">
-
-  <!-- Section Title -->
-  <div class="container section-title" data-aos="fade-up">
-    <h2>TENTANG</h2>
-  </div><!-- End Section Title -->
-
-  <div class="container">
-    <div class="row gy-4">
-      <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
-        <img src="assets/img/studiooo.jpeg" class="img-fluid" alt="">
-      </div>
-
-      <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
-        <h3>Fakta Unik The Sound Project</h3>
-        <p class="fst-italic">
-          Wah menarik nih, kita ulik yok
-        </p>
-        <ul>
-          <li><i class="bi bi-check-circle"></i> <span>Nama The Sound Project adalah hasil dari keasbunan</span></li>
-          <li><i class="bi bi-check-circle"></i> <span>Target market kami adalah generasi Z yang santai dan tidak rese </span></li>
-          <li><i class="bi bi-check-circle"></i> <span>Di kami, kamu bebas mau guling-guling juga boleh, asal jangan ganggu</span></li>
-           <li><i class="bi bi-check-circle"></i> <span>Awalnya bangunan kami itu makam keramat</span></li>
-            <li><i class="bi bi-check-circle"></i> <span>The Sound Project tidak menggunakan tumbal</span></li>
-        </ul>
-
-        <!-- Tambahan yang disembunyikan -->
-        <div id="more-points" style="display: none;">
-          <ul>
-            <li><i class="bi bi-check-circle"></i> <span>Cukup segitu aja hehe</span></li>
-          </ul>
-        </div>
-
-        <!-- Tombol Read More -->
+        <!-- nah ini button alias tombol.
+        yang href java ituu buat kalo di klik lanjut dia gabakal nge refresh, jadi kan ga ganggu dimata.
+        nah yang onclick itu buat transisinya gitu jadi bisa muncul si tulisan yang disembunyikan nya -->
         <a href="javascript:void(0);" class="read-more" onclick="toggleMorePoints()">
           <span>Lebih lanjut</span> <i class="bi bi-arrow-down"></i>
         </a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<script>
-  function toggleMorePoints() {
-    const morePoints = document.getElementById('more-points');
-    const readMoreBtn = document.querySelector('.read-more span');
-    const readMoreIcon = document.querySelector('.read-more i');
-
-    if (morePoints.style.display === "none") {
-      morePoints.style.display = "block";
-      readMoreBtn.textContent = "Show Less";
-      readMoreIcon.classList.remove('bi-arrow-down');
-      readMoreIcon.classList.add('bi-arrow-up');
-    } else {
-      morePoints.style.display = "none";
-      readMoreBtn.textContent = "Read More";
-      readMoreIcon.classList.remove('bi-arrow-up');
-      readMoreIcon.classList.add('bi-arrow-down');
-    }
-  }
-</script>
-
-
+    </section>
     
-<!-- Features Section -->
-    <section id="features" class="features section">
+    <script>   
+    function toggleMorePoints() { //initu buat kaya fungsi button nya
+    const morePoints = document.getElementById('more-points');    //initu tulisan yang td aku sembunyiin
+    
+    //pokoknya yang if itu nunjukin kondisi kalo tulisan masih disembunyiin berarti bisa di klik,  nah yang else itu buat nyembunyiin tulisan nya lagi
+    if (morePoints.style.display === "none") { 
+        morePoints.style.display = "block";
+        } else {
+        morePoints.style.display = "none";
+      }
+    }
+    </script>
 
-      <!-- Section Title -->
+
+    <section id="features" class="features section">
       <div class="container section-title" data-aos="fade-up">
         <h2>KELEBIHAN</h2>
         <p>Kami memiliki beberapa kelebihan, beberapa diantarnya :</p>
-      </div><!-- End Section Title -->
+      </div>
 
       <div class="container">
-
         <div class="row gy-4">
-
           <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
             <div class="feature-box orange">
               <i class="bi bi-award"></i>
               <h4>Kualitas Mantap</h4>
               <p>The sound project menjadi Top 1 di Bandung karena kualitasnya yang jos </p>
             </div>
-          </div><!-- End Feature Borx-->
+          </div>
 
           <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
             <div class="feature-box blue">
@@ -150,15 +132,15 @@
               <h4>Peralatan Lengkap</h4>
               <p>Dengan alat musik yang lengkap, pastinya kamu tidak akan bingung untuk memilih</p>
             </div>
-          </div><!-- End Feature Borx-->
+          </div>
 
           <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
             <div class="feature-box green">
               <i class="bi bi-sunrise"></i>
-              <h4>Kantin</h4>
-              <p>Lapar? kami menyediakan kantin untuk kamu dengan berbagai macam pilihan makanan</p>
+              <h4>Cafe</h4>
+              <p>Lapar? kami menyediakan cafe untuk kamu dengan berbagai macam pilihan makanan</p>
             </div>
-          </div><!-- End Feature Borx-->
+          </div>
 
           <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
             <div class="feature-box red">
@@ -166,15 +148,12 @@
               <h4>Pelayanan Terbaik</h4>
               <p>Tentunya pelayanan kami terbaik, mulai dari kebersihan, serta sikap pegawai kami</p>
             </div>
-          </div><!-- End Feature Borx-->
-
+          </div>
         </div>
-
       </div>
+    </section>
 
-    </section><!-- /Features Section -->
-
-  <!-- Call To Action Section -->
+  
     <section id="call-to-action" class="call-to-action section dark-background">
       <div class="container">
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
@@ -186,29 +165,34 @@
             <a href="#studios" class="cta-btn align-middle" >Booking</a>
           </div>
         </div>
-
       </div>
-
-    </section><!-- /Call To Action Section -->
-
-    <!-- Studio Tersedia -->
-<section id="studios" class="section py-5">
+    </section>
+    
+    
+    <section id="studios" class="section py-5">
     <div class="container">
         <div class="section-title text-center mb-5" data-aos="fade-up">
             <h2>Studio <span class="text-primary">Tersedia</span></h2>
             <p class="text-muted">Temukan studio musik yang cocok untuk kebutuhan Anda</p>
         </div>
 
+
+        <!--nah ini tu kondisi kalo ruangan nya lebih dari 0 nanti data nya bakal muncul, kalo engga yang muncul bagian else -->
         <div class="row">
             @if($ruangan->count())
                 @foreach($ruangan as $rgn)
                     <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="card shadow border-0">
+
+                          <!--nah ini kalo ada foto berarti langsung dimunculin, kalo engga bakal muncul yang else foto dr gugelll-->
                             @if($rgn->foto)
                                 <img src="{{ asset('storage/' . $rgn->foto) }}" class="card-img-top studio-img" alt="{{ $rgn->nama_ruangan }}">
                             @else
-                                <img src="https://via.placeholder.com/400x600?text=No+Image" class="card-img-top studio-img" alt="No Image">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" class="card-img-top studio-img" alt="No Image">
+
                             @endif
+
+                            <!--ini tu buat munculin nama, harga, deskripsi, terus button booking kalo diklik langsung ke rute klien.booking-->
                             <div class="card-body">
                                 <h5 class="card-title text-primary">{{ $rgn->nama_ruangan }}</h5>
                                 <p class="card-text">Harga: <strong>Rp {{ number_format($rgn->harga, 0, ',', '.') }}</strong></p>
@@ -224,33 +208,31 @@
                 </div>
             @endif
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Tambahkan CSS -->
-<style>
+    <!-- ini css  buat yang data booking biar ukuran fotonya tuh sama -->
+    <style>
     .studio-img {
         width: 100%;
-        height: 500px; /* tinggi tetap */
-        object-fit: cover; /* potong gambar supaya pas */
+        height: 500px;
+        object-fit: cover; 
         border-radius: 8px;
     }
-</style>
+    </style>
+    
 
-
-<section id="testimonials" class="testimonials section">
-
-  <div class="container section-title" data-aos="fade-up">
-    <h2 class="text-center">Testimoni</h2>
-  </div>
-
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-    {{-- Swiper slider (testimoni utama) --}}
-    <div class="swiper testimonials-slider mb-5">
+    <section id="testimonials" class="testimonials section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2 class="text-center">Testimoni</h2>
+      </div>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="swiper testimonials-slider mb-5">
       <div class="swiper-wrapper">
+
+        <!--buat nampilin daftar testimoni yang sudah ada di database-->
         @forelse($ulasanList as $ulasan)
-          <div class="swiper-slide">
+        <div class="swiper-slide">
             <div class="testimonial-item text-center">
               <div class="row gy-4 justify-content-center">
                 <div class="col-lg-8">
@@ -260,8 +242,12 @@
                       <span>{{ $ulasan->ulasan }}</span>
                       <i class="bi bi-quote quote-icon-right"></i>
                     </p>
-                    <h3 class="text-center mt-3">{{ $ulasan->nama ?? 'Anonim' }}</h3>
+
+                    <!--ini tu buat alasan kalo ada namanya bakal dimunculin, kalo engga bakal ditampilin anonim-->                   
+                      <h3 class="text-center mt-3">{{ $ulasan->nama ?? 'Anonim' }}</h3> 
                     <div class="stars d-flex justify-content-center mt-2">
+
+                      <!--buat nampilin bintang rating. nah bisa icon itu karena dari boostrap icon-->
                       @for($i=1; $i<=5; $i++)
                         @if($i <= $ulasan->rating)
                           <i class="bi bi-star-fill text-warning"></i>
@@ -286,19 +272,13 @@
       <div class="swiper-pagination"></div>
     </div>
 
-   {{-- Tombol Tampilkan Semua Ulasan (Versi Kecil) --}}
-<div class="text-center mb-4">
-  <button id="showAllBtn"
-    class="btn rounded-pill shadow-sm d-inline-flex align-items-center gap-1 fw-semibold"
-    style="font-size: 0.85rem; padding: 6px 16px; background-color: #000; color: #fff; border: none;">
-    Tampilkan Semua Ulasan
-  </button>
-</div>
+   <!--nah ini button buat nampilin yang ulasan tersembunyi -->
+   <div class="text-center mb-4">
+    <button id="showAllBtn" class="btn rounded-pill shadow-sm d-inline-flex align-items-center gap-1 fw-semibold" style="font-size: 0.85rem; padding: 6px 16px; background-color: #000; color: #fff; border: none;"> Tampilkan Semua Ulasan</button>
+  </div>
 
-
-
-    {{-- Semua ulasan (disembunyikan dulu) --}}
-    <div id="allTestimonials" class="row justify-content-center g-4" style="display:none;">
+  <!--ini tu ulasan yang disembunyiin-->
+  <div id="allTestimonials" class="row justify-content-center g-4" style="display:none;">
       @forelse($ulasanList as $ulasan)
         <div class="col-lg-4 col-md-6">
           <div class="card h-100 border-0 shadow-sm hover-shadow">
@@ -321,34 +301,32 @@
         <p class="text-center">Belum ada testimoni.</p>
       @endforelse
     </div>
-
-  </div>
-</section>
-
-<style>
-  /* Tambahan efek hover untuk card */
-  .hover-shadow:hover {
-    transform: translateY(-3px);
-    transition: 0.3s ease;
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15)!important;
-  }
-  /* Supaya bintang selalu kuning */
-  .stars i {
-    font-size: 1.2rem;
-    margin: 0 2px;
-  }
-</style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const btn = document.getElementById('showAllBtn');
+    </div>
+    </section>
+    
+    <style>
+    .hover-shadow:hover {
+      transform: translateY(-3px);
+      transition: 0.3s ease;
+      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    }
+    /* ini bintang cuyy biar kuning menyala */
+    .stars i {
+      font-size: 1.2rem;
+      margin: 0 2px;
+    }
+    </style>
+    
+    <script>
+  document.addEventListener('DOMContentLoaded', function() { //pokonya biar ga bentrok 
+    const btn = document.getElementById('showAllBtn'); //biar tombol nya tu bisa di klik
     const allTestimonials = document.getElementById('allTestimonials');
 
-    btn.addEventListener('click', function() {
-      if (allTestimonials.style.display === 'none') {
+    btn.addEventListener('click', function() { //jd klo di klik ya fungsi nya jln, yang if else itu
+      if (allTestimonials.style.display === 'none') { //ini buat munculin 
         allTestimonials.style.display = 'flex';
         btn.textContent = 'Sembunyikan Semua Ulasan';
-      } else {
+      } else { //ini kalo disembunyikan berarti ya gada
         allTestimonials.style.display = 'none';
         btn.textContent = 'Tampilkan Semua Ulasan';
       }
@@ -357,20 +335,15 @@
 </script>
 
 
-
- <!-- Team Section -->
 <section id="team" class="team section">
-
-  <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
     <h2>TIM</h2>
     <p>Sosok yang ada dibalik<strong>The Sound Project</strong> Studio Musik</p>
-  </div><!-- End Section Title -->
+  </div>
 
   <div class="container">
     <div class="row gy-4 justify-content-center">
 
-      <!-- Row 1: 4 Members -->
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
         <div class="team-member text-center">
           <div class="member-img">
@@ -387,7 +360,7 @@
             <span>24110146</span>
           </div>
         </div>
-      </div><!-- End Team Member -->
+      </div>
 
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="150">
         <div class="team-member text-center">
@@ -405,12 +378,12 @@
             <span>24110112</span>
           </div>
         </div>
-      </div><!-- End Team Member -->
+      </div>
 
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
         <div class="team-member text-center">
           <div class="member-img">
-            <img src="assets/img/team/team-3.jpg" alt="">
+            <img src="assets/img/faisal.png" alt="">
             <div class="social">
               <a href="#"><i class="bi bi-twitter-x"></i></a>
               <a href="#"><i class="bi bi-facebook"></i></a>
@@ -423,7 +396,7 @@
             <span>24110162</span>
           </div>
         </div>
-      </div><!-- End Team Member -->
+      </div>
 
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="250">
         <div class="team-member text-center">
@@ -441,9 +414,8 @@
             <span>24110207</span>
           </div>
         </div>
-      </div><!-- End Team Member -->
+      </div>
 
-      <!-- Row 2: 3 Members -->
       <div class="col-lg-3 col-md-4 col-sm-6 offset-lg-1 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
         <div class="team-member text-center">
           <div class="member-img">
@@ -460,12 +432,12 @@
             <span>24110081</span>
           </div>
         </div>
-      </div><!-- End Team Member -->
+      </div>
 
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="350">
         <div class="team-member text-center">
           <div class="member-img">
-            <img src="assets/img/team/team-6.jpg" alt="">
+            <img src="assets/img/rafli.png" alt="">
             <div class="social">
               <a href="#"><i class="bi bi-twitter-x"></i></a>
               <a href="#"><i class="bi bi-facebook"></i></a>
@@ -478,12 +450,12 @@
             <span>24110113</span>
           </div>
         </div>
-      </div><!-- End Team Member -->
+      </div>
 
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
         <div class="team-member text-center">
           <div class="member-img">
-            <img src="assets/img/team/team-7.jpg" alt="">
+            <img src="assets/img/vira.png" alt="">
             <div class="social">
               <a href="#"><i class="bi bi-twitter-x"></i></a>
               <a href="#"><i class="bi bi-facebook"></i></a>
@@ -496,36 +468,19 @@
             <span>24110077</span>
           </div>
         </div>
-      </div><!-- End Team Member -->
-
+      </div>
     </div>
   </div>
-</section>
+  </section>
 
-<!-- Tambahkan CSS berikut -->
-<style>
-  .member-img img {
+  <style>
+  .member-img img {  /*inituuuu biar fotonya sm */
     width: 250px;
     height: 250px;
     object-fit: cover;
-    border-radius: 10px; /* Biar sudutnya lembut */
+    border-radius: 10px; 
   }
-</style>
-<script>
-  new Swiper('.testimonials-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    }
-  });
-</script>
+  </style>
 
 
   <footer id="footer" class="footer dark-background">
@@ -546,11 +501,13 @@
         <div class="col-lg-3 col-md-6 d-flex">
           <i class="bi bi-telephone icon"></i>
           <div>
-            <h4>Kontak</h4>
-            <p>
-              <strong>WA:</strong> <span>+62 888 8888 8888</span><br>
-              <strong>Email:</strong> <span>tsproject@gmail.com</span><br>
-            </p>
+           <h4>Kontak</h4>
+           <p>
+            <strong>WA:</strong> 
+            <a href="https://wa.me/6288888888888" target="_blank">+62 888 8888 8888</a><br>
+            <strong>Email:</strong> 
+            <a href="mailto:tsproject@gmail.com">tsproject@gmail.com</a><br>
+          </p>
           </div>
         </div>
 
@@ -584,15 +541,13 @@
 
   </footer>
 
-    <!-- JS Files -->
-    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
-    <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-    
-
+    <!-- ini jg nyari dari imperial sieeee -->
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>  <!--biar si boostrap nya tuh berfugngsi-->
+    <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script> <!--biar animasi nya jln -->
+    <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script> <!--animasi jg sih-->
+    <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script> <!--biar bs di geser-->
+    <script src="{{ asset('assets/js/main.js') }}"></script> 
     <script>
-        AOS.init();
+        AOS.init();  //biar efek ky scrolll tu jalannnnnn
     </script>
 @endsection
