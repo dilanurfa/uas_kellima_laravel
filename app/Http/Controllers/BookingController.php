@@ -70,21 +70,23 @@ class BookingController extends Controller
         ->where('tanggal', $request->tanggal)
         ->get();
 
-    foreach ($bookings as $b) {
-        $existingStart = Carbon::createFromFormat('H:i', $b->jam);
-        $existingEnd   = (clone $existingStart)->addHours((int)$b->durasi);
+    foreach ($bookings as $b) {  //ngecek data booking yang nantinya disimpan sementara di $b
+        $existingStart = Carbon::createFromFormat('H:i', $b->jam); //ngambil jam mulai  ($b->jam itu buking yg diisi klien) , terus diubah ke format waktu (Carbon) biar bisa dibandingin
+        $existingEnd   = (clone $existingStart)->addHours((int)$b->durasi); //dia buat ngitung jam selese dari booking lama. caranya teh: jam mulai + durasi booking
 
-        if ($startTime->lt($existingEnd) && $endTime->gt($existingStart)) {
+
+
+        if ($startTime->lt($existingEnd) && $endTime->gt($existingStart)) {  //intinya klo jam buking baru lebih awal dr jam lama dan jam lama selese buking baru lebi lambat dr jam buking lama pasti eror
             return back()->withInput()->with('error', 'Maaf, waktu booking sudah didahului orang lain.');
         }
     }
-    $ruangan = Ruangan::findOrFail($request->ruangan_id);
-    $total_harga = $ruangan->harga * $request->durasi;
-    $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+    $ruangan = Ruangan::findOrFail($request->ruangan_id);   //nyari data ruangan berdasarkan data yang diterima dan ruangan id
+    $total_harga = $ruangan->harga * $request->durasi;    // total harga itu = harga per jam dikali banyak durasi
+    $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');  //inima nyimpen file gambar bukti pembayaran
 
 
-    $booking = Booking::create([
-        'user_id'           => Auth::id(),
+    $booking = Booking::create([   //bikin data baru ke database
+        'user_id'           => Auth::id(),    //buat user yg lg login
         'ruangan_id'        => $request->ruangan_id,
         'nama'              => $request->nama,
         'tanggal'           => $request->tanggal,
@@ -96,7 +98,8 @@ class BookingController extends Controller
         'status'            => 'pending',
     ]);
 
-    session()->put('last_booking_id', $booking->id);
+    ////Ini nyimpen id booking ke sesi (session), biar di halaman lain bisa ada kalo mau liat atau dipake
+    session()->put('last_booking_id', $booking->id); 
     return redirect()->route('booking.success', $booking->id)
                      ->with('success', 'Booking berhasil, silakan tunggu konfirmasi admin.');
     }
