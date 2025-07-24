@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 use Barryvdh\DomPDF\Facade\Pdf;
-
-
 use App\Models\Booking;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
@@ -19,42 +17,40 @@ class BookingController extends Controller
         return view('klien.booking', compact('Ruangan'));
     }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'ruangan_id'        => 'required|exists:ruangan,id',
-        'nama'              => 'required|string|max:100',
-        'tanggal'           => 'required|date',
-        'jam'               => 'required',
-        'durasi'            => 'required|integer|min:1|max:8',
-        'metode_bayar'      => 'required|in:qris,transfer',
-        'bukti_pembayaran'  => 'required|image|mimes:jpg,jpeg,png|max:2048',
-    ], [
-        'ruangan_id.required'       => 'Ruangan harus dipilih.',
-        'ruangan_id.exists'         => 'Ruangan tidak tersedia.',
-        'nama.required'             => 'Nama wajib diisi.',
-        'nama.string'               => 'Nama harus berupa teks.',
-        'nama.max'                  => 'Nama maksimal 100 karakter.',
-        'tanggal.required'          => 'Tanggal wajib diisi.',
-        'tanggal.date'              => 'Format tanggal tidak valid.',
-        'jam.required'              => 'Jam wajib diisi.',
-        'durasi.required'           => 'Durasi wajib diisi.',
-        'durasi.integer'            => 'Durasi harus berupa angka.',
-        'durasi.min'                => 'Durasi minimal 1 jam.',
-        'durasi.max'                => 'Durasi maksimal 8 jam.',
-        'metode_bayar.required'     => 'Metode pembayaran wajib dipilih.',
-        'metode_bayar.in'           => 'Metode pembayaran tidak valid.',
-        'bukti_pembayaran.required' => 'Bukti pembayaran wajib diunggah.',
-        'bukti_pembayaran.image'    => 'Bukti harus berupa gambar.',
-        'bukti_pembayaran.mimes'    => 'Format gambar harus JPG, JPEG, atau PNG.',
-        'bukti_pembayaran.max'      => 'Ukuran gambar maksimal 2MB.',
-    ]);
+    public function store(Request $request) //nyimpen data bukingg yg dikirim dr form
+    {
+        $request->validate([
+            'ruangan_id'        => 'required|exists:ruangan,id',
+            'nama'              => 'required|string|max:100',
+            'tanggal'           => 'required|date',
+            'jam'               => 'required',
+            'durasi'            => 'required|integer|min:1|max:8',
+            'metode_bayar'      => 'required|in:qris,transfer',
+            'bukti_pembayaran'  => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            ], [
+            'ruangan_id.required'       => 'Ruangan harus dipilih.',
+            'ruangan_id.exists'         => 'Ruangan tidak tersedia.',
+            'nama.required'             => 'Nama wajib diisi.',
+            'nama.string'               => 'Nama harus berupa teks.',
+            'nama.max'                  => 'Nama maksimal 100 karakter.',
+            'tanggal.required'          => 'Tanggal wajib diisi.',
+            'tanggal.date'              => 'Format tanggal tidak valid.',
+            'jam.required'              => 'Jam wajib diisi.',
+            'durasi.required'           => 'Durasi wajib diisi.',
+            'durasi.integer'            => 'Durasi harus berupa angka.',
+            'durasi.min'                => 'Durasi minimal 1 jam.',
+            'durasi.max'                => 'Durasi maksimal 8 jam.',
+            'metode_bayar.required'     => 'Metode pembayaran wajib dipilih.',
+            'metode_bayar.in'           => 'Metode pembayaran tidak valid.',
+            'bukti_pembayaran.required' => 'Bukti pembayaran wajib diunggah.',
+            'bukti_pembayaran.image'    => 'Bukti harus berupa gambar.',
+            'bukti_pembayaran.mimes'    => 'Format gambar harus JPG, JPEG, atau PNG.',
+            'bukti_pembayaran.max'      => 'Ukuran gambar maksimal 2MB.',
+            ]);
 
-    // Gabungkan tanggal dan jam untuk validasi waktu
-    try {
-        $waktuBooking = Carbon::createFromFormat('Y-m-d H:i', $request->tanggal.' '.$request->jam)
-                              ->setTimezone(config('app.timezone'));
-    } catch (\Exception $e) {
+    try{
+        $waktuBooking = Carbon::createFromFormat('Y-m-d H:i', $request->tanggal.' '.$request->jam) ->setTimezone(config('app.timezone'));
+    }   catch (\Exception $e) {
         return back()->withErrors(['jam' => 'Format waktu tidak valid.'])->withInput();
     }
 
@@ -63,11 +59,11 @@ public function store(Request $request)
         if ($waktuBooking->lt($now)) {
             return back()->withErrors(['jam' => 'Maaf, waktu yang dipilih sudah berlalu.'])->withInput();
         }
-    } elseif ($waktuBooking->lt($now)) {
+    }   elseif ($waktuBooking->lt($now)) {
         return back()->withErrors(['tanggal' => 'Maaf, tanggal yang dipilih sudah berlalu.'])->withInput();
     }
 
-    // ✅ Tambahkan validasi jam dan tanggal
+    //jam bentrok ya ini tu
     $sudahAda = Booking::where('ruangan_id', $request->ruangan_id)
         ->where('tanggal', $request->tanggal)
         ->where('jam', $request->jam)
@@ -79,11 +75,9 @@ public function store(Request $request)
 
     $ruangan = Ruangan::findOrFail($request->ruangan_id);
     $total_harga = $ruangan->harga * $request->durasi;
-
-    // simpan file bukti pembayaran
     $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
 
-    // simpan data booking
+
     $booking = Booking::create([
         'user_id'           => Auth::id(),
         'ruangan_id'        => $request->ruangan_id,
@@ -98,10 +92,9 @@ public function store(Request $request)
     ]);
 
     session()->put('last_booking_id', $booking->id);
-
     return redirect()->route('booking.success', $booking->id)
                      ->with('success', 'Booking berhasil, silakan tunggu konfirmasi admin.');
-}
+    }
 
 
     public function success($id)
@@ -110,6 +103,7 @@ public function store(Request $request)
         return view('klien.thanks', compact('booking'));
     }
 
+    //ini tu klien.thanks
     public function show($id)
     {
         $booking = Booking::where('id', $id)
@@ -138,22 +132,22 @@ public function store(Request $request)
         return view('admin.booking.riwayat', compact('bookings'));
     }
 
-    public function download($id)
-{
-    $booking = Booking::findOrFail($id);
-    $pdf = Pdf::loadView('klien.show-unduh', compact('booking'));
-    return $pdf->download('bukti-pembayaran-' . $id . '.pdf');
-}
 
- public function riwayat()
+    public function download($id)
     {
-        // ambil semua booking user yang sedang login
+        $booking = Booking::findOrFail($id);
+        $pdf = Pdf::loadView('klien.show-unduh', compact('booking'));
+        return $pdf->download('bukti-pembayaran-' . $id . '.pdf');
+    }
+
+    //klien riwayat
+    public function riwayat()
+    {
         $riwayat = Booking::with('ruangan')
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // kirim $riwayat ke view
         return view('klien.riwayat', compact('riwayat'));
     }
 
@@ -161,17 +155,14 @@ public function store(Request $request)
     $booking = Booking::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
     $booking->delete();
     return back()->with('success','Pesanan berhasil dihapus.');
-}
+    }
 
-public function cancel($id) {
+    public function cancel($id) {
     $booking = Booking::where('id',$id)->where('user_id',Auth::id())->firstOrFail();
     if($booking->status === 'pending'){
         $booking->delete();
         return back()->with('success','Pesanan berhasil dibatalkan.');
     }
     return back()->with('error','Pesanan sudah diproses, tidak bisa dibatalkan.');
-}
-
-    
-
+    }
 }
