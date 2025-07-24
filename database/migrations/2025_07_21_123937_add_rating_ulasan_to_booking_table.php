@@ -6,13 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
   public function up(): void
 {
     Schema::table('booking', function (Blueprint $table) {
-        $table->tinyInteger('rating')->nullable(); // nilai 1-5
+        $table->tinyInteger('rating')->nullable(); 
         $table->text('ulasan')->nullable();
     });
 }
