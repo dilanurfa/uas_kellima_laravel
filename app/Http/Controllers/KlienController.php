@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class KlienController extends Controller
 {
-    // ✅ Halaman utama klien (menampilkan ruangan + ulasan)
+    //ini tu biar ruangan sama ulasan muncul di index klien
     public function index()
     {
         $ruangan = Ruangan::all();
@@ -22,15 +22,11 @@ class KlienController extends Controller
         return view('klien.index', compact('ruangan', 'ulasanList'));
     }
 
-    public function dashboard()
-    {
-        return view('klien.dashboard');
-    }
 
-    // ✅ Halaman riwayat + proses kirim ulasan
+
+    // ini klien.riwayat
     public function riwayat(Request $request)
     {
-        // Jika POST → simpan ulasan
         if ($request->isMethod('post')) {
             $request->validate([
                 'booking_id' => 'required|exists:booking,id',
@@ -40,28 +36,23 @@ class KlienController extends Controller
 
             $booking = Booking::findOrFail($request->booking_id);
 
-            // pastikan milik user login
             if ($booking->user_id !== auth()->id()) {
                 return back()->with('error', 'Tidak diizinkan.');
             }
 
-            // pastikan statusnya lunas
             if ($booking->status !== 'lunas') {
                 return back()->with('error', 'Booking belum selesai.');
             }
 
-            // simpan rating & ulasan
             $booking->rating = $request->rating;
             $booking->ulasan = $request->ulasan;
             $booking->save();
 
-            // redirect ke halaman index dengan notifikasi
             return redirect()
                 ->route('klien.riwayat')
                 ->with('success', 'Terima kasih! Ulasan Anda tersimpan.');
         }
 
-        // Jika GET → tampilkan riwayat
         $riwayat = Booking::with('ruangan')
             ->where('user_id', auth()->id())
             ->latest()
