@@ -7,26 +7,16 @@
       <div class="col-lg-10">
         <div class="card shadow-lg border-0 rounded-5 overflow-hidden">
           <div class="row g-0 position-relative">
-
-            {{-- Bagian Foto + Tombol Kembali --}}
             <div class="col-md-6 d-none d-md-block position-relative">
-              <a href="{{ route('klien.index') }}#studios"
-                 class="btn btn-light position-absolute m-3 d-flex align-items-center shadow-sm"
-                 style="top: 0; left: 0; z-index: 10; border-radius: 50px; padding: 6px 12px; font-size: 14px;">
+              <a href="{{ route('klien.index') }}#studios" class="btn btn-light position-absolute m-3 d-flex align-items-center shadow-sm" style="top: 0; left: 0; z-index: 10; border-radius: 50px; padding: 6px 12px; font-size: 14px;">
                 <i class="bi bi-arrow-left me-1"></i>
               </a>
-              <img src="{{ asset('storage/' . $Ruangan->foto) }}" 
-                   alt="Gambar Studio" 
-                   class="img-fluid h-100 w-100 object-fit-cover">
+              <img src="{{ asset('storage/' . $Ruangan->foto) }}" alt="Gambar Studio" class="img-fluid h-100 w-100 object-fit-cover">
             </div>
-
-            {{-- Form Booking --}}
             <div class="col-md-6 bg-white p-5">
               <h3 class="text-center mb-4 fw-bold text-dark">
                 Booking Studio <br><span class="text-primary">{{ $Ruangan->nama_ruangan }}</span>
               </h3>
-
-              {{-- ✅ ALERT SESSION --}}
               @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                   {{ session('success') }}
