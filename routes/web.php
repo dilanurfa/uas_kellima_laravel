@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // ini bukingg
-    Route::get('/booking/{id}', [BookingController::class, 'create'])->name('klien.booking'); /
+    Route::get('/booking/{id}', [BookingController::class, 'create'])->name('klien.booking'); 
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');     
     Route::get('/booking/success/{id}', [BookingController::class, 'success'])->name('booking.success'); 
     Route::get('/booking/{id}/download', [BookingController::class, 'download'])->name('booking.download');
