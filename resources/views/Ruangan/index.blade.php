@@ -10,6 +10,13 @@
         </div>
     @endif
 
+    <!-- Tombol Tambah Ruangan -->
+    <div class="mb-3 text-end">
+        <a href="{{ route('admin.Ruangan.create') }}" class="btn btn-success rounded-pill shadow-sm px-4">
+            <i class="fas fa-plus me-2"></i>Tambah Ruangan
+        </a>
+    </div>
+
     <div class="table-responsive shadow-sm rounded-4 overflow-hidden">
         <table class="table table-hover table-striped align-middle table-borderless mb-0">
             <thead class="bg-dark text-white text-center">

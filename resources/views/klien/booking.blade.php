@@ -31,7 +31,6 @@
                 </div>
               @endif
 
-              {{-- Harga --}}
               <div class="text-center mb-4">
                 <div class="text-muted">Harga per Jam</div>
                 <div class="fs-4 fw-bold text-primary">
@@ -39,20 +38,18 @@
                 </div>
               </div>
 
-              {{-- Form --}}
               <form action="{{ route('booking.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="ruangan_id" value="{{ $Ruangan->id }}">
                 <input type="hidden" id="harga_per_jam" value="{{ $Ruangan->harga }}">
 
-                {{-- Nama --}}
+
                 <div class="form-group mb-3">
                   <label for="nama" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
                   <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
                   @error('nama') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
-                {{-- Tanggal dan Jam --}}
                 <div class="row g-2">
                   <div class="col-md-6">
                     <label for="tanggal" class="form-label">Tanggal Booking <span class="text-danger">*</span></label>
@@ -66,7 +63,6 @@
                   </div>
                 </div>
 
-                {{-- Durasi --}}
                 <div class="form-group mt-3 mb-3">
                   <label for="durasi" class="form-label">Durasi (jam) <span class="text-danger">*</span></label>
                   <select name="durasi" id="durasi" class="form-select @error('durasi') is-invalid @enderror" onchange="hitungTotal()">
@@ -77,14 +73,12 @@
                   </select>
                   @error('durasi') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
-
-                {{-- Total Harga --}}
+            
                 <div class="mb-3">
                   <label class="form-label">Total Harga</label>
                   <input type="text" id="total_harga_display" class="form-control bg-light border-0 fw-semibold" readonly>
                 </div>
 
-                {{-- Metode Pembayaran --}}
                 <div class="form-group mb-3">
                   <label for="metode_bayar" class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
                   <select name="metode_bayar" id="metode_bayar" class="form-select @error('metode_bayar') is-invalid @enderror" onchange="toggleInfo()">
@@ -95,14 +89,12 @@
                   @error('metode_bayar') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
-                {{-- Info QRIS --}}
                 <div class="mb-3" id="qris-info" style="display: none;">
                   <div class="bg-light p-3 rounded border text-center">
                     <img src="{{ asset('assets/img/qris.png') }}" alt="QRIS" class="img-fluid" style="max-width: 180px;">
                   </div>
                 </div>
 
-                {{-- Info Transfer --}}
                 <div class="mb-3" id="transfer-info" style="display: none;">
                   <div class="bg-light p-3 rounded border">
                     <div class="text-dark">BCA - 1234567890</div>
@@ -110,8 +102,7 @@
                     <div class="text-dark">Mandiri - 98765432</div>
                   </div>
                 </div>
-
-                {{-- Bukti Pembayaran --}}
+                
                 <div class="form-group mb-4">
                   <label for="bukti_pembayaran" class="form-label">Upload Bukti Pembayaran <span class="text-danger">*</span></label>
                   <input type="file" name="bukti_pembayaran" class="form-control @error('bukti_pembayaran') is-invalid @enderror" accept=".jpg,.jpeg,.png">
