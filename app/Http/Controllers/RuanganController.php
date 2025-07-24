@@ -45,7 +45,7 @@ class RuanganController extends Controller
 
         Ruangan::create($validated);
 
-        return redirect()->route('Ruangan.index')->with('success', 'Ruangan berhasil ditambahkan.');
+        return redirect()->route('admin.Ruangan.index')->with('success', 'Ruangan berhasil ditambahkan.');
     }
 
     public function edit($id)
