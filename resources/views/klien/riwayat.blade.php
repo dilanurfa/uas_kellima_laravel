@@ -88,13 +88,6 @@
                 <i class="bi bi-info-circle fs-6"></i>
               </a>
 
-              {{-- Chat --}}
-              <a href="#"
-                 class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
-                 data-bs-toggle="tooltip" title="Chat"
-                 style="width:42px;height:42px;">
-                <i class="bi bi-chat-dots fs-6"></i>
-              </a>
 
               {{-- Hapus (berdekatan dengan chat) --}}
               <form action="{{ route('klien.delete',$item->id) }}" method="POST"
