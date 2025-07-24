@@ -1,18 +1,17 @@
-@extends('layouts.admin')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid py-4">
     <h2 class="mb-4 fw-bold text-dark">🏠 Manajemen Ruangan</h2>
 
-    @if(session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success text-center rounded-pill shadow-sm">
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
         </div>
-    @endif
+    <?php endif; ?>
 
     <!-- Tombol Tambah Ruangan -->
     <div class="mb-3 text-end">
-        <a href="{{ route('admin.Ruangan.create') }}" class="btn btn-success rounded-pill shadow-sm px-4">
+        <a href="<?php echo e(route('admin.Ruangan.create')); ?>" class="btn btn-success rounded-pill shadow-sm px-4">
             <i class="fas fa-plus me-2"></i>Tambah Ruangan
         </a>
     </div>
@@ -31,21 +30,21 @@
                 </tr>
             </thead>
             <tbody class="text-center">
-                @forelse($Ruangan as $index => $rgn)
+                <?php $__empty_1 = true; $__currentLoopData = $Ruangan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $rgn): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $rgn->nama_ruangan }}</td>
-                        <td>Rp{{ number_format($rgn->harga, 0, ',', '.') }}</td>
-                        <td><span class="badge bg-info text-dark">{{ $rgn->durasi }}</span></td>
-                        <td>{{ $rgn->deskripsi ?? '-' }}</td>
+                        <td><?php echo e($loop->iteration); ?></td>
+                        <td><?php echo e($rgn->nama_ruangan); ?></td>
+                        <td>Rp<?php echo e(number_format($rgn->harga, 0, ',', '.')); ?></td>
+                        <td><span class="badge bg-info text-dark"><?php echo e($rgn->durasi); ?></span></td>
+                        <td><?php echo e($rgn->deskripsi ?? '-'); ?></td>
                         <td>
-                            @if($rgn->foto)
-                                <button class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#fotoModal{{ $rgn->id }}">
+                            <?php if($rgn->foto): ?>
+                                <button class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#fotoModal<?php echo e($rgn->id); ?>">
                                     Lihat
                                 </button>
 
                                 <!-- Modal Foto -->
-                                <div class="modal fade" id="fotoModal{{ $rgn->id }}" tabindex="-1">
+                                <div class="modal fade" id="fotoModal<?php echo e($rgn->id); ?>" tabindex="-1">
                                   <div class="modal-dialog modal-dialog-centered modal-sm">
                                     <div class="modal-content">
                                       <div class="modal-header">
@@ -53,38 +52,40 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                       </div>
                                       <div class="modal-body text-center">
-                                        <img src="{{ asset('storage/' . $rgn->foto) }}" class="img-fluid rounded">
+                                        <img src="<?php echo e(asset('storage/' . $rgn->foto)); ?>" class="img-fluid rounded">
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                            @else
+                            <?php else: ?>
                                 <span class="text-muted">-</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td>
-                            <a href="{{ route('admin.Ruangan.show', $rgn->id) }}" class="btn btn-outline-primary btn-sm rounded-pill px-3" title="Detail">
+                            <a href="<?php echo e(route('admin.Ruangan.show', $rgn->id)); ?>" class="btn btn-outline-primary btn-sm rounded-pill px-3" title="Detail">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{{ route('admin.Ruangan.edit', $rgn->id) }}" class="btn btn-outline-warning btn-sm rounded-pill px-3" title="Edit">
+                            <a href="<?php echo e(route('admin.Ruangan.edit', $rgn->id)); ?>" class="btn btn-outline-warning btn-sm rounded-pill px-3" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('admin.Ruangan.destroy', $rgn->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus ruangan ini?')">
-                                @csrf
-                                @method('DELETE')
+                            <form action="<?php echo e(route('admin.Ruangan.destroy', $rgn->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Hapus ruangan ini?')">
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('DELETE'); ?>
                                 <button class="btn btn-outline-danger btn-sm rounded-pill px-3" title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
                         </td>
                     </tr>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <tr>
                         <td colspan="7" class="text-muted py-5">Belum ada ruangan.</td>
                     </tr>
-                @endforelse
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\lenovo\Documents\uas_kellima_laravel\resources\views/Ruangan/index.blade.php ENDPATH**/ ?>
