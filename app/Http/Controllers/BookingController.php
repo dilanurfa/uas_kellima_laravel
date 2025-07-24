@@ -48,31 +48,36 @@ class BookingController extends Controller
             'bukti_pembayaran.max'      => 'Ukuran gambar maksimal 2MB.',
             ]);
 
-    try{
-        $waktuBooking = Carbon::createFromFormat('Y-m-d H:i', $request->tanggal.' '.$request->jam) ->setTimezone(config('app.timezone'));
-    }   catch (\Exception $e) {
+    try {
+        $startTime = Carbon::createFromFormat('Y-m-d H:i', $request->tanggal.' '.$request->jam)
+            ->setTimezone(config('app.timezone'));
+    } catch (\Exception $e) {
         return back()->withErrors(['jam' => 'Format waktu tidak valid.'])->withInput();
     }
 
     $now = Carbon::now(config('app.timezone'));
-    if ($waktuBooking->isSameDay($now)) {
-        if ($waktuBooking->lt($now)) {
-            return back()->withErrors(['jam' => 'Maaf, waktu yang dipilih sudah berlalu.'])->withInput();
-        }
-    }   elseif ($waktuBooking->lt($now)) {
+    if ($startTime->isSameDay($now) && $startTime->lt($now)) {
+        return back()->withErrors(['jam' => 'Maaf, waktu yang dipilih sudah berlalu.'])->withInput();
+    } elseif ($startTime->lt($now)) {
         return back()->withErrors(['tanggal' => 'Maaf, tanggal yang dipilih sudah berlalu.'])->withInput();
     }
 
-    //jam bentrok ya ini tu
-    $sudahAda = Booking::where('ruangan_id', $request->ruangan_id)
+    // hitung waktu selesai dari durasi
+    $endTime = (clone $startTime)->addHours((int)$request->durasi);
+
+    // cek bentrok initu
+    $bookings = Booking::where('ruangan_id', $request->ruangan_id)
         ->where('tanggal', $request->tanggal)
-        ->where('jam', $request->jam)
-        ->exists();
+        ->get();
 
-    if ($sudahAda) {
-        return back()->withInput()->with('error', 'Maaf, jam booking sudah didahului orang lain.');
+    foreach ($bookings as $b) {
+        $existingStart = Carbon::createFromFormat('H:i', $b->jam);
+        $existingEnd   = (clone $existingStart)->addHours((int)$b->durasi);
+
+        if ($startTime->lt($existingEnd) && $endTime->gt($existingStart)) {
+            return back()->withInput()->with('error', 'Maaf, waktu booking sudah didahului orang lain.');
+        }
     }
-
     $ruangan = Ruangan::findOrFail($request->ruangan_id);
     $total_harga = $ruangan->harga * $request->durasi;
     $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
