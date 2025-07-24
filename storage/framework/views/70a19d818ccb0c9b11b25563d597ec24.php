@@ -27,13 +27,13 @@
       overflow: hidden;
     }
     .receipt-header {
-      background: #fff; /* putih supaya tulisan hitam jelas */
-      color: #000;      /* tulisan hitam */
+      background: #fff; 
+      color: #000;      
       padding: 40px 30px;
       text-align: center;
       border-bottom: 4px solid #084fc1;
       user-select: none;
-      font-family: 'Poppins', sans-serif; /* pastikan sama font */
+      font-family: 'Poppins', sans-serif; 
     }
     .receipt-header h1 {
       margin: 0;
@@ -54,14 +54,14 @@
 
     .receipt-body {
       padding: 35px 45px;
-      font-family: 'Poppins', sans-serif; /* sama font */
+      font-family: 'Poppins', sans-serif;
       color: #222;
     }
     table {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0 12px;
-      font-family: 'Poppins', sans-serif; /* sama font */
+      font-family: 'Poppins', sans-serif; 
     }
     table th, table td {
       padding: 14px 15px;
@@ -173,15 +173,12 @@
           <td>Rp <?php echo e(number_format($booking->total_harga,0,',','.')); ?></td>
         </tr>
         <<tr>
-  <th>Status</th>
-  <td>
-    <span class="status status-lunas">LUNAS</span>
-  </td>
-</tr>
-
+          <th>Status</th>
+          <td><span class="status status-lunas">LUNAS</span>
+          </td>
+        </tr>
       </table>
     </div>
-
     <div class="receipt-footer">
       Terima kasih telah mempercayai layanan kami.<br />
       <small>Semoga harimu menyenangkan!</small>

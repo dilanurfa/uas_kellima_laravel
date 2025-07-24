@@ -87,13 +87,11 @@
 <body>
   <div class="receipt-container">
     <div class="receipt-card">
-      <!-- HEADER -->
       <div class="receipt-header">
         <i class="bi bi-receipt-cutoff"></i>
         <h1>Bukti Pembayaran</h1>
       </div>
 
-      <!-- BODY -->
       <div class="receipt-body">
         <div class="detail-item">
           <span class="detail-label"><i class="bi bi-person-fill me-2"></i>Nama</span>
@@ -131,13 +129,11 @@
             <i class="bi bi-house-door-fill me-1"></i>Kembali
           </a>
           <a href="<?php echo e(route('booking.download', $booking->id)); ?>" class="btn btn-outline-secondary btn-custom">
-  <i class="bi bi-filetype-pdf me-1"></i>Download PDF
-</a>
-
+            <i class="bi bi-filetype-pdf me-1"></i>Download PDF
+          </a>
         </div>
       </div>
 
-      <!-- FOOTER -->
       <div class="receipt-footer">
         Terima kasih telah mempercayai layanan kami 💙<br>
         <small>Semoga harimu menyenangkan!</small>

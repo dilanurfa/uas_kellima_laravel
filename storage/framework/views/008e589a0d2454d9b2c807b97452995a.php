@@ -89,13 +89,6 @@
                 <i class="bi bi-info-circle fs-6"></i>
               </a>
 
-              
-              <a href="#"
-                 class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
-                 data-bs-toggle="tooltip" title="Chat"
-                 style="width:42px;height:42px;">
-                <i class="bi bi-chat-dots fs-6"></i>
-              </a>
 
               
               <form action="<?php echo e(route('klien.delete',$item->id)); ?>" method="POST"

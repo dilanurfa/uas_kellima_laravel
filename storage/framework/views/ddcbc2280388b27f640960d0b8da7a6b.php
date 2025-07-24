@@ -7,10 +7,7 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>" />
     <title>The Sound Project</title>
 
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
-
-    <!-- CSS -->
     <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/bootstrap/css/bootstrap.min.css')); ?>" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css')); ?>" />
@@ -76,18 +73,16 @@
         }
 
         #header .navmenu .dropdown-toggle {
-    color: #fff !important;
-}
+            color: #fff !important;
+        }
 
-#header .navmenu .dropdown-toggle:hover,
-#header .navmenu .dropdown-toggle:focus {
-    color: #1a88d6 !important;
-}
-
+        #header .navmenu .dropdown-toggle:hover,
+        #header .navmenu .dropdown-toggle:focus {
+            color: #1a88d6 !important;
+        }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <header id="header" class="d-flex align-items-center">
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="logo mb-0">
@@ -97,13 +92,12 @@
             <nav id="navmenu" class="navmenu">
                 <ul class="d-flex align-items-center mb-0">
                     <?php if(auth()->guard()->check()): ?>
-                        <!-- Navbar untuk USER -->
+
                         <li><a href="<?php echo e(url('/')); ?>#hero" class="active">Beranda</a></li>
                         <li><a href="<?php echo e(url('/')); ?>#about">Tentang</a></li>
                         <li><a href="<?php echo e(url('/')); ?>#footer">Kontak</a></li>
                         <li><a href="<?php echo e(route('klien.riwayat')); ?>">Riwayat Booking</a></li>
 
-                        <!-- Dropdown nama user -->
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" href="#" role="button" class="dropdown-toggle"
                                data-bs-toggle="dropdown" aria-expanded="false" style="color: inherit;">
@@ -127,7 +121,6 @@
                             </ul>
                         </li>
                     <?php else: ?>
-                        <!-- Navbar untuk guest (belum login) -->
                         <li><a href="<?php echo e(route('login')); ?>">Masuk</a></li>
                         <li><a href="<?php echo e(route('register')); ?>">Daftar</a></li>
                     <?php endif; ?>
@@ -136,15 +129,13 @@
         </div>
     </header>
 
-    <!-- Content -->
     <main>
         <?php echo $__env->yieldContent('content'); ?>
     </main>
 
-    <!-- Scripts -->
     <script src="<?php echo e(asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
     <script>
-        // Ubah background navbar ketika scroll
+        // ini tu ubah wrna bg
         window.addEventListener('scroll', function() {
             const header = document.querySelector('#header');
             header.classList.toggle('scrolled', window.scrollY > 50);

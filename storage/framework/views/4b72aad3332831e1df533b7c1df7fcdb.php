@@ -7,22 +7,16 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title>The Sound Project</title>
 
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="<?php echo e(asset('assets/vendor/bootstrap/css/bootstrap.min.css')); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css')); ?>">
 </head>
 <body>
-
-    <!-- Langsung content saja -->
     <main>
         <?php echo $__env->yieldContent('content'); ?>
     </main>
-
-    <!-- Scripts -->
     <script src="<?php echo e(asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
 </body>
 </html>
